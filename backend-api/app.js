@@ -22,6 +22,6 @@ app.use(cors({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('api/search', searchRouter);
+app.use('/api/search', searchRouter);
 
 module.exports = app;
