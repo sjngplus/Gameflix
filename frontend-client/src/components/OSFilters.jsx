@@ -4,7 +4,7 @@ const systems = ["Windows", "Mac", "Linux"];
 
 function OSFilters() {
   return (
-    <Accordion defaultActiveKey="0">
+    <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>Operating Systems</Accordion.Header>
         <Accordion.Body>

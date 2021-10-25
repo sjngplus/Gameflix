@@ -4,7 +4,7 @@ const genres = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 
 function GenreFilters() {
   return (
-    <Accordion defaultActiveKey="0">
+    <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>Genres</Accordion.Header>
         <Accordion.Body>
