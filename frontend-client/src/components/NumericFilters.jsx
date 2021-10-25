@@ -1,6 +1,15 @@
 import {Accordion, Form } from 'react-bootstrap';
+import Slider, { Range } from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import { useReducer } from 'react';
+
+const defaultFilters = {
+  dates: [Date(0), Date.now()]
+}
 
 function NumericFilters() {
+  const [filters, dispatch] = useReducer(reducer, defaultFilters);
+
   return (
     <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
@@ -9,11 +18,11 @@ function NumericFilters() {
         <Form>
           <Form.Check type="checkbox" id="on-sale" label="On Sale Only" />
           <Form.Label>Price</Form.Label>
-          <Form.Range />
+          <Range />
           <Form.Label>Metacritic Rating</Form.Label>
-          <Form.Range />
+          <Range />
           <Form.Label>Release Date</Form.Label>
-          <Form.Range />
+          <Range />
 
         </Form>
         </Accordion.Body>
