@@ -1,11 +1,11 @@
 import './App.scss';
-import ApiRequest from './components/ApiRequest';
+import GamesList from './components/GamesList';
 
 function App() {
   return (
     <div className="App">
       <h4>Gameflix</h4>
-      <ApiRequest/>
+      <GamesList/>
     </div>
   );
 }

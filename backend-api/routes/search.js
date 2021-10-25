@@ -16,8 +16,8 @@ const pingSteamApi = (responseDataArray) => {
     const url = `https://store.steampowered.com/api/appdetails?appids=${appId}`
     if (appId) {
       return axios.get(url).then((res) => {
-        // console.log(res.data);
-        return res.data;
+        console.log(res.data[appId].data);
+        return res.data[appId].data;
       }).catch(err => console.log(err))
     }
   }))
@@ -25,15 +25,16 @@ const pingSteamApi = (responseDataArray) => {
 
 router.get('/:params', function(req, res) {
 
-  console.log(req.query)
+  // console.log(req.query)
   const title = req.query.title;
   const limit = 4;
   pingCheapSharkApi(title, limit)
-  .then((res) => {
-    console.log(res);
-    return pingSteamApi(res).then(res => res)
-  }).then(resolve => res.json(resolve))
-    .catch(err => console.log(err)); 
+  .then((resolve) => {
+    // console.log(resolve);
+    return pingSteamApi(resolve).then(res => res)
+  })
+  .then(resolve => res.json(resolve))
+  .catch(err => console.log(err)); 
 
 });
 
