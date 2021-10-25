@@ -7,6 +7,7 @@ function NumericFilters() {
         <Accordion.Header>Numeric Filters</Accordion.Header>
         <Accordion.Body>
         <Form>
+          <Form.Check type="checkbox" id="on-sale" label="On Sale Only" />
           <Form.Label>Price</Form.Label>
           <Form.Range />
           <Form.Label>Metacritic Rating</Form.Label>
