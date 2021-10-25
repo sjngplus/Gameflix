@@ -3,6 +3,17 @@ const router = express.Router();
 const axios = require('axios');
 
 
+const filterByPrice = (inputArray, priceLowerLimit, priceUpperLimit) => {
+  const outputArray = [];
+  inputArray.forEach(game => {
+    if (game.price_overview && game.price_overview.final >= priceLowerLimit && game.price_overview.final <= priceUpperLimit) {
+      outputArray.push(game)
+    }
+  });
+  return outputArray
+}
+
+
 const pingCheapSharkApi = (title, limit) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${title}&limit=${limit}`
   return axios.get(url).then((res) => {
@@ -35,9 +46,8 @@ router.get('/:params', function(req, res) {
   .then((resolve) => pingSteamApi(resolve).then(res => res))
   .then(resolve => {
     const filterOutNull = resolve.filter(el => el);
-    const filterByPrice = filterOutNull.filter(game => (game.price_overview.final >= lowerPriceLimit && game.price_overview.final <= upperPriceLimit))
-    // console.log(filterByPrice);
-    res.json(filterByPrice);
+    const filteredByPrice = filterByPrice(filterOutNull, lowerPriceLimit, upperPriceLimit)
+    res.json(filteredByPrice);
   })
   .catch(err => console.log(err)); 
 

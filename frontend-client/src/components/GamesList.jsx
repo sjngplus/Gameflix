@@ -7,20 +7,23 @@ const GamesList = () => {
 
   const [results, setResults] = useState([])
 
-  const parsedGameInfo = results.map(game => {          
+  const parsedGameInfo = results.map(game => {
+    const genresArray = game.genres.map(genre => ` ${genre.description}`)
+    console.log(genresArray)
     return <Game 
       key={game.steam_appid} 
       name={game.name}
       price={game.price_overview.final_formatted}
+      genre={genresArray}
     />
   })  
 
 
   useEffect(() => {
-    const nameSearch = "batman";
-    const searchLimit = 5;
-    const lowerPrice = 10;
-    const upperPrice = 60;
+    const nameSearch = "tales";
+    const searchLimit = 10;
+    const lowerPrice = 1;
+    const upperPrice = 100;
     const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
     axios.get(url)
     .then(res => {
