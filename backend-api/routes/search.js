@@ -16,7 +16,7 @@ const pingSteamApi = (responseDataArray) => {
     const url = `https://store.steampowered.com/api/appdetails?appids=${appId}`
     if (appId) {
       return axios.get(url).then((res) => {
-        console.log(res.data[appId].data);
+        // console.log(res.data[appId].data);
         return res.data[appId].data;
       }).catch(err => console.log(err))
     }
@@ -27,7 +27,7 @@ router.get('/:params', function(req, res) {
 
   // console.log(req.query)
   const title = req.query.title;
-  const limit = 4;
+  const limit = req.query.limit;
   pingCheapSharkApi(title, limit)
   .then((resolve) => {
     // console.log(resolve);

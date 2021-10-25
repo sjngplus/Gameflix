@@ -7,30 +7,34 @@ const GamesList = () => {
 
   const [results, setResults] = useState([])
 
-  const parsedData = (results) => {
-    results.map(game => {
-      if (game) {
-        console.log(game.name)
-        return <Game name={game.name}/>
-      }
-    })
-  }
+  const parsedGameInfo = results.map(game => {          
+    return <Game 
+      key={game.steam_appid} 
+      name={game.name}
+    />
+  })  
 
 
   useEffect(() => {
-    const url = `http://localhost:3001/api/search/games?title=batman&steamAppID=35140&limit=60&exact=0`
+    const nameSearch = "batman";
+    const searchLimit = 10;
+    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&steamAppID=35140&limit=${searchLimit}&exact=0`
     axios.get(url)
     .then(res => {
       // console.log(res.data)
-      setResults(res.data)   
+      const resData = [];
+      res.data.forEach(el => {
+        if (el) resData.push(el)
+      })
+      setResults(resData)      
     })
     .catch(err => console.log(err))    
   }, [])
 
   return (
     <div>
-      Games List 
-      {parsedData(results)}   
+      <h5>Games List</h5>
+      {parsedGameInfo}      
     </div>
   )
 }
