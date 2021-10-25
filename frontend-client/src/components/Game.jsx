@@ -3,7 +3,7 @@ const Game = (props) => {
   // console.log(props)
   return (
     <div>
-      {props.name}
+      {props.name} || Price: {props.price}
     </div>
   )
 }

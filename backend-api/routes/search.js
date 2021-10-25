@@ -6,6 +6,7 @@ const axios = require('axios');
 const pingCheapSharkApi = (title, limit) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${title}&limit=${limit}`
   return axios.get(url).then((res) => {
+    // console.log(res.data)
     return res.data;
   }).catch(err => console.log(err))
 };
@@ -28,12 +29,16 @@ router.get('/:params', function(req, res) {
   // console.log(req.query)
   const title = req.query.title;
   const limit = req.query.limit;
+  const lowerPriceLimit = req.query.lowerPrice * 100;
+  const upperPriceLimit = req.query.upperPrice * 100;
   pingCheapSharkApi(title, limit)
-  .then((resolve) => {
-    // console.log(resolve);
-    return pingSteamApi(resolve).then(res => res)
+  .then((resolve) => pingSteamApi(resolve).then(res => res))
+  .then(resolve => {
+    const filterOutNull = resolve.filter(el => el);
+    const filterByPrice = filterOutNull.filter(game => (game.price_overview.final >= lowerPriceLimit && game.price_overview.final <= upperPriceLimit))
+    // console.log(filterByPrice);
+    res.json(filterByPrice);
   })
-  .then(resolve => res.json(resolve))
   .catch(err => console.log(err)); 
 
 });

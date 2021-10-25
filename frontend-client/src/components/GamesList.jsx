@@ -11,22 +11,21 @@ const GamesList = () => {
     return <Game 
       key={game.steam_appid} 
       name={game.name}
+      price={game.price_overview.final_formatted}
     />
   })  
 
 
   useEffect(() => {
     const nameSearch = "batman";
-    const searchLimit = 10;
-    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&steamAppID=35140&limit=${searchLimit}&exact=0`
+    const searchLimit = 5;
+    const lowerPrice = 10;
+    const upperPrice = 60;
+    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
     axios.get(url)
     .then(res => {
-      // console.log(res.data)
-      const resData = [];
-      res.data.forEach(el => {
-        if (el) resData.push(el)
-      })
-      setResults(resData)      
+      // console.log(res.data)      
+      setResults(res.data)      
     })
     .catch(err => console.log(err))    
   }, [])
