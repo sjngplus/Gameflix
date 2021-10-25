@@ -1,5 +1,6 @@
-import logo from './logo.svg';
 import './App.scss';
+import TopNav from './components/TopNav';
+import SideControls from './components/SideControls';
 
 function App() {
   return (
