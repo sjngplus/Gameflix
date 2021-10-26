@@ -57,7 +57,7 @@ const pingSteamApi = (responseDataArray) => {
 
 router.get('/deals', (req, res) => {
 
-  db.query("SELECT game -> 'name' AS name FROM steam").then(results => console.log(results.rows));
+  // db.query("SELECT game -> 'name' AS name FROM steam").then(results => console.log(results.rows));
   //CheapShark API pull for all deals on Steam
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10`;
   axios.get(url)
