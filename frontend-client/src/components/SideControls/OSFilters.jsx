@@ -1,6 +1,6 @@
 import {Accordion, Form } from 'react-bootstrap';
 
-const systems = ["Windows", "Mac", "Linux"];
+const systemsList = ["Windows", "Mac", "Linux"];
 
 function OSFilters() {
   return (
@@ -9,7 +9,7 @@ function OSFilters() {
         <Accordion.Header>Operating Systems</Accordion.Header>
         <Accordion.Body>
           <Form>
-            {systems.map( system => {
+            {systemsList.map( system => {
               return (
                 <div key={`${system}`}>
                   <Form.Check
