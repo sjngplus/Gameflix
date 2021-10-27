@@ -80,20 +80,20 @@ const GamesList = () => {
     const url = `http://localhost:3002/api/search/deals`
     axios.get(url)
     .then(res => {
-      // console.log("res data length:", res.data.length)
+      console.log("res data length:", res.data.length)
       setGamesList(res.data);
-      const filteredArray = filterGamesListArray(state.gamesList, state.filters);
-      setFilteredGameList(filteredArray);  
     })
     .catch(err => console.log(err))    
   }, []);
-
+  
   useEffect(() => {
-    console.log(state.gamesList.length);
+    console.log("Filter/Gameslist changed");
     const filteredArray = filterGamesListArray(state.gamesList, state.filters);
     setFilteredGameList(filteredArray);    
-  }, [state.filters])
- 
+  }, [state.filters, state.gamesList])
+  
+  console.log(state);
+
   const parsedGameInfo = filteredGamesList.map(game => {
     const genresArray = game.genres.map(genre => ` ${genre.description}`)
     return <Game 
