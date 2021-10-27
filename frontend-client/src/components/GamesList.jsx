@@ -59,39 +59,42 @@ const GamesList = () => {
   };
 
   const genreFilterTest = {
-    Action: false,
+    Action: true,
     Adventure: true,
-    RPG: true,
+    RPG: false,
     Strategy: false,
-    Simulation: true
+    Simulation: false
   }
   
   const filterByGenre = (inputArray, genreFilter) => {
     console.log(genreFilter);
-    const outputArray = [];
-    if (!genreFilter.Action && !genreFilter.Adventure && !genreFilter.RPG && !genreFilter.Strategy && !genreFilter.Simulation) return inputArray;
-    inputArray.forEach(game => {
-      if (genreFilter.Action && isGenreInList(game.genres, "Action") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.Adventure && isGenreInList(game.genres, "Adventure") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.RPG && isGenreInList(game.genres, "RPG") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.Strategy && isGenreInList(game.genres, "Strategy") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.Simulation && isGenreInList(game.genres, "Simulation") && !outputArray.includes(game)) outputArray.push(game);
+    const outputArray = [...inputArray];
+    if (!genreFilter.Action && !genreFilter.Adventure && !genreFilter.RPG && !genreFilter.Strategy && !genreFilter.Simulation) return outputArray;
+    outputArray.forEach((game, index) => {
+      if (genreFilter.Action && isItemNotInArray(game.genres, "Action")) outputArray.splice(index, 1);
+      if (genreFilter.Adventure && isItemNotInArray(game.genres, "Adventure")) outputArray.splice(index, 1);
+      if (genreFilter.RPG && isItemNotInArray(game.genres, "RPG") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.Strategy && isItemNotInArray(game.genres, "Strategy") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.Simulation && isItemNotInArray(game.genres, "Simulation") && !outputArray.includes(game)) outputArray.push(game);
     })
+    
     return outputArray;
   };
 
-  const isGenreInList = (genresArray, genreType) => {
-    return genresArray.some(genre => {
-      return genre.description === genreType
+  const isItemNotInArray = (array, item) => {
+    let result = true;
+    array.forEach(el => {
+      if (el.description === item) result = false;
     })
+    return result;
   }
   
   
   useEffect(() => {
-    const nameSearch = "tales";
-    const searchLimit = 10;
-    const lowerPrice = 1;
-    const upperPrice = 100;
+    // const nameSearch = "tales";
+    // const searchLimit = 10;
+    // const lowerPrice = 1;
+    // const upperPrice = 100;
     // const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
     const url = `http://localhost:3001/api/search/deals`
     axios.get(url)
