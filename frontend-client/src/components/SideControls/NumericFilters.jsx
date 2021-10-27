@@ -18,10 +18,10 @@ function NumericFilters() {
         <Accordion.Header>Numeric Filters</Accordion.Header>
         <Accordion.Body>
         <Form>
-          <div class="filter-setting">
+          <div className="filter-setting">
             <Form.Label>Price</Form.Label>
             <Form.Check type="switch" id="on-sale" label="On Sale Only" className="text-secondary"/>
-            <div class="filter-numberic-labels">
+            <div className="filter-numberic-labels">
               <Form.Text>{priceFormat(filters.centPrices[0])}</Form.Text>
               <Form.Text>{priceFormat(filters.centPrices[1])}</Form.Text>
             </div>
@@ -32,9 +32,9 @@ function NumericFilters() {
               onChange = {setPrices}
             />
           </div>
-          <div class="filter-setting">
+          <div className="filter-setting">
             <Form.Label>Metacritic Rating</Form.Label>
-            <div class="filter-numberic-labels">
+            <div className="filter-numberic-labels">
               <Form.Text>{filters.rating[0]}</Form.Text>
               <Form.Text>{filters.rating[1]}</Form.Text>
             </div>
@@ -45,9 +45,9 @@ function NumericFilters() {
               onChange = {setRatings}
             />
           </div>
-          <div class="filter-setting">
+          <div className="filter-setting">
             <Form.Label>Release Year</Form.Label>
-            <div class="filter-numberic-labels">
+            <div className="filter-numberic-labels">
               <Form.Text>{filters.years[0]}</Form.Text>
               <Form.Text>{filters.years[1]}</Form.Text>
             </div>
