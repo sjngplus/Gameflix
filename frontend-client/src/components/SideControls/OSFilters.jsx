@@ -1,8 +1,13 @@
 import {Accordion, Form } from 'react-bootstrap';
 
+import useAppData from '../../hooks/useAppData';
+
 const systemsList = ["Windows", "Mac", "Linux"];
 
 function OSFilters() {
+  const { state, setOSFilter } = useAppData();
+  const { os } = state.filters;
+
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
@@ -16,6 +21,8 @@ function OSFilters() {
                     type="checkbox"
                     id={`${system}`}
                     label={`${system}`}
+                    checked={os.system}
+                    onChange={event => setOSFilter({[`${system}`]: event.target.checked})}
                   />
                 </div>
                )

@@ -12,6 +12,7 @@ const SET_PRICES = "SET_PRICES";
 const SET_RATINGS = "SET_RATINGS";
 const SET_YEARS = "SET_YEARS";
 const SET_GENRES = "SET_GENRES";
+const SET_OS = "SET_OS";
 
 export default function useAppData() {
   const [state, dispatch] = useReducer(reducer, { filters: {...defaultFilters}, });
@@ -48,6 +49,7 @@ export default function useAppData() {
   return {
     state,
     setNumericFilters: {setPrices, setRatings, setYears},
-    setGenreFilter
+    setGenreFilter,
+    setOSFilter
   };
 }
