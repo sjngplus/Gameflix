@@ -6,6 +6,7 @@ import OSFilters from "./OSFilters";
 import TitleSearch from "./TitleSearch";
 
 function SideControls() {
+
   return (
     <Nav className="flex-column bg-light side-controls" flush>
       <h5>Filters</h5>
