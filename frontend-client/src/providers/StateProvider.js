@@ -1,21 +1,11 @@
-import { useReducer, useState } from 'react';
+import { createContext, useReducer } from 'react';
 
 const defaultFilters = {
   centPrices: [0, 19999],
   rating: [0, 100],
   years: [2011, 2021],
-  genres: {
-    Action: false,
-    Adventure: false,
-    RPG: false,
-    Strategy: false,
-    Simulation: false
-  },
-  os: {
-    Windows: false,
-    Mac: false,
-    Linux: false
-  }
+  genres: {},
+  os: {}
 }
 
 const SET_PRICES = "SET_PRICES";
@@ -24,18 +14,15 @@ const SET_YEARS = "SET_YEARS";
 const SET_GENRES = "SET_GENRES";
 const SET_OS = "SET_OS";
 
-export default function useAppData() {
-<<<<<<< HEAD
-  const [state, dispatch] = useReducer(reducer, { filters: {...defaultFilters}, });
-  const [games, setGames] = useState([]);
-=======
+export const stateContext = createContext();
+
+export default function StateProvider(props) {
   const [state, dispatch] = useReducer(reducer,
     {
       gamesList: [],
       filters: {...defaultFilters}
     }
   );
->>>>>>> main
 
   const setPrices = prices => dispatch({type: SET_PRICES, value: prices});
   const setRatings = ratings => dispatch({type: SET_RATINGS, value: ratings});
@@ -66,12 +53,16 @@ export default function useAppData() {
     }
   }
 
-  return {
+  const providerData = {
     state,
     setNumericFilters: {setPrices, setRatings, setYears},
     setGenreFilter,
-    setOSFilter,
-    games,
-    setGames
+    setOSFilter
   };
+
+  return (
+    <stateContext.Provider value={providerData}>
+      {props.children}
+    </stateContext.Provider>
+  );
 }

@@ -2,15 +2,16 @@ import './App.scss';
 import TopNav from './components/TopNav';
 import SideControls from './components/SideControls/SideControls';
 import GamesList from './components/GamesList';
+import StateProvider from './providers/StateProvider';
 
-function App() {
+export default function App() {
   return (
     <main>
       <TopNav />
-      <SideControls />
-      <GamesList/>
+      <StateProvider>
+        <SideControls />
+        <GamesList/>
+      </StateProvider>
     </main>
   );
 }
-
-export default App;

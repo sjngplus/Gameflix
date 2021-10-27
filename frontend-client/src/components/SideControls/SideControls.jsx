@@ -4,10 +4,18 @@ import NumericFilters from './NumericFilters';
 import GenreFilters from "./GenreFilters";
 import OSFilters from "./OSFilters";
 import TitleSearch from "./TitleSearch";
+<<<<<<< HEAD
 import useAppData from "../../hooks/useAppData";
 
 function SideControls() {
   const { state } = useAppData();
+=======
+import { useContext } from "react";
+import { stateContext } from "../../providers/StateProvider";
+
+export default function SideControls() {
+  const { state } = useContext(stateContext);
+>>>>>>> main
 
   return (
     <Nav className="flex-column bg-light side-controls">
@@ -21,5 +29,3 @@ function SideControls() {
     </Nav>
   );
 }
-
-export default SideControls;
