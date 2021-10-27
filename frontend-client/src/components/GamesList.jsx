@@ -15,15 +15,43 @@ const GamesList = () => {
       name={game.name}
       price={game.price_overview.final_formatted}
       genre={genresArray}
+      // rating ={game.metacritic.score}
     />
   }) 
 
-  const filterGames = () => {
-    
+
+  const filterGamesListArray = (inputList, filters) => {
+    console.log(filters)
+    const filteredByPrice = filterByPrice(inputList, filters.centPrices);
+    const filteredByRating = filterByRating(filteredByPrice, filters.rating);
+    console.log(inputList.length);
+    return filteredByRating;
+  } 
+
+  const filterByPrice = (inputArray, priceFilter) => {
+    const outputArray = [];
+    inputArray.forEach(game => {
+      if (game.price_overview && game.price_overview.final >= priceFilter[0] && game.price_overview.final <= priceFilter[1]) {
+        outputArray.push(game)
+      }
+    });
+    return outputArray
   }
 
+  const filterByRating = (inputArray, ratingFilter) => {
+    const outputArray = [];
+    inputArray.forEach(game => {
+      if (game.metacritic && game.metacritic.score >= ratingFilter[0] && game.metacritic.score <= ratingFilter[1]) {
+        outputArray.push(game)
+      }
+    });
+    return outputArray
+  };
+  
+
+  
+  
   useEffect(() => {
-    console.log(state.filters);
     const nameSearch = "tales";
     const searchLimit = 10;
     const lowerPrice = 1;
@@ -32,8 +60,10 @@ const GamesList = () => {
     const url = `http://localhost:3001/api/search/deals`
     axios.get(url)
     .then(res => {
-      // console.log(res.data)      
-      setGames(res.data)      
+      // console.log(res.data)
+      const GAMESLISTARRAY = [...res.data];
+      const filteredArray = filterGamesListArray(GAMESLISTARRAY, state.filters);
+      setGames(filteredArray);   
     })
     .catch(err => console.log(err))    
   }, []);
