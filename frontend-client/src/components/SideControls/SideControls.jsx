@@ -14,6 +14,7 @@ function SideControls() {
       <GenreFilters />
       <OSFilters />
       <TitleSearch />
+      <Button>Fetch Game Data</Button>
       <Button className="btn btn-danger">Reset Filters</Button>
     </Nav>
   );
