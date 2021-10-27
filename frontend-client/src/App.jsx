@@ -8,6 +8,7 @@ function App() {
     <main>
       <TopNav />
       <SideControls />
+      <GamesList/>
     </main>
   );
 }
