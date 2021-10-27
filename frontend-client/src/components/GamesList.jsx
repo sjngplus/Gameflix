@@ -1,14 +1,16 @@
 import axios from 'axios'
 import { useEffect, useState } from "react"
 import Game from './Game'
-import useAppData from '../hooks/useAppData';
+import { useContext } from "react";
+import { stateContext } from "../providers/StateProvider";
 
 
 const GamesList = () => {
 
-  const { state, games, setGames } = useAppData();
+  const { state, setGamesList } = useContext(stateContext);
 
-  const parsedGameInfo = games.map(game => {
+
+  const parsedGameInfo = state.gamesList.map(game => {
     const genresArray = game.genres.map(genre => ` ${genre.description}`)
     return <Game 
       key={game.steam_appid} 
@@ -19,11 +21,10 @@ const GamesList = () => {
   }) 
 
   const filterGamesListArray = (inputList, filters) => {
-    console.log(filters)
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
-    const filteredByGenre = filterByGenre(filteredByYear, genreFilterTest)
+    const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
     console.log(inputList.length);
     return filteredByGenre;
   } 
@@ -56,18 +57,9 @@ const GamesList = () => {
       }
     });
     return outputArray
-  };
-
-  const genreFilterTest = {
-    Action: true,
-    Adventure: true,
-    RPG: false,
-    Strategy: false,
-    Simulation: false
-  }
+  }; 
   
   const filterByGenre = (inputArray, genreFilter) => {
-    console.log(genreFilter);
     const outputArray = [...inputArray];
     if (!genreFilter.Action && !genreFilter.Adventure && !genreFilter.RPG && !genreFilter.Strategy && !genreFilter.Simulation) return outputArray;
     outputArray.forEach((game, index) => {
@@ -89,24 +81,28 @@ const GamesList = () => {
     return result;
   }
   
-  
+  let GAMESLISTARRAY = [];
+
   useEffect(() => {
     // const nameSearch = "tales";
     // const searchLimit = 10;
     // const lowerPrice = 1;
     // const upperPrice = 100;
     // const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
-    const url = `http://localhost:3001/api/search/deals`
+    const url = `http://localhost:3002/api/search/deals`
     axios.get(url)
     .then(res => {
-      // console.log(res.data)
-      const GAMESLISTARRAY = [...res.data];
+      GAMESLISTARRAY = [...res.data];
       const filteredArray = filterGamesListArray(GAMESLISTARRAY, state.filters);
-      setGames(filteredArray);   
+      setGamesList(filteredArray);   
     })
     .catch(err => console.log(err))    
   }, []);
 
+
+  useEffect(() => {
+
+  }, [state.filters]);
 
 
   return (

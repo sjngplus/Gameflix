@@ -8,7 +8,6 @@ const genreList = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 export default function GenreFilters() {
   const { state, setGenreFilter } = useContext(stateContext);
   const { genres } = state.filters;
-  console.log(state.filters.genres)
 
   return (
     <Accordion>

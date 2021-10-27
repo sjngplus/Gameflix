@@ -13,6 +13,7 @@ const SET_RATINGS = "SET_RATINGS";
 const SET_YEARS = "SET_YEARS";
 const SET_GENRES = "SET_GENRES";
 const SET_OS = "SET_OS";
+const SET_GAMESLIST = "SET_GAMESLIST";
 
 export const stateContext = createContext();
 
@@ -23,6 +24,8 @@ export default function StateProvider(props) {
       filters: {...defaultFilters}
     }
   );
+
+  const setGamesList = list => dispatch({type: SET_GAMESLIST, value: list});
 
   const setPrices = prices => dispatch({type: SET_PRICES, value: prices});
   const setRatings = ratings => dispatch({type: SET_RATINGS, value: ratings});
@@ -36,6 +39,8 @@ export default function StateProvider(props) {
 
   function reducer(state, action) {
     switch (action.type) {
+      case SET_GAMESLIST:
+        return {...state, gamesList: [...action.value]}
       case SET_PRICES:
         return {...state, filters: {...state.filters, centPrices: action.value}}
       case SET_RATINGS:
@@ -55,6 +60,7 @@ export default function StateProvider(props) {
 
   const providerData = {
     state,
+    setGamesList,
     setNumericFilters: {setPrices, setRatings, setYears},
     setGenreFilter,
     setOSFilter
