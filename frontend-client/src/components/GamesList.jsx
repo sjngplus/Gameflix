@@ -23,8 +23,9 @@ const GamesList = () => {
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
+    const filteredByGenre = filterByGenre(filteredByYear, genreFilterTest)
     console.log(inputList.length);
-    return filteredByYear;
+    return filteredByGenre;
   } 
 
   const filterByPrice = (inputArray, priceFilter) => {
@@ -56,8 +57,34 @@ const GamesList = () => {
     });
     return outputArray
   };
-  
 
+  const genreFilterTest = {
+    Action: false,
+    Adventure: true,
+    RPG: true,
+    Strategy: false,
+    Simulation: true
+  }
+  
+  const filterByGenre = (inputArray, genreFilter) => {
+    console.log(genreFilter);
+    const outputArray = [];
+    if (!genreFilter.Action && !genreFilter.Adventure && !genreFilter.RPG && !genreFilter.Strategy && !genreFilter.Simulation) return inputArray;
+    inputArray.forEach(game => {
+      if (genreFilter.Action && isGenreInList(game.genres, "Action") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.Adventure && isGenreInList(game.genres, "Adventure") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.RPG && isGenreInList(game.genres, "RPG") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.Strategy && isGenreInList(game.genres, "Strategy") && !outputArray.includes(game)) outputArray.push(game);
+      if (genreFilter.Simulation && isGenreInList(game.genres, "Simulation") && !outputArray.includes(game)) outputArray.push(game);
+    })
+    return outputArray;
+  };
+
+  const isGenreInList = (genresArray, genreType) => {
+    return genresArray.some(genre => {
+      return genre.description === genreType
+    })
+  }
   
   
   useEffect(() => {

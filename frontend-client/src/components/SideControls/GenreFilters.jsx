@@ -7,6 +7,7 @@ const genreList = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 function GenreFilters() {
   const { state, setGenreFilter } = useAppData();
   const { genres } = state.filters;
+  console.log(state.filters.genres)
 
   return (
     <Accordion>
