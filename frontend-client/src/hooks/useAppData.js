@@ -15,7 +15,12 @@ const SET_GENRES = "SET_GENRES";
 const SET_OS = "SET_OS";
 
 export default function useAppData() {
-  const [state, dispatch] = useReducer(reducer, { filters: {...defaultFilters}, });
+  const [state, dispatch] = useReducer(reducer,
+    {
+      gamesList: [],
+      filters: {...defaultFilters}
+    }
+  );
 
   const setPrices = prices => dispatch({type: SET_PRICES, value: prices});
   const setRatings = ratings => dispatch({type: SET_RATINGS, value: ratings});
