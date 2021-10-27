@@ -1,31 +1,21 @@
 import axios from 'axios'
-import { useEffect, useState } from "react"
 import Game from './Game'
-import { useContext } from "react";
+import { useEffect, useState, useContext } from "react"
 import { stateContext } from "../providers/StateProvider";
 
 
 const GamesList = () => {
 
   const { state, setGamesList } = useContext(stateContext);
-
-
-  const parsedGameInfo = state.gamesList.map(game => {
-    const genresArray = game.genres.map(genre => ` ${genre.description}`)
-    return <Game 
-      key={game.steam_appid} 
-      name={game.name}
-      price={game.price_overview.final_formatted}
-      genre={genresArray}
-    />
-  }) 
-
+  const [ filteredGamesList, setFilteredGameList ] = useState([]);
+  
   const filterGamesListArray = (inputList, filters) => {
+    console.log("Input Array Length:", inputList.length);
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
-    console.log(inputList.length);
+    console.log("Output Array Length:", filteredByGenre.length);
     return filteredByGenre;
   } 
 
@@ -79,9 +69,7 @@ const GamesList = () => {
       if (el.description === item) result = false;
     })
     return result;
-  }
-  
-  let GAMESLISTARRAY = [];
+  }   
 
   useEffect(() => {
     // const nameSearch = "tales";
@@ -92,18 +80,29 @@ const GamesList = () => {
     const url = `http://localhost:3002/api/search/deals`
     axios.get(url)
     .then(res => {
-      GAMESLISTARRAY = [...res.data];
-      const filteredArray = filterGamesListArray(GAMESLISTARRAY, state.filters);
-      setGamesList(filteredArray);   
+      // console.log("res data length:", res.data.length)
+      setGamesList(res.data);
+      const filteredArray = filterGamesListArray(state.gamesList, state.filters);
+      setFilteredGameList(filteredArray);  
     })
     .catch(err => console.log(err))    
   }, []);
 
-
   useEffect(() => {
-
-  }, [state.filters]);
-
+    console.log(state.gamesList.length);
+    const filteredArray = filterGamesListArray(state.gamesList, state.filters);
+    setFilteredGameList(filteredArray);    
+  }, [state.filters])
+ 
+  const parsedGameInfo = filteredGamesList.map(game => {
+    const genresArray = game.genres.map(genre => ` ${genre.description}`)
+    return <Game 
+      key={game.steam_appid} 
+      name={game.name}
+      price={game.price_overview.final_formatted}
+      genre={genresArray}
+    />
+  }) 
 
   return (
     <div>
