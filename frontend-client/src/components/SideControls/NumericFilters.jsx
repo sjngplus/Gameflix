@@ -1,10 +1,10 @@
 import "./NumericFilters.scss";
 
 import {Accordion, Form } from 'react-bootstrap';
-import Slider, { Range } from 'rc-slider';
+import { Range } from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import useAppData from "../../hooks/useAppData";
 
+import useAppData from "../../hooks/useAppData";
 import { priceFormat } from '../../helpers/helpers';
 
 function NumericFilters() {
