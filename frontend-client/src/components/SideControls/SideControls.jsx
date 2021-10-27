@@ -5,8 +5,7 @@ import GenreFilters from "./GenreFilters";
 import OSFilters from "./OSFilters";
 import TitleSearch from "./TitleSearch";
 
-function SideControls() {
-
+export default function SideControls() {
   return (
     <Nav className="flex-column bg-light side-controls">
       <h5>Filters</h5>
@@ -19,5 +18,3 @@ function SideControls() {
     </Nav>
   );
 }
-
-export default SideControls;

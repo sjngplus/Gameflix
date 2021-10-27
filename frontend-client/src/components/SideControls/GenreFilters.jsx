@@ -1,11 +1,12 @@
+import { useContext } from 'react';
 import {Accordion, Form } from 'react-bootstrap';
 
-import useAppData from '../../hooks/useAppData';
+import { stateContext } from '../../providers/StateProvider';
 
 const genreList = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 
-function GenreFilters() {
-  const { state, setGenreFilter } = useAppData();
+export default function GenreFilters() {
+  const { state, setGenreFilter } = useContext(stateContext);
   const { genres } = state.filters;
 
   return (
@@ -33,5 +34,3 @@ function GenreFilters() {
     </Accordion>
   );
 }
-
-export default GenreFilters;
