@@ -8,7 +8,7 @@ import TitleSearch from "./TitleSearch";
 function SideControls() {
 
   return (
-    <Nav className="flex-column bg-light side-controls" flush>
+    <Nav className="flex-column bg-light side-controls">
       <h5>Filters</h5>
       <NumericFilters />
       <GenreFilters />
