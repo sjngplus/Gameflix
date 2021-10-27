@@ -15,17 +15,16 @@ const GamesList = () => {
       name={game.name}
       price={game.price_overview.final_formatted}
       genre={genresArray}
-      // rating ={game.metacritic.score}
     />
   }) 
-
 
   const filterGamesListArray = (inputList, filters) => {
     console.log(filters)
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
+    const filteredByYear = filterByYear(filteredByRating, filters.years);
     console.log(inputList.length);
-    return filteredByRating;
+    return filteredByYear;
   } 
 
   const filterByPrice = (inputArray, priceFilter) => {
@@ -36,12 +35,22 @@ const GamesList = () => {
       }
     });
     return outputArray
-  }
+  };
 
   const filterByRating = (inputArray, ratingFilter) => {
     const outputArray = [];
     inputArray.forEach(game => {
       if (game.metacritic && game.metacritic.score >= ratingFilter[0] && game.metacritic.score <= ratingFilter[1]) {
+        outputArray.push(game)
+      }
+    });
+    return outputArray
+  };
+
+  const filterByYear = (inputArray, yearFilter) => {
+    const outputArray = [];
+    inputArray.forEach(game => {
+      if (game.release_date && game.release_date.date.slice(-4) >= yearFilter[0] && game.release_date.date.slice(-4) <= yearFilter[1]) {
         outputArray.push(game)
       }
     });
