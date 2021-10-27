@@ -22,7 +22,9 @@ function OSFilters() {
                     id={`${system}`}
                     label={`${system}`}
                     checked={os.system}
-                    onChange={event => setOSFilter({[`${system}`]: event.target.checked})}
+                    onChange={(event) => {
+                      setOSFilter({[`${system}`]: event.target.checked})
+                    }}
                   />
                 </div>
                )

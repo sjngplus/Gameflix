@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { useEffect, useState } from "react"
 import Game from './Game'
+import useAppData from '../hooks/useAppData';
 
 
 const GamesList = () => {
 
-  const [results, setResults] = useState([])
+  const { state, games, setGames } = useAppData();
 
-  const parsedGameInfo = results.map(game => {
+  const parsedGameInfo = games.map(game => {
     const genresArray = game.genres.map(genre => ` ${genre.description}`)
     return <Game 
       key={game.steam_appid} 
@@ -15,10 +16,14 @@ const GamesList = () => {
       price={game.price_overview.final_formatted}
       genre={genresArray}
     />
-  })  
+  }) 
 
+  const filterGames = () => {
+    
+  }
 
   useEffect(() => {
+    console.log(state.filters);
     const nameSearch = "tales";
     const searchLimit = 10;
     const lowerPrice = 1;
@@ -28,10 +33,12 @@ const GamesList = () => {
     axios.get(url)
     .then(res => {
       // console.log(res.data)      
-      setResults(res.data)      
+      setGames(res.data)      
     })
     .catch(err => console.log(err))    
-  }, [])
+  }, []);
+
+
 
   return (
     <div>

@@ -46,7 +46,7 @@ const pingSteamApi = (responseDataArray) => {
     if (appId) {
       return axios.get(url)
       .then((res) => {
-        insertSteamGamesIntoDb(appId, res.data[appId].data)
+        insertSteamGamesIntoDb(appId, res.data[appId].data);
         return res.data[appId].data;
       })
       .catch(err => console.log(err))

@@ -1,4 +1,4 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 
 const defaultFilters = {
   centPrices: [0, 19999],
@@ -16,6 +16,7 @@ const SET_OS = "SET_OS";
 
 export default function useAppData() {
   const [state, dispatch] = useReducer(reducer, { filters: {...defaultFilters}, });
+  const [games, setGames] = useState([]);
 
   const setPrices = prices => dispatch({type: SET_PRICES, value: prices});
   const setRatings = ratings => dispatch({type: SET_RATINGS, value: ratings});
@@ -50,6 +51,8 @@ export default function useAppData() {
     state,
     setNumericFilters: {setPrices, setRatings, setYears},
     setGenreFilter,
-    setOSFilter
+    setOSFilter,
+    games,
+    setGames
   };
 }
