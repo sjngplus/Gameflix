@@ -1,21 +1,28 @@
 import {Accordion, Form } from 'react-bootstrap';
 
-const genres = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
+import useAppData from '../../hooks/useAppData';
+
+const genreList = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 
 function GenreFilters() {
+  const { state, setGenreFilter } = useAppData();
+  const { genres } = state.filters;
+
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
         <Accordion.Header>Genres</Accordion.Header>
         <Accordion.Body>
           <Form>
-            {genres.map( genre => {
+            {genreList.map( genre => {
               return (
                 <div key={`${genre}`}>
                   <Form.Check
                     type="checkbox"
                     id={`${genre}`}
                     label={`${genre}`}
+                    checked={genres.genre}
+                    onChange={event => setGenreFilter({[`${genre}`]: event.target.checked})}
                   />
                 </div>
                )
