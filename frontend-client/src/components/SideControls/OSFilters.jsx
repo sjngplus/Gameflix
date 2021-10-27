@@ -1,11 +1,12 @@
+import { useContext } from 'react';
 import {Accordion, Form } from 'react-bootstrap';
 
-import useAppData from '../../hooks/useAppData';
+import { stateContext } from '../../providers/StateProvider';
 
 const systemsList = ["Windows", "Mac", "Linux"];
 
-function OSFilters() {
-  const { state, setOSFilter } = useAppData();
+export default function OSFilters() {
+  const { state, setOSFilter } = useContext(stateContext);
   const { os } = state.filters;
 
   return (
@@ -33,5 +34,3 @@ function OSFilters() {
     </Accordion>
   );
 }
-
-export default OSFilters;
