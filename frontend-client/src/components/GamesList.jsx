@@ -10,12 +10,14 @@ const GamesList = () => {
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   
   const filterGamesListArray = (inputList, filters) => {
+    // console.log("::Input Length", inputList.length);
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
     const filteredByOS = filterByOS(filteredByGenre, filters.os);
     const filteredByName = filterByName(filteredByOS, filters.name);
+    // console.log("::Output Length", filteredByName.length);
     return filteredByName;
   } 
 
@@ -32,6 +34,8 @@ const GamesList = () => {
   const filterByRating = (inputArray, ratingFilter) => {
     const outputArray = [];
     inputArray.forEach(game => {
+      console.log(game.metacritic);
+      if (!game.metacritic) game.metacritic = { score: 0 };      
       if (game.metacritic && game.metacritic.score >= ratingFilter[0] && game.metacritic.score <= ratingFilter[1]) {
         outputArray.push(game)
       }
@@ -90,6 +94,7 @@ const GamesList = () => {
     // const url = `http://localhost:3001/api/search/database`;
     axios.get(url)
     .then(res => {
+      console.log("::Backend API Received Data Length:", res.data.length)
       setGamesList(res.data);
     })
     .catch(err => console.log(err))    
@@ -110,6 +115,7 @@ const GamesList = () => {
     const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     axios.get(url)
     .then(res => {
+      console.log("::Name Search Route Data Length:", res.data.length)
       setGamesList(res.data);
     })
     .catch(err => console.log(err))        

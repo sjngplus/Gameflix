@@ -59,7 +59,8 @@ router.get('/database', (req, res) => {
   const query = `SELECT game FROM steam`
   db.query(query).then(results => {
     const parsedResults = results.rows.map(result => result.game);
-    res.json(parsedResults);
+    const filterOutNull = parsedResults.filter(el => el);
+    res.json(filterOutNull);
   });
 });
 
@@ -70,7 +71,7 @@ router.get('/:params', (req, res) => {
   pingCheapSharkApi(title, limit)
   .then((resolve) => pingSteamApi(resolve).then(res => res))
   .then(resolve => {
-    const filterOutNull = resolve.filter(el => el);    
+    const filterOutNull = resolve.filter(el => el);   
     res.json(filterOutNull);
   })
   .catch(err => console.log(err)); 
