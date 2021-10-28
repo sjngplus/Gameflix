@@ -55,8 +55,7 @@ const pingSteamApi = (responseDataArray) => {
 };
 
 
-router.get('/deals', (req, res) => {
-  
+router.get('/deals', (req, res) => {  
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10`;
   axios.get(url)
   .then(res => pingSteamApi(res.data))
@@ -64,8 +63,15 @@ router.get('/deals', (req, res) => {
     const filterOutNull = resolve.filter(el => el);
     res.json(filterOutNull);
   })
-  .catch(err => console.log(err));
-  
+  .catch(err => console.log(err));  
+});
+
+router.get('/database', (req, res) => {
+  const query = `SELECT game FROM steam`
+  db.query(query).then(results => {
+    const parsedResults = results.rows.map(result => result.game);
+    res.json(parsedResults);
+  });
 });
 
 

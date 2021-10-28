@@ -3,7 +3,7 @@ import { createContext, useReducer } from 'react';
 const defaultFilters = {
   centPrices: [0, 19999],
   rating: [0, 100],
-  years: [2011, 2021],
+  years: [2001, 2021],
   name: "",
   genres: {
     Action: false,

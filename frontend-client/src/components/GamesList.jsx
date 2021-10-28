@@ -10,14 +10,12 @@ const GamesList = () => {
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   
   const filterGamesListArray = (inputList, filters) => {
-    // console.log("Input Array Length:", inputList.length);
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
     const filteredByOS = filterByOS(filteredByGenre, filters.os);
     const filteredByName = filterByName(filteredByOS, filters.name);
-    // console.log("Output Array Length:", filteredByGenre.length);
     return filteredByName;
   } 
 
@@ -90,10 +88,11 @@ const GamesList = () => {
     // const searchLimit = 10;
     // const lowerPrice = 1;
     // const upperPrice = 100;
-    // const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
+    // const url = `http://localhost:3003/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`;
     console.log("#####PINGING BACKEND SERVER####");
     console.log(state.filters);
-    const url = `http://localhost:3003/api/search/deals`
+    // const url = `http://localhost:3003/api/search/deals`;
+    const url = `http://localhost:3003/api/search/database`;
     axios.get(url)
     .then(res => {
       setGamesList(res.data);
