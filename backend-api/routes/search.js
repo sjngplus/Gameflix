@@ -19,17 +19,6 @@ const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
 }
 
 
-const filterByPrice = (inputArray, priceLowerLimit, priceUpperLimit) => {
-  const outputArray = [];
-  inputArray.forEach(game => {
-    if (game.price_overview && game.price_overview.final >= priceLowerLimit && game.price_overview.final <= priceUpperLimit) {
-      outputArray.push(game)
-    }
-  });
-  return outputArray
-}
-
-
 const pingCheapSharkApi = (title, limit) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${title}&limit=${limit}`
   return axios.get(url).then((res) => {
@@ -76,18 +65,13 @@ router.get('/database', (req, res) => {
 
 
 router.get('/:params', (req, res) => {
-  db.query("SELECT game -> 'name' AS name FROM steam").then(results => console.log(results.rows));
-  // console.log(req.query)
   const title = req.query.title;
   const limit = req.query.limit;
-  const lowerPriceLimit = req.query.lowerPrice * 100;
-  const upperPriceLimit = req.query.upperPrice * 100;
   pingCheapSharkApi(title, limit)
   .then((resolve) => pingSteamApi(resolve).then(res => res))
   .then(resolve => {
-    const filterOutNull = resolve.filter(el => el);
-    const filteredByPrice = filterByPrice(filterOutNull, lowerPriceLimit, upperPriceLimit)
-    res.json(filteredByPrice);
+    const filterOutNull = resolve.filter(el => el);    
+    res.json(filterOutNull);
   })
   .catch(err => console.log(err)); 
 

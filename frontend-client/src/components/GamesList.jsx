@@ -83,27 +83,37 @@ const GamesList = () => {
   };
 
 
-  useEffect(() => {
-    // const nameSearch = "tales";
-    // const searchLimit = 10;
-    // const lowerPrice = 1;
-    // const upperPrice = 100;
-    // const url = `http://localhost:3003/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`;
+  useEffect(() => {   
     console.log("#####PINGING BACKEND SERVER####");
     console.log(state.filters);
-    // const url = `http://localhost:3003/api/search/deals`;
-    const url = `http://localhost:3003/api/search/database`;
+    const url = `http://localhost:3003/api/search/deals`;
+    // const url = `http://localhost:3003/api/search/database`;
     axios.get(url)
     .then(res => {
       setGamesList(res.data);
     })
     .catch(err => console.log(err))    
   }, []);
+
   
   useEffect(() => {
     const filteredArray = filterGamesListArray(state.gamesList, state.filters);
     setFilteredGameList(filteredArray);    
   }, [state.filters, state.gamesList])
+
+
+  useEffect(() => {
+    console.log("#####PINGING BACKEND SERVER####");
+    const nameSearch = state.filters.name;
+    console.log(nameSearch);
+    const searchLimit = 999;
+    const url = `http://localhost:3003/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    axios.get(url)
+    .then(res => {
+      setGamesList(res.data);
+    })
+    .catch(err => console.log(err))        
+  }, [state.buttonToggles])
 
   
     const parsedGameInfo = filteredGamesList.map(game => {
