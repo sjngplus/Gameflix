@@ -3,7 +3,7 @@ import {Accordion, Form } from 'react-bootstrap';
 
 import { stateContext } from '../../providers/StateProvider';
 
-const systemsList = ["Windows", "Mac", "Linux"];
+const systemsList = ["windows", "mac", "linux"];
 
 export default function OSFilters() {
   const { state, setOSFilter } = useContext(stateContext);
@@ -23,7 +23,9 @@ export default function OSFilters() {
                     id={`${system}`}
                     label={`${system}`}
                     checked={os.system}
-                    onChange={event => setOSFilter({[`${system}`]: event.target.checked})}
+                    onChange={(event) => {
+                      setOSFilter({[`${system}`]: event.target.checked})
+                    }}
                   />
                 </div>
                )

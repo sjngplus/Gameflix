@@ -1,11 +1,21 @@
-import { useReducer } from 'react';
+import { useReducer, useState } from 'react';
 
 const defaultFilters = {
   centPrices: [0, 19999],
   rating: [0, 100],
   years: [2011, 2021],
-  genres: {},
-  os: {}
+  genres: {
+    Action: false,
+    Adventure: false,
+    RPG: false,
+    Strategy: false,
+    Simulation: false
+  },
+  os: {
+    Windows: false,
+    Mac: false,
+    Linux: false
+  }
 }
 
 const SET_PRICES = "SET_PRICES";
@@ -55,6 +65,6 @@ export default function useAppData() {
     state,
     setNumericFilters: {setPrices, setRatings, setYears},
     setGenreFilter,
-    setOSFilter
+    setOSFilter    
   };
 }

@@ -8,7 +8,7 @@ import { useContext } from "react";
 import { stateContext } from "../../providers/StateProvider";
 
 export default function SideControls() {
-  const { state } = useContext(stateContext);
+  const { state, setSearchToggle } = useContext(stateContext);
 
   return (
     <Nav className="flex-column bg-light side-controls">
@@ -17,7 +17,7 @@ export default function SideControls() {
       <GenreFilters />
       <OSFilters />
       <TitleSearch />
-      <Button>Fetch Game Data</Button>
+      <Button onClick={e => setSearchToggle()}>Fetch Game Data</Button>
       <Button className="btn btn-danger">Reset Filters</Button>
     </Nav>
   );
