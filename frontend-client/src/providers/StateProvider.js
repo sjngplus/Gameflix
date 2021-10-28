@@ -7,7 +7,9 @@ const defaultFilters = {
   genres: {
     Action: false,
     Adventure: false,
-    
+    RPG: false,
+    Strategy: false,
+    Simulation: false
   },
   os: {}
 }

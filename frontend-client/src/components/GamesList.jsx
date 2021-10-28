@@ -10,12 +10,12 @@ const GamesList = () => {
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   
   const filterGamesListArray = (inputList, filters) => {
-    console.log("Input Array Length:", inputList.length);
+    // console.log("Input Array Length:", inputList.length);
     const filteredByPrice = filterByPrice(inputList, filters.centPrices);
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
-    console.log("Output Array Length:", filteredByGenre.length);
+    // console.log("Output Array Length:", filteredByGenre.length);
     return filteredByGenre;
   } 
 
@@ -50,15 +50,14 @@ const GamesList = () => {
   }; 
   
   const filterByGenre = (inputArray, genreFilter) => {
-    const outputArray = [...inputArray];
-    if (!genreFilter.Action && !genreFilter.Adventure && !genreFilter.RPG && !genreFilter.Strategy && !genreFilter.Simulation) return outputArray;
-    outputArray.forEach((game, index) => {
-      if (genreFilter.Action && isItemNotInArray(game.genres, "Action")) outputArray.splice(index, 1);
-      if (genreFilter.Adventure && isItemNotInArray(game.genres, "Adventure")) outputArray.splice(index, 1);
-      if (genreFilter.RPG && isItemNotInArray(game.genres, "RPG") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.Strategy && isItemNotInArray(game.genres, "Strategy") && !outputArray.includes(game)) outputArray.push(game);
-      if (genreFilter.Simulation && isItemNotInArray(game.genres, "Simulation") && !outputArray.includes(game)) outputArray.push(game);
-    })
+    const outputArray = [];
+    const selectedGenres = Object.keys(genreFilter).filter(key => genreFilter[key]);
+    console.log(selectedGenres);
+    if (!selectedGenres.length) return inputArray;
+    inputArray.forEach((game, index) => {
+      const gameGenres = game.genres.map(genreObj => genreObj.description);      
+      if (selectedGenres.every(genre => gameGenres.includes(genre))) outputArray.push(game);
+    });
     
     return outputArray;
   };
@@ -77,32 +76,31 @@ const GamesList = () => {
     // const lowerPrice = 1;
     // const upperPrice = 100;
     // const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
-    const url = `http://localhost:3002/api/search/deals`
+    console.log("#####PINGING BACKEND SERVER####")
+    const url = `http://localhost:3003/api/search/deals`
     axios.get(url)
     .then(res => {
-      console.log("res data length:", res.data.length)
       setGamesList(res.data);
     })
     .catch(err => console.log(err))    
   }, []);
   
   useEffect(() => {
-    console.log("Filter/Gameslist changed");
     const filteredArray = filterGamesListArray(state.gamesList, state.filters);
     setFilteredGameList(filteredArray);    
   }, [state.filters, state.gamesList])
-  
-  console.log(state);
 
-  const parsedGameInfo = filteredGamesList.map(game => {
+  
+    const parsedGameInfo = filteredGamesList.map(game => {
     const genresArray = game.genres.map(genre => ` ${genre.description}`)
     return <Game 
       key={game.steam_appid} 
       name={game.name}
       price={game.price_overview.final_formatted}
       genre={genresArray}
+
     />
-  }) 
+  })   
 
   return (
     <div>

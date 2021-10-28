@@ -33,13 +33,13 @@ const filterByPrice = (inputArray, priceLowerLimit, priceUpperLimit) => {
 const pingCheapSharkApi = (title, limit) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${title}&limit=${limit}`
   return axios.get(url).then((res) => {
-    // console.log(res.data)
     return res.data;
   }).catch(err => console.log(err))
 };
 
 
 const pingSteamApi = (responseDataArray) => {
+  console.log("::Pinging Steam API")
   return axios.all(responseDataArray.map((responseData) => {
     const appId = responseData.steamAppID;
     const url = `https://store.steampowered.com/api/appdetails?appids=${appId}`
@@ -56,9 +56,7 @@ const pingSteamApi = (responseDataArray) => {
 
 
 router.get('/deals', (req, res) => {
-
-  // db.query("SELECT game -> 'name' AS name FROM steam").then(results => console.log(results.rows));
-  //CheapShark API pull for all deals on Steam
+  
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10`;
   axios.get(url)
   .then(res => pingSteamApi(res.data))
