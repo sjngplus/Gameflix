@@ -86,8 +86,8 @@ const GamesList = () => {
   useEffect(() => {   
     console.log("#####PINGING BACKEND SERVER####");
     console.log(state.filters);
-    const url = `http://localhost:3003/api/search/deals`;
-    // const url = `http://localhost:3003/api/search/database`;
+    const url = `http://localhost:3001/api/search/deals`;
+    // const url = `http://localhost:3001/api/search/database`;
     axios.get(url)
     .then(res => {
       setGamesList(res.data);
@@ -107,7 +107,7 @@ const GamesList = () => {
     const nameSearch = state.filters.name;
     console.log(nameSearch);
     const searchLimit = 999;
-    const url = `http://localhost:3003/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     axios.get(url)
     .then(res => {
       setGamesList(res.data);

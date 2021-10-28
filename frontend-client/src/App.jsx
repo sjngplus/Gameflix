@@ -8,14 +8,14 @@ import ItemChart from './components/ItemChart/ItemChart';
 export default function App() {
   return (
     <>
-      <TopNav />
-      <main>
-        <StateProvider>
+      <StateProvider>
+        <TopNav />
+        <main>
           <SideControls />
           <ItemChart />
-        </StateProvider>
-      </main>
-      <GamesList/>
+        </main>
+          <GamesList/>
+      </StateProvider>
     </>
   );
 }
