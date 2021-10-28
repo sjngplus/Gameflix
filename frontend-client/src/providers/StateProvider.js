@@ -11,7 +11,11 @@ const defaultFilters = {
     Strategy: false,
     Simulation: false
   },
-  os: {}
+  os: {
+    windows: false,
+    mac: false,
+    linux: false
+  }
 }
 
 const SET_PRICES = "SET_PRICES";

@@ -3,7 +3,7 @@ import {Accordion, Form } from 'react-bootstrap';
 
 import { stateContext } from '../../providers/StateProvider';
 
-const systemsList = ["Windows", "Mac", "Linux"];
+const systemsList = ["windows", "mac", "linux"];
 
 export default function OSFilters() {
   const { state, setOSFilter } = useContext(stateContext);

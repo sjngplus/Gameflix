@@ -15,8 +15,9 @@ const GamesList = () => {
     const filteredByRating = filterByRating(filteredByPrice, filters.rating);
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
+    const filteredByOS = filterByOS(filteredByGenre, filters.os);
     // console.log("Output Array Length:", filteredByGenre.length);
-    return filteredByGenre;
+    return filteredByOS;
   } 
 
   const filterByPrice = (inputArray, priceFilter) => {
@@ -52,9 +53,8 @@ const GamesList = () => {
   const filterByGenre = (inputArray, genreFilter) => {
     const outputArray = [];
     const selectedGenres = Object.keys(genreFilter).filter(key => genreFilter[key]);
-    console.log(selectedGenres);
     if (!selectedGenres.length) return inputArray;
-    inputArray.forEach((game, index) => {
+    inputArray.forEach(game => {
       const gameGenres = game.genres.map(genreObj => genreObj.description);      
       if (selectedGenres.every(genre => gameGenres.includes(genre))) outputArray.push(game);
     });
@@ -62,13 +62,17 @@ const GamesList = () => {
     return outputArray;
   };
 
-  const isItemNotInArray = (array, item) => {
-    let result = true;
-    array.forEach(el => {
-      if (el.description === item) result = false;
+  const filterByOS = (inputArray, osFilter) => {
+    const outputArray = [];
+    const selectedOS = Object.keys(osFilter).filter(key => osFilter[key]);
+    if (!selectedOS.length) return inputArray;
+    inputArray.forEach(game => {
+      const gameListedOS = Object.keys(game.platforms).filter(key => game.platforms[key])
+      if (selectedOS.every(OS => gameListedOS.includes(OS))) outputArray.push(game);
     })
-    return result;
-  }   
+    return outputArray;
+  }
+
 
   useEffect(() => {
     // const nameSearch = "tales";
@@ -76,7 +80,8 @@ const GamesList = () => {
     // const lowerPrice = 1;
     // const upperPrice = 100;
     // const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}&lowerPrice=${lowerPrice}&upperPrice=${upperPrice}`
-    console.log("#####PINGING BACKEND SERVER####")
+    console.log("#####PINGING BACKEND SERVER####");
+    console.log(state.filters);
     const url = `http://localhost:3003/api/search/deals`
     axios.get(url)
     .then(res => {
@@ -98,7 +103,6 @@ const GamesList = () => {
       name={game.name}
       price={game.price_overview.final_formatted}
       genre={genresArray}
-
     />
   })   
 
