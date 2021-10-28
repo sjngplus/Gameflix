@@ -13,7 +13,9 @@
 }
 
 .item {
+  display: block;
   height: var(--item-diameter);
   width: var(--item-diameter);
+  border: 2px solid black;
   border-radius: 50%;  
 }

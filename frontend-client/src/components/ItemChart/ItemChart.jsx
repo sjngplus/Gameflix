@@ -19,12 +19,12 @@ export default function ItemChart() {
     }
   })
 
-  const parsedChartItems = Object.entries(chartCoords).map( (coords, games) => {
+  const parsedChartItems = Object.entries(chartCoords).map( ([coords, games]) => {
     return (games.length > 1 ?
-      
+      // <Item {...{coords, games}} />
       <></>
       :
-      <GameItem {...{coords, games}} />
+      <GameItem {...{coords, game: games[0]}} />
     )
   })
 
