@@ -4,6 +4,7 @@ const defaultFilters = {
   centPrices: [0, 19999],
   rating: [0, 100],
   years: [2011, 2021],
+  name: "",
   genres: {
     Action: false,
     Adventure: false,
@@ -24,6 +25,7 @@ const SET_YEARS = "SET_YEARS";
 const SET_GENRES = "SET_GENRES";
 const SET_OS = "SET_OS";
 const SET_GAMESLIST = "SET_GAMESLIST";
+const SET_NAME = "SET_NAME";
 
 export const stateContext = createContext();
 
@@ -36,16 +38,12 @@ export default function StateProvider(props) {
   );
 
   const setGamesList = list => dispatch({type: SET_GAMESLIST, value: list});
-
   const setPrices = prices => dispatch({type: SET_PRICES, value: prices});
   const setRatings = ratings => dispatch({type: SET_RATINGS, value: ratings});
-  const setYears = years => dispatch({type: SET_YEARS, value: years});
-
-  const setGenreFilter = genre => {
-    dispatch({type: SET_GENRES, value: genre})
-  }
-
-  const setOSFilter = OS => dispatch({type: SET_OS, value: OS})
+  const setYears = years => dispatch({type: SET_YEARS, value: years});  
+  const setGenreFilter = genre => { dispatch({type: SET_GENRES, value: genre}) };
+  const setOSFilter = OS => dispatch({type: SET_OS, value: OS});
+  const setNameFilter = name => dispatch({type: SET_NAME, value:name});
 
   function reducer(state, action) {
     switch (action.type) {
@@ -61,6 +59,8 @@ export default function StateProvider(props) {
         return {...state, filters: {...state.filters, genres: {...state.filters.genres, ...action.value}}}
       case SET_OS:
         return {...state, filters: {...state.filters, os: {...state.filters.os, ...action.value}}}
+      case SET_NAME:
+        return {...state, filters: {...state.filters, name: action.value}}
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -73,7 +73,8 @@ export default function StateProvider(props) {
     setGamesList,
     setNumericFilters: {setPrices, setRatings, setYears},
     setGenreFilter,
-    setOSFilter
+    setOSFilter,
+    setNameFilter
   };
 
   return (

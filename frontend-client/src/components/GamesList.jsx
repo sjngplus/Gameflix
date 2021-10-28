@@ -16,8 +16,9 @@ const GamesList = () => {
     const filteredByYear = filterByYear(filteredByRating, filters.years);
     const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
     const filteredByOS = filterByOS(filteredByGenre, filters.os);
+    const filteredByName = filterByName(filteredByOS, filters.name);
     // console.log("Output Array Length:", filteredByGenre.length);
-    return filteredByOS;
+    return filteredByName;
   } 
 
   const filterByPrice = (inputArray, priceFilter) => {
@@ -71,7 +72,17 @@ const GamesList = () => {
       if (selectedOS.every(OS => gameListedOS.includes(OS))) outputArray.push(game);
     })
     return outputArray;
-  }
+  };
+
+  const filterByName = (inputArray, nameFilter) => {    
+    if (!nameFilter) return inputArray;
+    const searchName = nameFilter.toLowerCase().trim();
+    const outputArray = inputArray.filter(game => {
+      const gameName = game.name.toLowerCase();
+      return gameName.includes(searchName);
+    })
+    return outputArray;
+  };
 
 
   useEffect(() => {
