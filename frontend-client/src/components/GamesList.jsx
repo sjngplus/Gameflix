@@ -107,11 +107,11 @@ const GamesList = () => {
 
 
   useEffect(() => {
-    console.log("#####PINGING BACKEND NAME ENDPOINT####");
     const nameSearch = state.filters.name;
     const searchLimit = 999;
+    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     if (nameSearch) {
-      const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+      console.log("#####PINGING BACKEND NAME ENDPOINT####");
       axios.get(url)
       .then(res => {
         console.log("::Name Search Route Data Length:", res.data.length)
