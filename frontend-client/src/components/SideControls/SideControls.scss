@@ -1,11 +1,11 @@
 .side-controls {
-  height: 100vh;
+  height: 100%;
   width: 250px;
-  overflow-y: hidden;
+  overflow-y: scroll;
   border-right: 1px solid black;
+  display: block;
 
-  .filter-options {
-    display: flex;
-    flex-direction: column;
+  > * {
+    width: 100%;
   }
 }
