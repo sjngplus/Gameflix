@@ -10,22 +10,37 @@ export default function ItemChart() {
   // console.log(state.gamesList)
   const unfilteredGamesList = state.gamesList;
 
+  const [chartMinX, chartMaxX] = [0, 100];      // Rating
+  const chartColumns = 100;
+  const [chartMinY, chartMaxY] = [0, 1000];    // Price
+  const chartRows = 100;
+
   const chartCoords = {};
   unfilteredGamesList.map( game => {
-    if (chartCoords[`${game.metacritic}, ${game.price_overview.final}`]) {
-      chartCoords[`${game.metacritic},${game.price_overview.final}`].push(game)
+    const xCoordPercent = (Math.floor((game.metacritic?.score - chartMinX) / (chartMaxX - chartMinX) * chartColumns) / chartColumns) * 100;
+    const yCoordPercent = (Math.floor((game.price_overview.final  - chartMinY) / (chartMaxY - chartMinY) * chartRows) / chartRows) * 100;
+
+    if (chartCoords[`${xCoordPercent},${yCoordPercent}`]) {
+      chartCoords[`${xCoordPercent},${yCoordPercent}`].push(game)
     } else {
-      chartCoords[`${game.metacritic},${game.price_overview.final}`] = [game]
+      chartCoords[`${xCoordPercent},${yCoordPercent}`] = [game]
     }
   })
+  // console.log("chartCoords:", chartCoords)
 
   const parsedChartItems = Object.entries(chartCoords).map( ([coords, games]) => {
-    return (games.length > 1 ?
-      // <Item {...{coords, games}} />
-      <></>
-      :
-      <GameItem {...{coords, game: games[0]}} />
-    )
+    if (games.length === 1) {
+    //   // <Item {...{coords, games}} />
+    //   return (<></>);
+    // } else {
+      const game = games[0];
+      return (
+        <GameItem 
+          key={game.steam_appid}
+          {...{coords, game}}
+        />
+      )
+    }
   })
 
   return (
