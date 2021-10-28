@@ -3,13 +3,19 @@ const path = require('path');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-const db = require('./db');
+
+const http = require('http');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const searchRouter = require('./routes/search');
 
 const app = express();
+
+const port = process.env.PORT || '3010';
+app.set('port', port);
+
+const server = http.createServer(app);
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -24,4 +30,17 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/search', searchRouter);
 
-module.exports = app;
+server.listen(port);
+server.on('listening', onListening);
+
+const { Server } = require("socket.io");
+const io = new Server(server);
+
+io.on('connection', (socket) => {
+  console.log('::::user connected:', socket.id);
+  socket.on('disconnect', () => console.log(':user disconnected:', socket.id));
+});
+
+function onListening() { 
+  console.log(`Server listening on port ${port}`)
+}

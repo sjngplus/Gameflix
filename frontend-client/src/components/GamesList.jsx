@@ -1,7 +1,8 @@
 import axios from 'axios'
 import Game from './Game'
-import { useEffect, useState, useContext } from "react"
+import { useEffect, useState, useContext } from "react";
 import { stateContext } from "../providers/StateProvider";
+import io from 'socket.io-client';
 
 
 const GamesList = () => {
@@ -86,17 +87,22 @@ const GamesList = () => {
   };
 
 
-  useEffect(() => {   
-    console.log("#####PINGING BACKEND DEALS/DB ENDPOINT####");
+  useEffect(() => {
+    const newSocket = io();
+
+    console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
     console.log(state.filters);
-    const url = `http://localhost:3001/api/search/deals`;
-    // const url = `http://localhost:3001/api/search/database`;
+    // const url = `/api/search/deals`;
+    const url = `/api/search/database`;
     axios.get(url)
     .then(res => {
       console.log("::Backend API Received Data Length:", res.data.length)
       setGamesList(res.data);
     })
-    .catch(err => console.log(err))    
+    .catch(err => console.log(err))
+
+
+    return () => newSocket.close();
   }, []);
 
   
@@ -109,7 +115,7 @@ const GamesList = () => {
   useEffect(() => {
     const nameSearch = state.filters.name;
     const searchLimit = 999;
-    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    const url = `/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     if (nameSearch) {
       console.log("#####PINGING BACKEND NAME ENDPOINT####");
       axios.get(url)
