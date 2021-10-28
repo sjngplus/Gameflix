@@ -45,7 +45,7 @@ const pingSteamApi = (responseDataArray) => {
 
 
 router.get('/deals', (req, res) => {  
-  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10`;
+  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=20`;
   axios.get(url)
   .then(res => pingSteamApi(res.data))
   .then((resolve) => {
