@@ -1,13 +1,26 @@
+// Axis CSS variables
+:root {
+  --axis-height: 24px;
+}
+
+// Axis CSS rules
 .axis {
   position: absolute;
-  width: 20%;
-  height: 23px;
+  width: 400px;
+  height: var(--axis-height);
   text-align: center;
-  background: linear-gradient(white 11px, black 12px, white 11px);
+  background: linear-gradient(white 11px, black 13px, white 11px);
 
-  ::after {
-    display: block;
-    background: black;
+  &::after {
+    content: "";
+    border: solid black;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 3.5px;
+    position: absolute;
+    left: calc(100% - 9px);
+    top: 7.5px;
+    transform: rotate(-45deg);
   }
 
   .axis-label {
@@ -20,11 +33,11 @@
 .y-axis {
   transform: rotate(-90deg);
   transform-origin: 0 0;
-  left: -20px;
+  left: calc(-1 * var(--axis-height));
   bottom: 10%;
 }
 
 .x-axis {
-  bottom: -20px;
+  bottom: calc(-1 * var(--axis-height));
   left: 10%;
 }
