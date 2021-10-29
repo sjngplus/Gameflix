@@ -1,15 +1,16 @@
 import "./TopNav.scss"
 import { Form, Navbar, NavDropdown, Button } from 'react-bootstrap';
 import { useContext, useState } from "react";
+import { authContext } from "../providers/AuthProvider";
 
 export default function TopNav() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  // const { login } = useContext(authContext);
+  const { login } = useContext(authContext);
 
   const onSubmit = event => {
     event.preventDefault();
-    // email && login(email, password);
+    email && login(email, password);
   }
 
   return (

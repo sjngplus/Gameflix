@@ -7,12 +7,12 @@ export default function AuthProvider(props) {
   const [auth, setAuth] = useState(false);
   const [user, setUser] = useState(null);
 
-  const login = function (email, password) {
+  const login = function(email, password) {
     axios.post("http://localhost:3001/login", {...{email, password}})
       .then( res => {
-
+        setUser(res.data);
       })
-    setAuth(true)
+    setAuth(true);
   };
 
   const logout = function () {
