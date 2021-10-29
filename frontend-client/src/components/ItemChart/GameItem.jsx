@@ -1,7 +1,6 @@
 export default function GameItem(props) {
   const {coords, game} = props;
   const [xCoord, yCoord] = coords.split(",");
-  // console.log(props)
 
   return (
     <a
