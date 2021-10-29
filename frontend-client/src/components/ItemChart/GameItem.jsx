@@ -7,7 +7,7 @@ export default function GameItem(props) {
     <a
       className="item game-item"
       href={`https://store.steampowered.com/app/${game.steam_appid}`}
-      style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
+      // style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
     >
     </a>
