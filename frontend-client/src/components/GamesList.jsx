@@ -74,8 +74,7 @@ const GamesList = () => {
   })   
 
   return (
-    <div>
-      <h5>Games List</h5>
+    <div>     
       {parsedGameInfo}      
     </div>
   )
