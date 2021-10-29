@@ -89,8 +89,6 @@ export default function StateProvider(props) {
         return {...state, filters: {...state.filters, name: action.value}}
       case SET_SEARCH:
         return {...state, buttonToggles: {...state.buttonToggles, search: !state.buttonToggles.search}}
-      case SET_HIGHLIGHT:
-        return { ...state, gamesList: [...state.gamesList]}
       case SET_SOCKET:
         return {...state, socket: action.value}
       default:

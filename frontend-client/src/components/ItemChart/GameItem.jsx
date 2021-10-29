@@ -1,22 +1,28 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { stateContext } from "../../providers/StateProvider";
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 
 export default function GameItem(props) {
-  const { setGamesList } = useContext(stateContext);
   const {coords, game} = props;
   const [xCoord, yCoord] = coords.split(",");
+  const { setGamesList } = useContext(stateContext);
+  const [ gameItem, setGameItem ] = useState(game.highlight.isHighlighted);
 
-  const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
+  const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);   
+  
+  useEffect(() => {
+    
+  }, [gameItem]);
+  
 
   return (
     <>
       <a 
         data-for={game.name}
         data-tip
-        className={game.highlight.isHighlighted ? "item game-item highlighted" : "item game-item"}
+        className={gameItem ? "item game-item highlighted" : "item game-item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
@@ -45,7 +51,9 @@ export default function GameItem(props) {
         </Container>
         <Container>
           <ButtonGroup className="my-2">
-            <Button variant="info">Highlight</Button>            
+            <Button variant="info" onClick={e => {
+                setGameItem(prev => (!prev));                
+              }}>Highlight</Button>            
             <Button variant="warning">Favorite</Button>
           </ButtonGroup>
         </Container>
