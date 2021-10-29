@@ -1,27 +1,88 @@
-import { useContext, useEffect } from "react";
-
+import { useContext, useEffect, useState } from "react";
+import io from 'socket.io-client';
+import axios from 'axios';
 import { stateContext } from "../../providers/StateProvider";
 import "./ItemChart.scss";
 import Axis from "./Axis";
 import GameItem from "./GameItem";
+import { filterGamesListArray } from "../../helpers/filterHelpers";
 
 let [chartMinX, chartMaxX] = [];
 let [chartMinY, chartMaxY] = [];
 
 export default function ItemChart() {
-  const { state } = useContext(stateContext);
+
+  const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNumericFilters } = useContext(stateContext);
+  const { setPrices, setRatings, setYears } = setNumericFilters;
+  const [ filteredGamesList, setFilteredGameList ] = useState([]);
+
   const unfilteredGamesList = state.gamesList;
   
   const chartColumns = 100;
   const chartRows = 100;
 
-  useEffect( () => {
+
+  //Grab data from backend + create new socket during initial Render
+  useEffect(() => {
+    const newSocket = io();    
+    setSocket(newSocket);
+    console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
+    const url = `/api/search/deals`;
+    // const url = `/api/search/database`;
+    axios.get(url)
+    .then(res => {
+      // console.log("::Backend API Received Data Length:", res.data.length)
+      setGamesList(res.data);
+    }).catch(err => console.log(err));
+    return () => newSocket.close();
+  }, []);
+
+
+  //Logic+Render when filters change
+  useEffect(() => {
     [chartMinX, chartMaxX] = state.filters.rating;
     [chartMinY, chartMaxY] = state.filters.centPrices;
-  }, [state.filters])
+    const filteredArray = filterGamesListArray(state.gamesList, state.filters);
+    setFilteredGameList(filteredArray);    
+  }, [state.filters, state.gamesList])
+
+
+  //Logic+Render when button is clicked
+  useEffect(() => {
+    if (state.socket) {
+      state.socket.emit('filter-state', state.filters);
+    }
+    const nameSearch = state.filters.name;
+    const searchLimit = 999;
+    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    if (nameSearch) {
+      console.log("#####PINGING BACKEND NAME ENDPOINT####");
+      axios.get(url)
+      .then(res => {
+        console.log("::Name Search Route Data Length:", res.data.length)
+        setGamesList(res.data);
+      })
+      .catch(err => console.log(err))        
+    }
+  }, [state.buttonToggles])
+
+
+  useEffect(() => {
+    if (state.socket) {
+      state.socket.on('filter-state', (filterData) => {
+        console.log(filterData);
+        setOSFilter(filterData.os);
+        setGenreFilter(filterData.genres);
+        setPrices(filterData.centPrices);
+        setRatings(filterData.rating);
+        setYears(filterData.years);
+      })    
+    }
+  }, [state.socket])
+
 
   const chartCoords = {};
-  unfilteredGamesList.map( game => {
+  filteredGamesList.map( game => {
     const xCoordPercent = (Math.floor((game.metacritic?.score - chartMinX) / (chartMaxX - chartMinX) * chartColumns) / chartColumns) * 100;
     const yCoordPercent = (Math.floor((game.price_overview.final  - chartMinY) / (chartMaxY - chartMinY) * chartRows) / chartRows) * 100;
     

@@ -14,7 +14,7 @@ export default function App() {
           <SideControls />
           <ItemChart />
         </main>
-          <GamesList/>
+          {/* <GamesList/> */}
       </StateProvider>
     </>
   );
