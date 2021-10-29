@@ -46,8 +46,10 @@ const filterByGenre = (inputArray, genreFilter) => {
   const selectedGenres = Object.keys(genreFilter).filter(key => genreFilter[key]);
   if (!selectedGenres.length) return inputArray;
   inputArray.forEach(game => {
-    if (!game.genres) game.genres = []; 
-    const gameGenres = game.genres.map(genreObj => genreObj.description);      
+    if (!game.genres) game.genres = [];
+    const gameGenres = game.genres.map(genreObj => {
+      if (genreObj) return genreObj.description;
+    });    
     if (selectedGenres.every(genre => gameGenres.includes(genre))) outputArray.push(game);
   });
   

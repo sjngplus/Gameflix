@@ -1,0 +1,11 @@
+.hover-info {  
+  border: 1px !important;
+  border-style: solid !important;
+  padding: 5px !important;
+  font-size: 15px !important;
+  pointer-events: auto !important;
+  &:hover {
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+ }
