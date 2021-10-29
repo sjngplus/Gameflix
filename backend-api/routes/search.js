@@ -3,7 +3,6 @@ const router = express.Router();
 const axios = require('axios');
 const db = require('../db');
 
-
 const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
   const gameStringified = JSON.stringify(gameObj);
   const query = `
@@ -17,7 +16,6 @@ const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
     .catch(err => console.log("DB Insert Error::", err));  
   // db.query("SELECT game FROM steam WHERE id = 388960").then(results => console.log(results.rows));
 }
-
 
 const pingCheapSharkApi = (title, limit) => {
   const url = `https://www.cheapshark.com/api/1.0/games?title=${title}&limit=${limit}`
@@ -45,7 +43,7 @@ const pingSteamApi = (responseDataArray) => {
 
 
 router.get('/deals', (req, res) => {  
-  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=20`;
+  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=10`;
   axios.get(url)
   .then(res => pingSteamApi(res.data))
   .then((resolve) => {

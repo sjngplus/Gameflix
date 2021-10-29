@@ -27,6 +27,7 @@ const SET_OS = "SET_OS";
 const SET_GAMESLIST = "SET_GAMESLIST";
 const SET_NAME = "SET_NAME";
 const SET_SEARCH = "SET_SEARCH";
+const SET_SOCKET = "SET_SOCKET";
 
 export const stateContext = createContext();
 
@@ -38,7 +39,8 @@ export default function StateProvider(props) {
       buttonToggles: {
         search: false,
         reset: false
-      }
+      },
+      socket: null
     }
   );
 
@@ -50,6 +52,7 @@ export default function StateProvider(props) {
   const setOSFilter = OS => dispatch({type: SET_OS, value: OS});
   const setNameFilter = name => dispatch({type: SET_NAME, value:name});
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
+  const setSocket = io => dispatch({type: SET_SOCKET, value:io}); 
 
   function reducer(state, action) {
     switch (action.type) {
@@ -69,6 +72,8 @@ export default function StateProvider(props) {
         return {...state, filters: {...state.filters, name: action.value}}
       case SET_SEARCH:
         return {...state, buttonToggles: {...state.buttonToggles, search: !state.buttonToggles.search}}
+      case SET_SOCKET:
+        return {...state, socket: action.value}
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -83,7 +88,8 @@ export default function StateProvider(props) {
     setGenreFilter,
     setOSFilter,
     setNameFilter,
-    setSearchToggle
+    setSearchToggle,
+    setSocket
   };
 
   return (

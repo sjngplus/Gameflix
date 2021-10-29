@@ -7,7 +7,6 @@ const genreList = ["Action", "Adventure", "RPG", "Strategy", "Simulation"];
 
 export default function GenreFilters() {
   const { state, setGenreFilter } = useContext(stateContext);
-  const { genres } = state.filters;
 
   return (
     <Accordion>
@@ -22,7 +21,7 @@ export default function GenreFilters() {
                     type="checkbox"
                     id={`${genre}`}
                     label={`${genre}`}
-                    checked={genres.genre}
+                    checked={state.filters.genres[genre]}
                     onChange={event => setGenreFilter({[`${genre}`]: event.target.checked})}
                   />
                 </div>
