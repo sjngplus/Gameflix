@@ -1,9 +1,9 @@
-import "./TopNav.scss"
-import { Form, Navbar, NavDropdown, Button } from 'react-bootstrap';
 import { useContext, useState } from "react";
-import { authContext } from "../providers/AuthProvider";
+import { Form, NavDropdown, Button, Nav } from "react-bootstrap";
 
-export default function TopNav() {
+import { authContext } from "../../providers/AuthProvider";
+
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useContext(authContext);
@@ -14,8 +14,10 @@ export default function TopNav() {
   }
 
   return (
-    <Navbar className="top-bar" bg="light" expand="lg">
-      <Navbar.Brand className="logo">Gameflix</Navbar.Brand>
+    <Nav className="top-bar-user">
+      <span className="text-muted">
+        Returning to Gameflix?
+      </span>
       <NavDropdown title="Login" align="end">
         <Form className="login-dropdown-form" onSubmit={onSubmit}>
           <Form.Control
@@ -34,7 +36,7 @@ export default function TopNav() {
             Login
           </Button>
         </Form>
-      </NavDropdown>
-    </Navbar>
+    </NavDropdown>
+  </Nav>
   );
 }

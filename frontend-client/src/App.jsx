@@ -1,5 +1,5 @@
 import './App.scss';
-import TopNav from './components/TopNav';
+import TopNav from './components/TopNav/TopNav';
 import SideControls from './components/SideControls/SideControls';
 import GamesList from './components/GamesList';
 import StateProvider from './providers/StateProvider';

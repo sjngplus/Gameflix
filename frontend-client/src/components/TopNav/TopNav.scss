@@ -3,8 +3,15 @@
   display: flex;
   justify-content: space-between;
 
-  .logo {
-    padding-left: 1em;
+  > * {
+    padding: 0 1em;
+  }
+
+  .top-bar-user {
+    span {
+      margin: auto;
+      font-size: smaller;
+    }
   }
 
   .dropdown-menu {
