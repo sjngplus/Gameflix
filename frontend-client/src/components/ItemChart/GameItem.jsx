@@ -7,9 +7,10 @@ export default function GameItem(props) {
 
   const hoverInfo = `${game.name} ${game.price_overview.final_formatted}`;
 
+
   return (
     <>
-      <a 
+      <a        
         data-tip={hoverInfo}
         className="item game-item"
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
@@ -17,8 +18,26 @@ export default function GameItem(props) {
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
-      <ReactTooltip place="top" type="light" effect="float">      
-      </ReactTooltip>
-    </>
+      <ReactTooltip place="top" type="info" effect="float"/>        
+    </> 
   )
+
+  // return (
+  //   <>
+  //     <a 
+  //       data-for="main"
+  //       data-tip
+  //       data-iscapture="true"
+  //       currentitem="false"
+  //       className="item game-item"
+  //       href={`https://store.steampowered.com/app/${game.steam_appid}`}
+  //       style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
+  //       // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
+  //     >  
+  //     </a>
+  //     <ReactTooltip id="main" place="top" type="info" effect="float">
+  //       {game.name}
+  //     </ReactTooltip>
+  //   </> 
+  // )
 }
