@@ -21,7 +21,7 @@ export default function AuthProvider(props) {
   };
 
   // authContext will expose these items
-  const userData = { auth, user, login, logout };
+  const userData = { auth, username: user?.username, login, logout };
 
   return (
     <authContext.Provider value={userData}>
