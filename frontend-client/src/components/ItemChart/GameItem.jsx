@@ -1,8 +1,11 @@
+import { useContext } from "react";
+import { stateContext } from "../../providers/StateProvider";
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 
 export default function GameItem(props) {
+  const { setGamesList } = useContext(stateContext);
   const {coords, game} = props;
   const [xCoord, yCoord] = coords.split(",");
 
@@ -13,7 +16,7 @@ export default function GameItem(props) {
       <a 
         data-for={game.name}
         data-tip
-        className="item game-item"
+        className={game.highlight.isHighlighted ? "item game-item highlighted" : "item game-item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
@@ -37,7 +40,8 @@ export default function GameItem(props) {
         <Container>
           <h5 style={{wordWrap: "break-word", maxWidth: 300}}>{game.name}</h5> 
           <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
-          {parsedGenre}
+          <p>{parsedGenre}</p>
+          <p></p>
         </Container>
         <Container>
           <ButtonGroup className="my-2">

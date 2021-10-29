@@ -35,6 +35,7 @@ const SET_GAMESLIST = "SET_GAMESLIST";
 const SET_NAME = "SET_NAME";
 const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
+const SET_HIGHLIGHT = "SET_HIGHLIGHT";
 
 export const stateContext = createContext();
 
@@ -67,7 +68,8 @@ export default function StateProvider(props) {
   const setOSFilter = OS => dispatch({type: SET_OS, value: OS});
   const setNameFilter = name => dispatch({type: SET_NAME, value:name});
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
-  const setSocket = io => dispatch({type: SET_SOCKET, value:io}); 
+  const setSocket = io => dispatch({type: SET_SOCKET, value:io});
+  const setHighlight = () => dispatch({type: SET_HIGHLIGHT});
 
   function reducer(state, action) {
     switch (action.type) {
@@ -87,6 +89,8 @@ export default function StateProvider(props) {
         return {...state, filters: {...state.filters, name: action.value}}
       case SET_SEARCH:
         return {...state, buttonToggles: {...state.buttonToggles, search: !state.buttonToggles.search}}
+      case SET_HIGHLIGHT:
+        return { ...state, gamesList: [...state.gamesList]}
       case SET_SOCKET:
         return {...state, socket: action.value}
       default:
