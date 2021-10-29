@@ -1,6 +1,7 @@
 // Chart CSS variables
 :root {
   --chart-spacing: 30px;
+  --item-diameter: 50px;
 }
 
 
@@ -9,4 +10,16 @@
   position: relative;
   left: var(--chart-spacing);
   bottom: var(--chart-spacing);
+}
+
+.item {
+  display: block;
+  position: absolute;
+  height: var(--item-diameter);
+  width: var(--item-diameter);
+  border: 2px solid black;
+  border-radius: 50%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
 }
