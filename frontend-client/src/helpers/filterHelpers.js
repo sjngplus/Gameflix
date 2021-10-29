@@ -46,6 +46,7 @@ const filterByGenre = (inputArray, genreFilter) => {
   const selectedGenres = Object.keys(genreFilter).filter(key => genreFilter[key]);
   if (!selectedGenres.length) return inputArray;
   inputArray.forEach(game => {
+    if (!game.genres) game.genres = []; 
     const gameGenres = game.genres.map(genreObj => genreObj.description);      
     if (selectedGenres.every(genre => gameGenres.includes(genre))) outputArray.push(game);
   });
@@ -58,6 +59,7 @@ const filterByOS = (inputArray, osFilter) => {
   const selectedOS = Object.keys(osFilter).filter(key => osFilter[key]);
   if (!selectedOS.length) return inputArray;
   inputArray.forEach(game => {
+    if (!game.platforms) game.platforms = {};
     const gameListedOS = Object.keys(game.platforms).filter(key => game.platforms[key])
     if (selectedOS.every(OS => gameListedOS.includes(OS))) outputArray.push(game);
   })

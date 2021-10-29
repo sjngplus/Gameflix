@@ -7,37 +7,23 @@ export default function GameItem(props) {
 
   const hoverInfo = `${game.name} ${game.price_overview.final_formatted}`;
 
-
   return (
     <>
-      <a        
-        data-tip={hoverInfo}
+      <a 
+        data-for={game.name}
+        data-tip
+        data-iscapture="true"
+        currentitem="false"
         className="item game-item"
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
-      <ReactTooltip place="top" type="info" effect="float"/>        
+      <ReactTooltip id={game.name} place="top" type="info" effect="float">
+        {game.name} <br/>
+        {game.price_overview.final_formatted}
+      </ReactTooltip>
     </> 
   )
-
-  // return (
-  //   <>
-  //     <a 
-  //       data-for="main"
-  //       data-tip
-  //       data-iscapture="true"
-  //       currentitem="false"
-  //       className="item game-item"
-  //       href={`https://store.steampowered.com/app/${game.steam_appid}`}
-  //       style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
-  //       // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
-  //     >  
-  //     </a>
-  //     <ReactTooltip id="main" place="top" type="info" effect="float">
-  //       {game.name}
-  //     </ReactTooltip>
-  //   </> 
-  // )
 }
