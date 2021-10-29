@@ -29,7 +29,7 @@ export default function NumericFilters() {
             <Range
               min={0}
               max={19999}
-              value={centPrices}
+              value={state.filters.centPrices}
               onChange = {setPrices}
             />
           </div>
@@ -42,7 +42,7 @@ export default function NumericFilters() {
             <Range
               min={0}
               max={100}
-              value={rating}
+              value={state.filters.rating}
               onChange = {setRatings}
             />
           </div>
@@ -55,7 +55,7 @@ export default function NumericFilters() {
             <Range
               min={1980}
               max={2021}
-              value={years}
+              value={state.filters.years}
               step={1}
               onChange = {setYears}
             />

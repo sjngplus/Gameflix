@@ -7,7 +7,8 @@ import io from 'socket.io-client';
 
 const GamesList = () => {
 
-  const { state, setGamesList, setSocket, setOSFilter } = useContext(stateContext);
+  const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNumericFilters } = useContext(stateContext);
+  const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   
   const filterGamesListArray = (inputList, filters) => {
@@ -92,7 +93,7 @@ const GamesList = () => {
     setSocket(newSocket);
 
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    // console.log(state.filters);
+    console.log(state.filters);
     // const url = `/api/search/deals`;
     const url = `/api/search/database`;
     axios.get(url)
@@ -115,10 +116,14 @@ const GamesList = () => {
 
 
   useEffect(() => {
-    console.log("::Socket state changed")
     if (state.socket) {
       state.socket.on('filter-state', (filterData) => {
+        console.log(filterData);
         setOSFilter(filterData.os);
+        setGenreFilter(filterData.genres);
+        setPrices(filterData.centPrices);
+        setRatings(filterData.rating);
+        setYears(filterData.years);
       })    
     }
   }, [state.socket])
