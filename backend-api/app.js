@@ -9,6 +9,7 @@ const http = require('http');
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const searchRouter = require('./routes/search');
+const loginRouter = require('./routes/login');
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(cors({
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
 app.use('/api/search', searchRouter);
 
 server.listen(port);
