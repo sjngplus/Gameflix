@@ -1,18 +1,30 @@
-const filterGamesListArray = (inputList, filters) => {
-  console.log("::Input Length", inputList.length);
-  const filteredByPrice = filterByPrice(inputList, filters.centPrices);
-  const filteredByRating = filterByRating(filteredByPrice, filters.rating);
-  const filteredByYear = filterByYear(filteredByRating, filters.years);
-  const filteredByGenre = filterByGenre(filteredByYear, filters.genres);
-  const filteredByOS = filterByOS(filteredByGenre, filters.os);
-  const filteredByName = filterByName(filteredByOS, filters.name);
+const filterGamesListArray = (state) => {
+  console.log("::Input Length", state.gamesList.length);
+  const normalizedGamesList = normalizeData(state.gamesList);
+  const filteredByPrice = filterByPrice(normalizedGamesList, state.filters.centPrices, state.defaultValues);
+  const filteredByRating = filterByRating(filteredByPrice, state.filters.rating, state.defaultValues);
+  const filteredByYear = filterByYear(filteredByRating, state.filters.years, state.defaultValues);
+  const filteredByGenre = filterByGenre(filteredByYear, state.filters.genres);
+  const filteredByOS = filterByOS(filteredByGenre, state.filters.os);
+  const filteredByName = filterByName(filteredByOS, state.filters.name);
   console.log("::Output Length", filteredByName.length);
   return filteredByName;
-} 
+}
 
-const filterByPrice = (inputArray, priceFilter) => {
+const normalizeData = (inputArray) => {
   const outputArray = [];
   inputArray.forEach(game => {
+    game.highlight = { user: 1, isHighlighted: false};
+    if (!game.metacritic) game.metacritic = { score: 1 };
+    outputArray.push(game);   
+  });
+  return outputArray
+}
+
+const filterByPrice = (inputArray, priceFilter, { PRICEFLOOR, PRICECEILING }) => {
+  if (priceFilter[0] === PRICEFLOOR && priceFilter[1] === PRICECEILING) return inputArray;  
+  const outputArray = [];
+  inputArray.forEach(game => {        
     if (game.price_overview && game.price_overview.final >= priceFilter[0] && game.price_overview.final <= priceFilter[1]) {
       outputArray.push(game)
     }
@@ -20,18 +32,19 @@ const filterByPrice = (inputArray, priceFilter) => {
   return outputArray
 };
 
-const filterByRating = (inputArray, ratingFilter) => {
+const filterByRating = (inputArray, ratingFilter, { RATINGFLOOR, RATINGCEILING }) => {
+  if (ratingFilter[0] === RATINGFLOOR && ratingFilter[1] === RATINGCEILING) return inputArray;
   const outputArray = [];
-  inputArray.forEach(game => {
-    if (!game.metacritic) game.metacritic = { score: 1 };      
-    if (game.metacritic && game.metacritic.score >= ratingFilter[0] && game.metacritic.score <= ratingFilter[1]) {
+  inputArray.forEach(game => {         
+    if (game.metacritic.score >= ratingFilter[0] && game.metacritic.score <= ratingFilter[1]) {
       outputArray.push(game)
     }
   });
   return outputArray
 };
 
-const filterByYear = (inputArray, yearFilter) => {
+const filterByYear = (inputArray, yearFilter, { YEARFLOOR, YEARCEILING }) => {
+  if (yearFilter[0] === YEARFLOOR && yearFilter[1] === YEARCEILING) return inputArray;
   const outputArray = [];
   inputArray.forEach(game => {
     if (game.release_date && game.release_date.date.slice(-4) >= yearFilter[0] && game.release_date.date.slice(-4) <= yearFilter[1]) {
@@ -42,9 +55,9 @@ const filterByYear = (inputArray, yearFilter) => {
 }; 
 
 const filterByGenre = (inputArray, genreFilter) => {
-  const outputArray = [];
   const selectedGenres = Object.keys(genreFilter).filter(key => genreFilter[key]);
-  if (!selectedGenres.length) return inputArray;
+  if (!selectedGenres.length) return inputArray;  
+  const outputArray = [];
   inputArray.forEach(game => {
     if (!game.genres) game.genres = [];
     const gameGenres = game.genres.map(genreObj => {
@@ -57,9 +70,9 @@ const filterByGenre = (inputArray, genreFilter) => {
 };
 
 const filterByOS = (inputArray, osFilter) => {
-  const outputArray = [];
   const selectedOS = Object.keys(osFilter).filter(key => osFilter[key]);
-  if (!selectedOS.length) return inputArray;
+  if (!selectedOS.length) return inputArray;  
+  const outputArray = [];
   inputArray.forEach(game => {
     if (!game.platforms) game.platforms = {};
     const gameListedOS = Object.keys(game.platforms).filter(key => game.platforms[key])

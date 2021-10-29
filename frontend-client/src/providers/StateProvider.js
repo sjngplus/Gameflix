@@ -1,9 +1,16 @@
 import { createContext, useReducer } from 'react';
 
+const PRICEFLOOR = 0;
+const PRICECEILING = 10000;
+const RATINGFLOOR = 0;
+const RATINGCEILING = 100;
+const YEARFLOOR = 2001;
+const YEARCEILING = 2021;
+
 const defaultFilters = {
-  centPrices: [0, 10000],
-  rating: [0, 100],
-  years: [2001, 2021],
+  centPrices: [PRICEFLOOR, PRICECEILING],
+  rating: [RATINGFLOOR, RATINGCEILING],
+  years: [YEARFLOOR, YEARCEILING],
   name: "",
   genres: {
     Action: false,
@@ -40,7 +47,15 @@ export default function StateProvider(props) {
         search: false,
         reset: false
       },
-      socket: null
+      socket: null,
+      defaultValues: {
+        PRICEFLOOR,
+        PRICECEILING,
+        RATINGFLOOR,
+        RATINGCEILING,
+        YEARFLOOR,
+        YEARCEILING
+      }
     }
   );
 

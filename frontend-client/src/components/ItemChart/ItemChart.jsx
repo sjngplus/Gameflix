@@ -42,8 +42,8 @@ export default function ItemChart() {
   useEffect(() => {
     [chartMinX, chartMaxX] = state.filters.rating;
     [chartMinY, chartMaxY] = state.filters.centPrices;
-    const filteredArray = filterGamesListArray(state.gamesList, state.filters);
-    setFilteredGameList(filteredArray);    
+    const filteredArray = filterGamesListArray(state);
+    setFilteredGameList(filteredArray);  
   }, [state.filters, state.gamesList])
 
 
