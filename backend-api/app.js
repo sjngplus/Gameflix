@@ -33,11 +33,18 @@ app.use('/api/search', searchRouter);
 server.listen(port);
 server.on('listening', onListening);
 
+//Socket.io config
 const { Server } = require("socket.io");
 const io = new Server(server);
 
+//Socket.io logic
 io.on('connection', (socket) => {
   console.log('::::user connected:', socket.id);
+  socket.on('filter-state', (filterData) => {
+    socket.broadcast.emit('filter-state', filterData);
+  });
+
+
   socket.on('disconnect', () => console.log(':user disconnected:', socket.id));
 });
 
@@ -45,4 +52,4 @@ function onListening() {
   console.log(`Server listening on port ${port}`)
 }
 
-module.exports = app;
+module.exports = io;

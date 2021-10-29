@@ -7,7 +7,7 @@ import io from 'socket.io-client';
 
 const GamesList = () => {
 
-  const { state, setGamesList } = useContext(stateContext);
+  const { state, setGamesList, setSocket, setOSFilter } = useContext(stateContext);
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   
   const filterGamesListArray = (inputList, filters) => {
@@ -89,9 +89,10 @@ const GamesList = () => {
 
   useEffect(() => {
     const newSocket = io();
+    setSocket(newSocket);
 
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    console.log(state.filters);
+    // console.log(state.filters);
     // const url = `/api/search/deals`;
     const url = `/api/search/database`;
     axios.get(url)
@@ -100,9 +101,10 @@ const GamesList = () => {
       setGamesList(res.data);
     })
     .catch(err => console.log(err))
-
-
-    return () => newSocket.close();
+    
+    return () => {
+      newSocket.close();
+    };
   }, []);
 
   
@@ -113,6 +115,19 @@ const GamesList = () => {
 
 
   useEffect(() => {
+    console.log("::Socket state changed")
+    if (state.socket) {
+      state.socket.on('filter-state', (filterData) => {
+        setOSFilter(filterData.os);
+      })    
+    }
+  }, [state.socket])
+
+
+  useEffect(() => {
+    if (state.socket) {
+      state.socket.emit('filter-state', state.filters);
+    }
     const nameSearch = state.filters.name;
     const searchLimit = 999;
     const url = `/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
@@ -128,8 +143,8 @@ const GamesList = () => {
   }, [state.buttonToggles])
 
   
-    const parsedGameInfo = filteredGamesList.map(game => {
-    const genresArray = game.genres.map(genre => ` ${genre.description}`)
+  const parsedGameInfo = filteredGamesList.map(game => {
+  const genresArray = game.genres.map(genre => ` ${genre.description}`)
     return <Game 
       key={game.steam_appid} 
       name={game.name}
