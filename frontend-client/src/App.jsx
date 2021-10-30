@@ -1,7 +1,6 @@
 import './App.scss';
 import TopNav from './components/TopNav/TopNav';
 import SideControls from './components/SideControls/SideControls';
-import GamesList from './components/GamesList';
 import StateProvider from './providers/StateProvider';
 import ItemChart from './components/ItemChart/ItemChart';
 
@@ -14,7 +13,6 @@ export default function App() {
           <SideControls />
           <ItemChart />
         </main>
-          {/* <GamesList/> */}
       </StateProvider>
     </>
   );
