@@ -7,12 +7,12 @@ import LoginInfo from "./LoginInfo";
 import "./TopNav.scss"
 
 export default function TopNav() {
-  const { auth } = useContext(authContext);
+  const { user } = useContext(authContext);
 
   return (
     <Navbar className="top-bar" bg="light" expand="lg">
       <Navbar.Brand className="logo">Gameflix</Navbar.Brand>
-      {auth ? <LoginInfo /> : <LoginForm />}
+      {user ? <LoginInfo /> : <LoginForm />}
     </Navbar>
   );
 }
