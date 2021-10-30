@@ -9,7 +9,7 @@ export default function GenreFilters() {
   const { state, setGenreFilter } = useContext(stateContext);
 
   return (
-    <Accordion>
+    <Accordion defaultActiveKey="1">
       <Accordion.Item eventKey="0">
         <Accordion.Header>Genres</Accordion.Header>
         <Accordion.Body>

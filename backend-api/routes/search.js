@@ -12,7 +12,9 @@ const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
   DO NOTHING
   RETURNING *`
   db.query(query, [steamAppId, gameStringified])
-    .then()
+    .then(result => {
+      if (result.rows.length) console.log(result.rows.length, "games inserted into Database");
+    })
     .catch(err => console.log("DB Insert Error::", err));  
   // db.query("SELECT game FROM steam WHERE id = 388960").then(results => console.log(results.rows));
 }

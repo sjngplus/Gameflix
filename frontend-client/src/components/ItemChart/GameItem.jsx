@@ -5,27 +5,21 @@ import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 
 export default function GameItem(props) {
-  const {coords, game} = props;
+  const {coords, game, handleHighlight} = props;
   const [xCoord, yCoord] = coords.split(",");
-  const { setGamesList } = useContext(stateContext);
-  const [ gameHighlight, setGameHighlight ] = useState(game.highlight.isHighlighted);
-
+  const { state } = useContext(stateContext);
+  
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
   
   let highlightColor = "";
-  if (gameHighlight) highlightColor = "yellow";
-  
-  useEffect(() => {
-
-  }, [gameHighlight]);
-  
+  if (game.highlight.isHighlighted) highlightColor = "#0dcaf0"; 
 
   return (
     <>
       <a 
         data-for={game.name}
         data-tip
-        className={gameHighlight ? "item highlighted" : "item"}
+        className={game.highlight.isHighlighted ? "item highlighted" : "item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
@@ -55,9 +49,7 @@ export default function GameItem(props) {
         </Container>
         <Container>
           <ButtonGroup className="my-2">
-            <Button variant="info" onClick={e => {
-                setGameHighlight(prev => (!prev));                
-              }}>Highlight</Button>            
+            <Button variant="info" onClick={() => handleHighlight(game.name)}>Highlight</Button>            
             <Button variant="warning">Favorite</Button>
           </ButtonGroup>
         </Container>

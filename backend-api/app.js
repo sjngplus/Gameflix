@@ -44,6 +44,9 @@ io.on('connection', (socket) => {
   console.log('::::user connected:', socket.id);
   socket.on('filter-state', (filterData) => {
     socket.broadcast.emit('filter-state', filterData);
+  });  
+  socket.on('highlight-game', (highlightData) => {
+    socket.broadcast.emit('highlight-game', highlightData);
   });
 
 

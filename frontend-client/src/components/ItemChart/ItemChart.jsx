@@ -27,8 +27,8 @@ export default function ItemChart() {
     const newSocket = io();    
     setSocket(newSocket);
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    const url = `/api/search/deals`;
-    // const url = `/api/search/database`;
+    // const url = `/api/search/deals`;
+    const url = `/api/search/database`;
     axios.get(url)
     .then(res => {
       // console.log("::Backend API Received Data Length:", res.data.length)
@@ -67,18 +67,38 @@ export default function ItemChart() {
   }, [state.buttonToggles])
 
 
-  useEffect(() => {
-    if (state.socket) {
-      state.socket.on('filter-state', (filterData) => {
-        console.log(filterData);
-        setOSFilter(filterData.os);
-        setGenreFilter(filterData.genres);
-        setPrices(filterData.centPrices);
-        setRatings(filterData.rating);
-        setYears(filterData.years);
-      })    
-    }
+  // Render when socket gets new data
+  useEffect(() => {    
+    state.socket.on('filter-state', (filterData) => {
+      console.log(filterData);
+      setOSFilter(filterData.os);
+      setGenreFilter(filterData.genres);
+      setPrices(filterData.centPrices);
+      setRatings(filterData.rating);
+      setYears(filterData.years);
+    })
+    state.socket.on('highlight-game', (highlightGameName) => {
+      const outputArray = [];
+      filteredGamesList.map(game => {
+        if (game.name === highlightGameName) game.highlight.isHighlighted = !game.highlight.isHighlighted;     
+        outputArray.push(game);
+      })
+      setFilteredGameList(outputArray);
+    });    
   }, [state.socket])
+
+
+  const toggleHighlight = (gameName) => {
+    const outputArray = [];
+    state.gamesList.map(game => {
+      if (game.name === gameName) {
+        game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        state.socket.emit('highlight-game', game.name);        
+      }
+      outputArray.push(game);
+    })
+    setGamesList(outputArray);
+  };  
 
 
   const chartCoords = {};
@@ -103,6 +123,7 @@ export default function ItemChart() {
         <GameItem 
         key={game.steam_appid}
         {...{coords, game}}
+        handleHighlight={toggleHighlight}
         />
       )
     }

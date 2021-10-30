@@ -14,7 +14,7 @@ const filterGamesListArray = (state) => {
 const normalizeData = (inputArray) => {
   const outputArray = [];
   inputArray.forEach(game => {
-    game.highlight = { user: 1, isHighlighted: false};
+    if (!game.highlight) game.highlight = { user: 1, isHighlighted: false};
     if (!game.metacritic) game.metacritic = { score: 1 };
     outputArray.push(game);   
   });
