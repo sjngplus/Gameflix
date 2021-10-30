@@ -28,7 +28,7 @@ export default function NumericFilters() {
             </div>
             <Range
               min={0}
-              max={19999}
+              max={10000}
               value={state.filters.centPrices}
               onChange = {setPrices}
             />

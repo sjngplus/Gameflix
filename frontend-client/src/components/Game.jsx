@@ -1,10 +1,10 @@
-
+import ReactTooltip from 'react-tooltip';
 const Game = (props) => {
-  // console.log(props)
   return (
-    <div>
-      {props.name} || Price: {props.price}
-      <p>Genres: {props.genre}</p>
+    <div data-tip="React-tooltip">
+      {/* {props.name} || Price: {props.price}
+      <p>Genres: {props.genre}</p> */}
+      <ReactTooltip place="top" type="dark" effect="float"/>
     </div>
   )
 }

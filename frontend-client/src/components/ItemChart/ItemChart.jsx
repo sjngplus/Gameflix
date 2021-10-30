@@ -27,8 +27,8 @@ export default function ItemChart() {
     const newSocket = io();    
     setSocket(newSocket);
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    const url = `/api/search/deals`;
-    // const url = `/api/search/database`;
+    // const url = `/api/search/deals`;
+    const url = `/api/search/database`;
     axios.get(url)
     .then(res => {
       // console.log("::Backend API Received Data Length:", res.data.length)
@@ -42,8 +42,8 @@ export default function ItemChart() {
   useEffect(() => {
     [chartMinX, chartMaxX] = state.filters.rating;
     [chartMinY, chartMaxY] = state.filters.centPrices;
-    const filteredArray = filterGamesListArray(state.gamesList, state.filters);
-    setFilteredGameList(filteredArray);    
+    const filteredArray = filterGamesListArray(state);
+    setFilteredGameList(filteredArray);  
   }, [state.filters, state.gamesList])
 
 

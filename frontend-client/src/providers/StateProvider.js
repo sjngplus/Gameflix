@@ -1,9 +1,16 @@
 import { createContext, useReducer } from 'react';
 
+const PRICEFLOOR = 0;
+const PRICECEILING = 10000;
+const RATINGFLOOR = 0;
+const RATINGCEILING = 100;
+const YEARFLOOR = 2001;
+const YEARCEILING = 2021;
+
 const defaultFilters = {
-  centPrices: [0, 19999],
-  rating: [0, 100],
-  years: [2001, 2021],
+  centPrices: [PRICEFLOOR, PRICECEILING],
+  rating: [RATINGFLOOR, RATINGCEILING],
+  years: [YEARFLOOR, YEARCEILING],
   name: "",
   genres: {
     Action: false,
@@ -28,6 +35,7 @@ const SET_GAMESLIST = "SET_GAMESLIST";
 const SET_NAME = "SET_NAME";
 const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
+const SET_HIGHLIGHT = "SET_HIGHLIGHT";
 
 export const stateContext = createContext();
 
@@ -40,7 +48,15 @@ export default function StateProvider(props) {
         search: false,
         reset: false
       },
-      socket: null
+      socket: null,
+      defaultValues: {
+        PRICEFLOOR,
+        PRICECEILING,
+        RATINGFLOOR,
+        RATINGCEILING,
+        YEARFLOOR,
+        YEARCEILING
+      }
     }
   );
 
@@ -52,7 +68,8 @@ export default function StateProvider(props) {
   const setOSFilter = OS => dispatch({type: SET_OS, value: OS});
   const setNameFilter = name => dispatch({type: SET_NAME, value:name});
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
-  const setSocket = io => dispatch({type: SET_SOCKET, value:io}); 
+  const setSocket = io => dispatch({type: SET_SOCKET, value:io});
+  const setHighlight = () => dispatch({type: SET_HIGHLIGHT});
 
   function reducer(state, action) {
     switch (action.type) {
