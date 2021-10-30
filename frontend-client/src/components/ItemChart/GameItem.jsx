@@ -8,13 +8,16 @@ export default function GameItem(props) {
   const {coords, game} = props;
   const [xCoord, yCoord] = coords.split(",");
   const { setGamesList } = useContext(stateContext);
-  const [ gameItem, setGameItem ] = useState(game.highlight.isHighlighted);
+  const [ gameHighlight, setGameHighlight ] = useState(game.highlight.isHighlighted);
 
-  const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);   
+  const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
+  
+  let highlightColor = "";
+  if (gameHighlight) highlightColor = "yellow";
   
   useEffect(() => {
-    
-  }, [gameItem]);
+
+  }, [gameHighlight]);
   
 
   return (
@@ -22,9 +25,9 @@ export default function GameItem(props) {
       <a 
         data-for={game.name}
         data-tip
-        className={gameItem ? "item game-item highlighted" : "item game-item"}
+        className={gameHighlight ? "item highlighted" : "item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
-        style={{"backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
+        style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
         // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
@@ -38,21 +41,22 @@ export default function GameItem(props) {
       >
         <Figure>
           <Figure.Image
-            width={300}
+            width="auto"
             height={180}
             src={game.header_image}
+            style={{maxWidth: 320}}
           />          
         </Figure>
         <Container>
           <h5 style={{wordWrap: "break-word", maxWidth: 300}}>{game.name}</h5> 
           <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
-          <p>{parsedGenre}</p>
+          <p style={{wordWrap: "break-word", maxWidth: 300}}>{parsedGenre}</p>
           <p></p>
         </Container>
         <Container>
           <ButtonGroup className="my-2">
             <Button variant="info" onClick={e => {
-                setGameItem(prev => (!prev));                
+                setGameHighlight(prev => (!prev));                
               }}>Highlight</Button>            
             <Button variant="warning">Favorite</Button>
           </ButtonGroup>

@@ -6,7 +6,7 @@
 
 
 .item-chart {
-  width: calc(100% - 250px - var(--chart-spacing));
+  width: calc(100% - 300px - var(--chart-spacing));
   position: relative;
   left: var(--chart-spacing);
   bottom: var(--chart-spacing);
@@ -17,7 +17,7 @@
   position: absolute;
   height: var(--item-diameter);
   width: var(--item-diameter);
-  border: 1px solid black;
+  border: 1px solid white;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center center;
