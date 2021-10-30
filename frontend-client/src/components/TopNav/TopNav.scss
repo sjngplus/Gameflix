@@ -1,0 +1,28 @@
+.top-bar {
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+
+  > * {
+    padding: 0 1em;
+  }
+
+  .top-bar-user {
+    span {
+      padding: 0 10px;
+      margin: auto;
+      font-size: smaller;
+    }
+  }
+
+  .dropdown-menu {
+    width: 30ch;
+
+    .login-dropdown-form {
+      > * {
+        width: 96%;
+        margin: 2%;
+      }
+    }
+  }
+}
