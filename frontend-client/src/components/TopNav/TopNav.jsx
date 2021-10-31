@@ -3,7 +3,7 @@ import { Navbar } from "react-bootstrap";
 import { authContext } from "../../providers/AuthProvider";
 import LoginForm from "./LoginForm";
 import LoginInfo from "./LoginInfo";
-
+import UserDataControls from "./UserDataControls";
 import "./TopNav.scss"
 
 export default function TopNav() {
@@ -11,8 +11,11 @@ export default function TopNav() {
 
   return (
     <Navbar className="top-bar" bg="light" expand="sm">
-      <Navbar.Brand className="logo">Gameflix</Navbar.Brand>
-      {user ? <LoginInfo /> : <LoginForm />}
+      <Navbar.Brand>Gameflix</Navbar.Brand>
+      <span>
+        <UserDataControls />
+        {user ? <LoginInfo /> : <LoginForm />}
+      </span>
     </Navbar>
   );
 }

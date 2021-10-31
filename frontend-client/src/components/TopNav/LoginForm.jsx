@@ -18,7 +18,7 @@ export default function LoginForm() {
       <span className="text-muted">
         Returning to Gameflix?
       </span>
-      <NavDropdown title="Login" align="end">
+      <NavDropdown className="login-dropdown-container" title="Login" align="end">
         <Form className="login-dropdown-form" onSubmit={onSubmit}>
           <Form.Control
             type="email"
