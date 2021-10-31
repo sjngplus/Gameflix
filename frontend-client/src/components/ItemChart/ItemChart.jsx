@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import io from 'socket.io-client';
 import axios from 'axios';
 import { stateContext } from "../../providers/StateProvider";
+import { authContext } from "../../providers/AuthProvider";
 import "./ItemChart.scss";
 import Axis from "./Axis";
 import GameItem from "./GameItem";
@@ -16,8 +17,8 @@ export default function ItemChart() {
   const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
 
-  const unfilteredGamesList = state.gamesList;
-  
+  const {user} = useContext(authContext);  
+
   const chartColumns = 100;
   const chartRows = 100;
 
@@ -27,8 +28,8 @@ export default function ItemChart() {
     const newSocket = io();    
     setSocket(newSocket);
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    const url = `/api/search/deals`;
-    // const url = `/api/search/database`;
+    // const url = `/api/search/deals`;
+    const url = `/api/search/database`;
     axios.get(url)
     .then(res => {
       // console.log("::Backend API Received Data Length:", res.data.length)
@@ -38,16 +39,16 @@ export default function ItemChart() {
   }, []);
 
 
-  //Logic+Render when filters change
+  //Logic + Render when filters change
   useEffect(() => {
-    [chartMinX, chartMaxX] = state.filters.rating;
+    [chartMinX, chartMaxX] = state.filters.rating;    
     [chartMinY, chartMaxY] = state.filters.centPrices;
     const filteredArray = filterGamesListArray(state);
     setFilteredGameList(filteredArray);  
   }, [state.filters, state.gamesList])
 
 
-  //Logic+Render when button is clicked
+  //Logic + Render when button is clicked
   useEffect(() => {
     if (state.socket) {
       state.socket.emit('filter-state', state.filters);
@@ -67,18 +68,50 @@ export default function ItemChart() {
   }, [state.buttonToggles])
 
 
-  useEffect(() => {
-    if (state.socket) {
+  // Render when socket gets new data
+  useEffect(() => {  
+    if(state.socket) {      
       state.socket.on('filter-state', (filterData) => {
-        console.log(filterData);
         setOSFilter(filterData.os);
         setGenreFilter(filterData.genres);
         setPrices(filterData.centPrices);
         setRatings(filterData.rating);
         setYears(filterData.years);
-      })    
-    }
-  }, [state.socket])
+      })
+
+      state.socket.on('highlight-game', (incomingGame) => {       
+        ReceivedToggleHighlight(incomingGame);
+      });       
+    }  
+  }, [state.socket, state.gamesList])
+
+
+  const ReceivedToggleHighlight = (highlightedGame) => {
+    const outputArray = [];
+    state.gamesList.map(game => {
+      if (game.name === highlightedGame.name) {
+        game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        game.highlight.user = highlightedGame.highlight.user;
+        game.highlight.color = highlightedGame.highlight.color;
+      }
+      outputArray.push(game);
+    })
+    setFilteredGameList(outputArray);
+  };
+  
+  const toggleHighlight = (gameName) => {    
+    const outputArray = [];
+    filteredGamesList.map(game => {      
+      if (game.name === gameName) {
+        game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        game.highlight.user = user.id;
+        game.highlight.color = user.id == 1  ? 'yellow' : 'red';
+        state.socket.emit('highlight-game', game);
+      }
+      outputArray.push(game);
+    })
+    setFilteredGameList(outputArray);
+  };  
 
 
   const chartCoords = {};
@@ -103,6 +136,7 @@ export default function ItemChart() {
         <GameItem 
         key={game.steam_appid}
         {...{coords, game}}
+        handleHighlight={toggleHighlight}
         />
       )
     }

@@ -10,7 +10,7 @@ export default function TopNav() {
   const { user } = useContext(authContext);
 
   return (
-    <Navbar className="top-bar" bg="light" expand="lg">
+    <Navbar className="top-bar" bg="light" expand="sm">
       <Navbar.Brand className="logo">Gameflix</Navbar.Brand>
       {user ? <LoginInfo /> : <LoginForm />}
     </Navbar>

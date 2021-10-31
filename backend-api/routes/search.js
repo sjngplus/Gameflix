@@ -12,7 +12,9 @@ const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
   DO NOTHING
   RETURNING *`
   db.query(query, [steamAppId, gameStringified])
-    .then()
+    .then(result => {
+      if (result.rows.length) console.log(result.rows.length, "game(s) inserted into Database");
+    })
     .catch(err => console.log("DB Insert Error::", err));  
   // db.query("SELECT game FROM steam WHERE id = 388960").then(results => console.log(results.rows));
 }
@@ -41,9 +43,15 @@ const pingSteamApi = (responseDataArray) => {
   }))
 };
 
+// const insertRandomMetacriticScore = (gameObject) => {
+//   const randomNumber = Math.floor(Math.random() * 25);
+//   if (!gameObject.metacritic) gameObject.metacritic = { score: 5 };
+//   return gameObject;
+// };
+
 
 router.get('/deals', (req, res) => {  
-  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=60`;
+  const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=100`;
   axios.get(url)
   .then(res => pingSteamApi(res.data))
   .then((resolve) => {

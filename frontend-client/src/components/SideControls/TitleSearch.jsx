@@ -1,4 +1,4 @@
-import {Accordion, Form } from 'react-bootstrap';
+import {Accordion, Form, Button } from 'react-bootstrap';
 import { useContext } from 'react';
 import { stateContext } from '../../providers/StateProvider';
 
@@ -18,9 +18,8 @@ function TitleSearch() {
             placeholder="Search by game name" 
             value={state.filters.name}
             onChange={e => setNameFilter(e.target.value)}
-            />
+            />            
           </Form.Group>
-
         </Form>
         </Accordion.Body>
       </Accordion.Item>
