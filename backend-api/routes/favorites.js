@@ -9,13 +9,10 @@ router.
     const query = `
       INSERT INTO favorites (user_id, steam_app_id)
       VALUES ($1, $2)
+      ON CONFLICT ON CONSTRAINT user_favs DO NOTHING
       RETURNING *
     `
-      // ON CONFLICT ON CONSTRAINT (user_favs) DO NOTHING
-      // ON CONFLICT (user_id, steam_app_id) DO NOTHING
-
-    // console.log(userId, steamAppId)
-    // res.send("pong")
+    
     db.query(query, [userId, steamAppId])
       .then( result => {
         console.log(result);
