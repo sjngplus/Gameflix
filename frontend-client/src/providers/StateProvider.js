@@ -47,7 +47,7 @@ export default function StateProvider(props) {
       buttonToggles: {
         search: false,
         reset: false
-      },
+      },     
       socket: null,
       defaultValues: {
         PRICEFLOOR,

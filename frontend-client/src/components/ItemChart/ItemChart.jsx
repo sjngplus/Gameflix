@@ -16,8 +16,6 @@ export default function ItemChart() {
   const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
 
-  const unfilteredGamesList = state.gamesList;
-  
   const chartColumns = 100;
   const chartRows = 100;
 
@@ -38,16 +36,16 @@ export default function ItemChart() {
   }, []);
 
 
-  //Logic+Render when filters change
+  //Logic + Render when filters change
   useEffect(() => {
-    [chartMinX, chartMaxX] = state.filters.rating;
+    [chartMinX, chartMaxX] = state.filters.rating;    
     [chartMinY, chartMaxY] = state.filters.centPrices;
     const filteredArray = filterGamesListArray(state);
     setFilteredGameList(filteredArray);  
   }, [state.filters, state.gamesList])
 
 
-  //Logic+Render when button is clicked
+  //Logic + Render when button is clicked
   useEffect(() => {
     if (state.socket) {
       state.socket.emit('filter-state', state.filters);
@@ -68,36 +66,44 @@ export default function ItemChart() {
 
 
   // Render when socket gets new data
-  useEffect(() => {    
-    state.socket.on('filter-state', (filterData) => {
-      console.log(filterData);
-      setOSFilter(filterData.os);
-      setGenreFilter(filterData.genres);
-      setPrices(filterData.centPrices);
-      setRatings(filterData.rating);
-      setYears(filterData.years);
-    })
-    state.socket.on('highlight-game', (highlightGameName) => {
-      const outputArray = [];
-      filteredGamesList.map(game => {
-        if (game.name === highlightGameName) game.highlight.isHighlighted = !game.highlight.isHighlighted;     
-        outputArray.push(game);
+  useEffect(() => {  
+    if(state.socket) {      
+      state.socket.on('filter-state', (filterData) => {
+        setOSFilter(filterData.os);
+        setGenreFilter(filterData.genres);
+        setPrices(filterData.centPrices);
+        setRatings(filterData.rating);
+        setYears(filterData.years);
       })
-      setFilteredGameList(outputArray);
-    });    
-  }, [state.socket])
+
+      state.socket.on('highlight-game', (incomingGame) => {       
+        ReceivedToggleHighlight(incomingGame.name);
+      });       
+    }  
+  }, [state.socket, state.gamesList])
 
 
-  const toggleHighlight = (gameName) => {
+  const ReceivedToggleHighlight = (gameName) => {
     const outputArray = [];
     state.gamesList.map(game => {
       if (game.name === gameName) {
         game.highlight.isHighlighted = !game.highlight.isHighlighted;
-        state.socket.emit('highlight-game', game.name);        
       }
       outputArray.push(game);
     })
-    setGamesList(outputArray);
+    setFilteredGameList(outputArray);
+  };
+  
+  const toggleHighlight = (gameName) => {
+    const outputArray = [];
+    filteredGamesList.map(game => {
+      if (game.name === gameName) {
+        game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        state.socket.emit('highlight-game', game);
+      }
+      outputArray.push(game);
+    })
+    setFilteredGameList(outputArray);
   };  
 
 

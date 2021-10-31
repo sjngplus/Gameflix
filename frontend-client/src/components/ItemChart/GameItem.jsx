@@ -1,5 +1,3 @@
-import { useContext, useEffect, useState } from "react";
-import { stateContext } from "../../providers/StateProvider";
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
@@ -7,7 +5,6 @@ import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 export default function GameItem(props) {
   const {coords, game, handleHighlight} = props;
   const [xCoord, yCoord] = coords.split(",");
-  const { state } = useContext(stateContext);
   
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
   
