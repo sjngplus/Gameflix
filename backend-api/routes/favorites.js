@@ -31,12 +31,28 @@ router
 
     db.query(query, [userId, steamAppId])
       .then( result => {
-        console.log(result);
         res.send("Success");
       })
       .catch(err => {
         console.log("Favorites DB Insert Error::", err)
         res.send("Favorites DB Insert Error");
+      })
+  })
+  .delete('/:user_id/favorites/:steam_id', (req,res) => {
+    const [userId, steamAppId] = [req.params.user_id, req.params.steam_id];
+    const query = `
+      DELETE FROM favorites
+      WHERE user_id = $1 AND steam_app_id = $2
+      RETURNING *
+    `
+
+    db.query(query, [userId, steamAppId])
+      .then(result => {
+        res.send("Success");
+      })
+      .catch(err => {
+        console.log("Favorites DB Delete Error::", err)
+        res.send("Favorites DB Delete Error");
       })
   });
 

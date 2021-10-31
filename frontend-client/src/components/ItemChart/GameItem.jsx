@@ -13,6 +13,7 @@ export default function GameItem(props) {
 
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
 
+  // Favorite and unfavorite functions using backend
   const favoriteGame = gameId => {
     axios.post(`http://localhost:3001/users/${user.id}/favorites`, {"steamAppId": gameId})
       .then(res => {
@@ -22,6 +23,15 @@ export default function GameItem(props) {
         console.log(err);
       })
   };
+  const unfavoriteGame = gameId => {
+    axios.delete(`http://localhost:3001/users/${user.id}/favorites/${gameId}`)
+      .then(res => {
+        setIsFavorite(prev => res.data === "Success" ? !prev : prev);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
   let highlightColor = "";
   if (game.highlight.isHighlighted && game.highlight.user == 1 ) highlightColor = "red";
@@ -78,6 +88,9 @@ export default function GameItem(props) {
             {isFavorite ?
               <Button
                 variant="warning"
+                onClick={ event => {
+                  unfavoriteGame(game.steam_appid)
+                }}
               >
                 ♥ Favorited
               </Button>
