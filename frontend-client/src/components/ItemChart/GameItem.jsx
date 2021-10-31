@@ -3,15 +3,27 @@ import { stateContext } from "../../providers/StateProvider";
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
+import { authContext } from "../../providers/AuthProvider";
+import axios from "axios";
 
 export default function GameItem(props) {
   const {coords, game} = props;
   const [xCoord, yCoord] = coords.split(",");
   const { setGamesList } = useContext(stateContext);
   const [ gameHighlight, setGameHighlight ] = useState(game.highlight.isHighlighted);
+  const { user } = useContext(authContext);
+  const [isFavorite, setIsFavorite] = useState(null);
 
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
-  
+
+  const favoriteGame = (gameId) => {
+    // console.log("Type:", typeof(gameId))
+    axios.post(`http://localhost:3001/users/${user.id}/favorites`, {"steamAppId": gameId})
+      .then(res => {
+        console.log(res);
+      })
+  };
+
   let highlightColor = "";
   if (gameHighlight) highlightColor = "yellow";
   
@@ -28,7 +40,6 @@ export default function GameItem(props) {
         className={gameHighlight ? "item highlighted" : "item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
-        // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
       <ReactTooltip 
@@ -57,8 +68,15 @@ export default function GameItem(props) {
           <ButtonGroup className="my-2">
             <Button variant="info" onClick={e => {
                 setGameHighlight(prev => (!prev));                
-              }}>Highlight</Button>            
-            <Button variant="warning">Favorite</Button>
+              }}>Highlight</Button>
+            <Button
+              variant="warning"
+              onClick={ event => {
+                favoriteGame(game.steam_appid)
+              }}
+            >
+              Favorite
+            </Button>
           </ButtonGroup>
         </Container>
       </ReactTooltip>
