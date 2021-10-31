@@ -15,7 +15,7 @@ const normalizeData = (inputArray) => {
   const outputArray = [];
   inputArray.forEach(game => {
     if (!game.metacritic) game.metacritic = { score: 5 };
-    if (!game.highlight) game.highlight = { user: 1, isHighlighted: false};
+    if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null};
     outputArray.push(game);
   });
   return outputArray

@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import io from 'socket.io-client';
 import axios from 'axios';
 import { stateContext } from "../../providers/StateProvider";
+import { authContext } from "../../providers/AuthProvider";
 import "./ItemChart.scss";
 import Axis from "./Axis";
 import GameItem from "./GameItem";
@@ -15,6 +16,8 @@ export default function ItemChart() {
   const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNumericFilters } = useContext(stateContext);
   const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
+
+  const {user} = useContext(authContext);  
 
   const chartColumns = 100;
   const chartRows = 100;
@@ -77,28 +80,32 @@ export default function ItemChart() {
       })
 
       state.socket.on('highlight-game', (incomingGame) => {       
-        ReceivedToggleHighlight(incomingGame.name);
+        ReceivedToggleHighlight(incomingGame);
       });       
     }  
   }, [state.socket, state.gamesList])
 
 
-  const ReceivedToggleHighlight = (gameName) => {
+  const ReceivedToggleHighlight = (highlightedGame) => {
     const outputArray = [];
     state.gamesList.map(game => {
-      if (game.name === gameName) {
+      if (game.name === highlightedGame.name) {
         game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        game.highlight.user = highlightedGame.highlight.user;
+        game.highlight.color = highlightedGame.highlight.color;
       }
       outputArray.push(game);
     })
     setFilteredGameList(outputArray);
   };
   
-  const toggleHighlight = (gameName) => {
+  const toggleHighlight = (gameName) => {    
     const outputArray = [];
-    filteredGamesList.map(game => {
+    filteredGamesList.map(game => {      
       if (game.name === gameName) {
         game.highlight.isHighlighted = !game.highlight.isHighlighted;
+        game.highlight.user = user.id;
+        game.highlight.color = user.id == 1  ? 'yellow' : 'red';
         state.socket.emit('highlight-game', game);
       }
       outputArray.push(game);

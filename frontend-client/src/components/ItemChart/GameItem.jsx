@@ -1,15 +1,18 @@
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
+import { useState } from "react";
 
 export default function GameItem(props) {
+  // const [ highlightColor, setHighlightColor ] = useState("");
   const {coords, game, handleHighlight} = props;
   const [xCoord, yCoord] = coords.split(",");
   
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
   
   let highlightColor = "";
-  if (game.highlight.isHighlighted) highlightColor = "#0dcaf0"; 
+  if (game.highlight.isHighlighted && game.highlight.user == 1 ) highlightColor = "red";
+  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "yellow";
 
   return (
     <>
