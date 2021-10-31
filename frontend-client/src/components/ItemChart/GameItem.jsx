@@ -63,13 +63,13 @@ export default function GameItem(props) {
             width="auto"
             height={180}
             src={game.header_image}
-            style={{maxWidth: 320}}
+            style={{maxWidth: 300}}
           />          
         </Figure>
         <Container>
-          <h5 style={{wordWrap: "break-word", maxWidth: 300}}>{game.name}</h5> 
+          <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5> 
           <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
-          <p style={{wordWrap: "break-word", maxWidth: 300}}>{parsedGenre}</p>
+          <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
           <p></p>
         </Container>
         <Container>
