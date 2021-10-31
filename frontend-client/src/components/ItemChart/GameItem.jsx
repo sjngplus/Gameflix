@@ -2,7 +2,7 @@ import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 import { authContext } from "../../providers/AuthProvider";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 
 export default function GameItem(props) {
@@ -25,17 +25,19 @@ export default function GameItem(props) {
 
   let highlightColor = "";
   if (game.highlight.isHighlighted && game.highlight.user == 1 ) highlightColor = "red";
-  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "yellow";   
+  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "blue";   
 
   
   // Check if favorited on first render
-  axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
-    .then( res => {
-      setIsFavorite(res.data);
-    })
-    .catch(err => {
-      console.log(err);
-    })
+  if (user) {
+    axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
+      .then( res => {
+        setIsFavorite(res.data);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
 
   return (
