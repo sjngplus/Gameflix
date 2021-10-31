@@ -1,18 +1,42 @@
 import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
+import { authContext } from "../../providers/AuthProvider";
 import { useState } from "react";
+import axios from "axios";
 
 export default function GameItem(props) {
-  // const [ highlightColor, setHighlightColor ] = useState("");
   const {coords, game, handleHighlight} = props;
   const [xCoord, yCoord] = coords.split(",");
-  
+  const { user } = useContext(authContext);
+  const [isFavorite, setIsFavorite] = useState(false);
+
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
-  
+
+  const favoriteGame = gameId => {
+    axios.post(`http://localhost:3001/users/${user.id}/favorites`, {"steamAppId": gameId})
+      .then(res => {
+        setIsFavorite(res.data === "Success");
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  };
+
   let highlightColor = "";
   if (game.highlight.isHighlighted && game.highlight.user == 1 ) highlightColor = "red";
-  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "yellow";
+  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "yellow";   
+
+  
+  // Check if favorited on first render
+  axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
+    .then( res => {
+      setIsFavorite(res.data);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
 
   return (
     <>
@@ -22,7 +46,6 @@ export default function GameItem(props) {
         className={game.highlight.isHighlighted ? "item highlighted" : "item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
-        // style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
       <ReactTooltip 
@@ -49,8 +72,23 @@ export default function GameItem(props) {
         </Container>
         <Container>
           <ButtonGroup className="my-2">
-            <Button variant="info" onClick={() => handleHighlight(game.name)}>Highlight</Button>            
-            <Button variant="warning">Favorite</Button>
+            <Button variant="info" onClick={() => handleHighlight(game.name)}>Highlight</Button>
+            {isFavorite ?
+              <Button
+                variant="warning"
+              >
+                ♥ Favorited
+              </Button>
+              :
+              <Button
+                variant="warning"
+                onClick={ event => {
+                  favoriteGame(game.steam_appid)
+                }}
+              >
+                ♡ Favorite
+              </Button>
+            }
           </ButtonGroup>
         </Container>
       </ReactTooltip>
