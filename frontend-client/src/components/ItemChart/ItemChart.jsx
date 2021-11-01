@@ -48,7 +48,7 @@ export default function ItemChart() {
   }, [state.filters, state.gamesList])
 
 
-  //Logic + Render when button is clicked
+  //Logic + Render when title search button is clicked
   useEffect(() => {    
     const nameSearch = state.filters.name;
     const searchLimit = 999;
@@ -81,6 +81,14 @@ export default function ItemChart() {
       });       
     }  
   }, [state.socket, state.gamesList])
+
+
+  //Render when highlight favorites button is clicked
+  useEffect(() => {
+    state.favorites.map(game => {
+      toggleHighlight(game.name)
+    })
+  }, [state.buttonToggles.highlightFavorites])
 
 
   const ReceivedToggleHighlight = (highlightedGame) => {

@@ -1,34 +1,35 @@
 import { useContext, useState } from "react";
 import { Modal, Button, ListGroup, ButtonGroup } from "react-bootstrap";
 import { authContext } from "../../providers/AuthProvider";
+import { stateContext } from "../../providers/StateProvider";
 import axios from "axios";
 import { FaStar, FaSteam } from "react-icons/fa";
 
 export default function ViewFavs() {
   const { user } = useContext(authContext);
   const [show, setShow] = useState(false);
-  const [parsedFavs, setParsedFavs] = useState([]);
-  
+  const { state, setFavorites, setHighlightFavToggle } = useContext(stateContext);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const getDbFavs = () => {
     axios.get(`http://localhost:3001/users/${user.id}/favorites`)
       .then( res => {
-        // console.log(res.data)
-        setParsedFavs(res.data.map(game => {
-          console.log(game)
-          return (           
-            <ListGroup.Item key={game.id} action href={`https://store.steampowered.com/app/${game.id}`}>
-              <FaSteam style={{fontSize: "20px", marginRight: "7px"}}/>
-              {game.name}
-            </ListGroup.Item>
-          )
-        }))
+        setFavorites(res.data);
       })
       .catch(err => {
         console.log(err);
       })
-  }
+  } 
+
+  const parsedFavList = state.favorites.map(game => {
+    return (           
+      <ListGroup.Item key={game.id} action href={`https://store.steampowered.com/app/${game.id}`}>
+        <FaSteam style={{fontSize: "20px", marginRight: "7px"}}/>
+        {game.name}
+      </ListGroup.Item>
+    )
+  })
 
   return (
     <>
@@ -40,12 +41,12 @@ export default function ViewFavs() {
         </Modal.Header>
         <Modal.Body>         
           <ListGroup>
-            {parsedFavs}           
+            {parsedFavList}           
           </ListGroup>
         </Modal.Body>
         <Modal.Footer>
           <ButtonGroup aria-label="Basic example">
-            <Button variant="info" style={{color: "white", fontWeight: "bold"}}>Highlight Favorites</Button>
+            <Button variant="info" onClick={e => setHighlightFavToggle()} style={{color: "white", fontWeight: "bold"}}>Highlight Favorites</Button>
             <Button variant="secondary" onClick={handleClose}>Close</Button>
           </ButtonGroup>
         </Modal.Footer>

@@ -35,6 +35,8 @@ const SET_GAMESLIST = "SET_GAMESLIST";
 const SET_NAME = "SET_NAME";
 const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
+const SET_FAVORITES = "SET_FAVORITES";
+const SET_HIGHLIGHTFAVORITES = "SET_HIGHLIGHTFAVORITES";
 
 export const stateContext = createContext();
 
@@ -45,7 +47,7 @@ export default function StateProvider(props) {
       filters: {...defaultFilters},
       buttonToggles: {
         search: false,
-        reset: false
+        highlightFavorites: false
       },     
       socket: null,
       defaultValues: {
@@ -55,7 +57,8 @@ export default function StateProvider(props) {
         RATINGCEILING,
         YEARFLOOR,
         YEARCEILING
-      }
+      },
+      favorites: []
     }
   );
 
@@ -68,6 +71,8 @@ export default function StateProvider(props) {
   const setNameFilter = name => dispatch({type: SET_NAME, value:name});
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
   const setSocket = io => dispatch({type: SET_SOCKET, value:io});
+  const setFavorites = favList => dispatch({type: SET_FAVORITES, value: favList});
+  const setHighlightFavToggle = () => dispatch({type: SET_HIGHLIGHTFAVORITES});
 
   function reducer(state, action) {
     switch (action.type) {
@@ -89,6 +94,10 @@ export default function StateProvider(props) {
         return {...state, buttonToggles: {...state.buttonToggles, search: !state.buttonToggles.search}}
       case SET_SOCKET:
         return {...state, socket: action.value}
+      case SET_FAVORITES:
+        return {...state, favorites: [...action.value]}
+      case SET_HIGHLIGHTFAVORITES:
+        return {...state, buttonToggles: {...state.buttonToggles, highlightFavorites: !state.buttonToggles.highlightFavorites}}
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -104,7 +113,9 @@ export default function StateProvider(props) {
     setOSFilter,
     setNameFilter,
     setSearchToggle,
-    setSocket
+    setSocket,
+    setFavorites,
+    setHighlightFavToggle
   };
 
   return (
