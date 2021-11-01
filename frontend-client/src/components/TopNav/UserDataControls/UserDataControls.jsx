@@ -2,7 +2,7 @@ import { Nav, NavDropdown } from "react-bootstrap";
 import LoadFilters from "./LoadFilters";
 import SaveFilters from "./SaveFilters";
 import "./UserDataControls.scss";
-import ViewFavs from "./ViewFavs";
+import ViewFavs from "../ViewFavs";
 
 export default function UserDataControls() {
   return (
@@ -13,9 +13,8 @@ export default function UserDataControls() {
         <NavDropdown.Divider />
         <NavDropdown.Item disabled>Sync Filters</NavDropdown.Item>
       </NavDropdown>
+      <ViewFavs />
       <NavDropdown title="Favorites">
-        <ViewFavs />
-        <NavDropdown.Divider />
         <NavDropdown.Item disabled>Highlight Favorites</NavDropdown.Item>
       </NavDropdown>
     </Nav>

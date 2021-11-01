@@ -23,7 +23,7 @@ router
             const favGameInfo = favGameObj.map(obj => {
               return {"name": obj.game.name, "id": obj.game.steam_appid}
             });
-            console.log(favGameInfo);
+            // console.log(favGameInfo);
             res.send(favGameInfo);
           })
       })

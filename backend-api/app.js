@@ -41,6 +41,9 @@ const io = new Server(server);
 
 //Socket.io logic
 io.on('connection', (socket) => {
+  const connectedClients = io.engine.clientsCount
+  io.emit("number-of-clients", connectedClients);
+  console.log("Clients connected:", connectedClients);
   console.log('::::user connected:', socket.id);
   socket.on('filter-state', (filterData) => {
     socket.broadcast.emit('filter-state', filterData);
@@ -48,9 +51,14 @@ io.on('connection', (socket) => {
   socket.on('highlight-game', (highlightData) => {
     socket.broadcast.emit('highlight-game', highlightData);
   });
-
-
-  socket.on('disconnect', () => console.log(':user disconnected:', socket.id));
+  
+  
+  socket.on('disconnect', () => {
+    const connectedClients = io.engine.clientsCount
+    io.emit("number-of-clients", connectedClients);
+    console.log("Clients connected:", connectedClients);
+    console.log(':user disconnected:', socket.id)
+  });
 });
 
 function onListening() { 

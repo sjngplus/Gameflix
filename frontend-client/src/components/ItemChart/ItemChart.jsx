@@ -26,7 +26,7 @@ export default function ItemChart() {
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
     const newSocket = io();    
-    setSocket(newSocket);
+    setSocket(newSocket);    
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
     // const url = `/api/search/deals`;
     const url = `/api/search/database`;
@@ -40,7 +40,7 @@ export default function ItemChart() {
 
 
   //Logic + Render when filters change
-  useEffect(() => {
+  useEffect(() => {    
     [chartMinX, chartMaxX] = state.filters.rating;    
     [chartMinY, chartMaxY] = state.filters.centPrices;
     const filteredArray = filterGamesListArray(state);
@@ -48,7 +48,7 @@ export default function ItemChart() {
   }, [state.filters, state.gamesList])
 
 
-  //Logic + Render when button is clicked
+  //Logic + Render when title search button is clicked
   useEffect(() => {    
     const nameSearch = state.filters.name;
     const searchLimit = 999;
@@ -81,6 +81,14 @@ export default function ItemChart() {
       });       
     }  
   }, [state.socket, state.gamesList])
+
+
+  //Render when highlight favorites button is clicked
+  useEffect(() => {
+    state.favorites.map(game => {
+      toggleHighlight(game.name)
+    })
+  }, [state.buttonToggles.highlightFavorites])
 
 
   const ReceivedToggleHighlight = (highlightedGame) => {
