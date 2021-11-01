@@ -37,6 +37,7 @@ const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
 const SET_FAVORITES = "SET_FAVORITES";
 const SET_HIGHLIGHTFAVORITES = "SET_HIGHLIGHTFAVORITES";
+const SET_FILTERS = "SET_FILTERS";
 
 export const stateContext = createContext();
 
@@ -72,6 +73,7 @@ export default function StateProvider(props) {
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
   const setSocket = io => dispatch({type: SET_SOCKET, value:io});
   const setFavorites = favList => dispatch({type: SET_FAVORITES, value: favList});
+  const setFilters = filters => dispatch({type: SET_FILTERS, value: filters})
   const setHighlightFavToggle = () => dispatch({type: SET_HIGHLIGHTFAVORITES});
 
   function reducer(state, action) {
@@ -96,6 +98,8 @@ export default function StateProvider(props) {
         return {...state, socket: action.value}
       case SET_FAVORITES:
         return {...state, favorites: [...action.value]}
+      case SET_FILTERS:
+        return {...state, filters: action.value}
       case SET_HIGHLIGHTFAVORITES:
         return {...state, buttonToggles: {...state.buttonToggles, highlightFavorites: !state.buttonToggles.highlightFavorites}}
       default:
@@ -115,6 +119,7 @@ export default function StateProvider(props) {
     setSearchToggle,
     setSocket,
     setFavorites,
+    setFilters,
     setHighlightFavToggle
   };
 

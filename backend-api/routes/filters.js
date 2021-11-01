@@ -7,29 +7,29 @@ router
   .get('/:user_id/filters', function(req, res) {
     const [userId] = req.params.user_id;
     const favQuery = `
-      SELECT name, filter_settings FROM filters
+      SELECT id, name, filter_settings FROM filters
       WHERE user_id = $1
     `
 
     db.query(favQuery, [userId])
       .then( result => {
-        result.rows.map(row => row.steam_app_id)
+        res.send(result.rows)
       })
       .catch(err => {
         console.log("Filters List DB Select Error::", err)
         res.send("Filters List DB Select Error");
       })
   })
-  .get('/:user_id/filters/:steam_id', function(req, res) {
-    const [userId, steamAppId] = [req.params.user_id, req.params.steam_id];
+  .get('/:user_id/filters/:filter_id', function(req, res) {
+    const [userId, filterId] = [req.params.user_id, req.params.filter_id];
     const query = `
-      SELECT * FROM favorites
-      WHERE user_id = $1 AND steam_app_id = $2
+      SELECT filter_settings FROM filters
+      WHERE user_id = $1 AND id = $2
     `
     
-    db.query(query, [userId, steamAppId])
+    db.query(query, [userId, filterId])
       .then( result => {
-        res.send(result.rows.length === 1);
+        res.send(result.rows[0].filter_settings);
       })
       .catch(err => {
         console.log("Filters Item DB Select Error::", err)

@@ -7,11 +7,19 @@
   background-color: goldenrod;
   border-color: goldenrod;
 
-  &:hover, &:active, &:focus{
+  &:hover, &:active, &:focus, &:disabled {
     color: white;
   }
 }
 
+.selected-user-filter {
+  background-color: rgba(254, 204, 56, 0.25);
+}
+
+.filter-delete {
+  width: 1%;
+}
+  
 .filter-modal-footer {
   display: flex;
   justify-content: space-between;
