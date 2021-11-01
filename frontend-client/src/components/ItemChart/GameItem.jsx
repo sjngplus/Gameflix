@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 import { authContext } from "../../providers/AuthProvider";
 import { useState, useContext } from "react";
 import axios from "axios";
+import { FaSteam } from "react-icons/fa";
 
 export default function GameItem(props) {
   const {coords, game, handleHighlight} = props;
@@ -12,6 +13,10 @@ export default function GameItem(props) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
+  const lastGenre = parsedGenre[parsedGenre.length - 1];
+  const parsedLastGenre = lastGenre.replace("|", "");
+  parsedGenre.pop();
+  parsedGenre.push(parsedLastGenre);
 
   // Favorite and unfavorite functions using backend
   const favoriteGame = gameId => {
@@ -73,13 +78,13 @@ export default function GameItem(props) {
             width="auto"
             height={180}
             src={game.header_image}
-            style={{maxWidth: 320}}
+            style={{maxWidth: 300}}
           />          
         </Figure>
         <Container>
-          <h5 style={{wordWrap: "break-word", maxWidth: 300}}>{game.name}</h5> 
+          <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5>
           <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
-          <p style={{wordWrap: "break-word", maxWidth: 300}}>{parsedGenre}</p>
+          <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
           <p></p>
         </Container>
         <Container>
@@ -103,8 +108,9 @@ export default function GameItem(props) {
               >
                 ♡ Favorite
               </Button>
-            }
+            }            
           </ButtonGroup>
+          <FaSteam style={{marginLeft: "30px", fontSize: "25px"}}/>        
         </Container>
       </ReactTooltip>
     </> 

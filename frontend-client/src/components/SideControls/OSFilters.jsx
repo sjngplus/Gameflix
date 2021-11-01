@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import {Accordion, Form } from 'react-bootstrap';
 
 import { stateContext } from '../../providers/StateProvider';

@@ -16,6 +16,7 @@ const normalizeData = (inputArray) => {
   inputArray.forEach(game => {
     if (!game.metacritic) game.metacritic = { score: 5 };
     if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null};
+    if (!game.price_overview) game.price_overview = { final: 5999, final_formatted: "CDN$ 59.99"};
     outputArray.push(game);
   });
   return outputArray
@@ -25,7 +26,7 @@ const filterByPrice = (inputArray, priceFilter, { PRICEFLOOR, PRICECEILING }) =>
   if (priceFilter[0] === PRICEFLOOR && priceFilter[1] === PRICECEILING) return inputArray;  
   const outputArray = [];
   inputArray.forEach(game => {        
-    if (game.price_overview && game.price_overview.final >= priceFilter[0] && game.price_overview.final <= priceFilter[1]) {
+    if (game.price_overview.final >= priceFilter[0] && game.price_overview.final <= priceFilter[1]) {
       outputArray.push(game)
     }
   });
