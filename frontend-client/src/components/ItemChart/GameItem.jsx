@@ -12,11 +12,7 @@ export default function GameItem(props) {
   const { user } = useContext(authContext);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
-  const lastGenre = parsedGenre[parsedGenre.length - 1];
-  const parsedLastGenre = lastGenre.replace("|", "");
-  parsedGenre.pop();
-  parsedGenre.push(parsedLastGenre);
+  const parsedGenre = game.genres.map(genreObj => genreObj.description).join(" | ");  
 
   // Favorite and unfavorite functions using backend
   const favoriteGame = gameId => {
