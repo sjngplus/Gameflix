@@ -2,6 +2,16 @@
   margin: 0 1em;
 }
 
+.filter-load {
+  color: white;
+  background-color: goldenrod;
+  border-color: goldenrod;
+
+  &:hover, &:active, &:focus{
+    color: white;
+  }
+}
+
 .filter-modal-footer {
   display: flex;
   justify-content: space-between;

@@ -21,7 +21,6 @@ export default function SaveFilters() {
     axios.post(`http://localhost:3001/users/${user.id}/filters`, {"filterName": filterName, "filterSettings": filterSettings})
     .then(res => {
         if (res.data === "Success") {
-          console.log("Save submit")
           return handleClose();
         }
         return (console.log(res.data));
@@ -41,7 +40,7 @@ export default function SaveFilters() {
         <FaUndoAlt/> Save
       </Button>
 
-      <Modal onEnter={() => console.log(filterSettings)} show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose}>
       <Modal.Header closeButton>
           <Modal.Title>Save Current Filters</Modal.Title>
         </Modal.Header>
@@ -62,7 +61,7 @@ export default function SaveFilters() {
           </Form>
         </Modal.Body>
         <Modal.Footer className="filter-modal-footer">
-          <Button variant="success" onClick={saveFilter}>Save</Button>
+          <Button variant="success" onClick={saveFilter}><FaUndoAlt/> Save</Button>
           <Button variant="secondary" onClick={handleClose}>Cancel</Button>
         </Modal.Footer>
       </Modal>
