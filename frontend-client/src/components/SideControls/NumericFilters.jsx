@@ -9,7 +9,7 @@ import { stateContext } from "../../providers/StateProvider";
 import { priceFormat } from '../../helpers/helpers';
 
 export default function NumericFilters() {
-  const { state, setNumericFilters } = useContext(stateContext);
+  const { state, setNumericFilters, setOnSaleBtn } = useContext(stateContext);
   const { centPrices, rating, years } = state.filters;
   const { setPrices, setRatings, setYears } = setNumericFilters;
 
@@ -20,8 +20,15 @@ export default function NumericFilters() {
         <Accordion.Body>
         <Form>
           <div className="filter-setting">
+            <Form.Check 
+              type="switch" 
+              id="on-sale" 
+              label="On Sale Only" 
+              className="text-secondary" 
+              checked={state.buttonToggles.onSaleBtn}
+              onChange={setOnSaleBtn}
+            />
             <Form.Label>Price</Form.Label>
-            <Form.Check type="switch" id="on-sale" label="On Sale Only" className="text-secondary"/>
             <div className="filter-numberic-labels">
               <Form.Text>{priceFormat(centPrices[0])}</Form.Text>
               <Form.Text>{priceFormat(centPrices[1])}</Form.Text>

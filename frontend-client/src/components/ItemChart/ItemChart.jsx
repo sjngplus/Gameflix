@@ -91,6 +91,15 @@ export default function ItemChart() {
   }, [state.buttonToggles.highlightFavorites])
 
 
+  //Render when On Sale Only switch is toggled
+  useEffect(() => {
+    if (state.buttonToggles.onSaleBtn) {
+      setPrices([100, 2000]);
+      setRatings([70, 100]);
+    }
+  }, [state.buttonToggles.onSaleBtn])
+
+
   const ReceivedToggleHighlight = (highlightedGame) => {
     const outputArray = [];
     state.gamesList.map(game => {
