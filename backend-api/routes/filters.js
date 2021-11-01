@@ -54,15 +54,15 @@ router
         res.send("Filters DB Insert Error");
       })
   })
-  .delete('/:user_id/filters/:steam_id', (req,res) => {
-    const [userId, steamAppId] = [req.params.user_id, req.params.steam_id];
+  .delete('/:user_id/filters/:filter_id', (req,res) => {
+    const [userId, filterId] = [req.params.user_id, req.params.filter_id];
     const query = `
-      DELETE FROM favorites
-      WHERE user_id = $1 AND steam_app_id = $2
+      DELETE FROM filters
+      WHERE user_id = $1 AND id = $2
       RETURNING *
     `
 
-    db.query(query, [userId, steamAppId])
+    db.query(query, [userId, filterId])
       .then(result => {
         res.send("Success");
       })

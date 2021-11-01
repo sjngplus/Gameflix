@@ -36,6 +36,15 @@ export default function LoadFilters() {
         console.log(err);
       });
   }
+  const deleteFilter = filterId => {
+    axios.delete(`http://localhost:3001/users/${user.id}/filters/${filterId}`)
+      .then( res => {
+        handleClose();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 
   const parsedUserFilters = userFilters.map(userFilter => {
     return (
@@ -45,7 +54,7 @@ export default function LoadFilters() {
         onClick={() => setActiveFilter(userFilter.id)}
       >
         <td>{userFilter.name}</td>
-        <td><Button variant="danger"><AiOutlineDelete /></Button></td>
+        <td><Button variant="danger" onClick={() => deleteFilter(userFilter.id)}><AiOutlineDelete /></Button></td>
       </tr>
     )
   });
