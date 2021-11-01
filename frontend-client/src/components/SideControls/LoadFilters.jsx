@@ -70,7 +70,7 @@ export default function LoadFilters() {
         <FaUndoAlt/> Load
       </Button>
 
-      <Modal onEnter={getDbFilters} show={show} onHide={handleClose}>
+      <Modal onEnter={getDbFilters} show={show} onHide={handleClose} onExit={() => setActiveFilter(null)}>
       <Modal.Header closeButton>
           <Modal.Title>My Saved Filters</Modal.Title>
         </Modal.Header>
