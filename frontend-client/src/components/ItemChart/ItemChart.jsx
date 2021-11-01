@@ -49,10 +49,7 @@ export default function ItemChart() {
 
 
   //Logic + Render when button is clicked
-  useEffect(() => {
-    if (state.socket) {
-      state.socket.emit('filter-state', state.filters);
-    }
+  useEffect(() => {    
     const nameSearch = state.filters.name;
     const searchLimit = 999;
     const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
@@ -65,7 +62,7 @@ export default function ItemChart() {
       })
       .catch(err => console.log(err))        
     }
-  }, [state.buttonToggles])
+  }, [state.buttonToggles.search])
 
 
   // Render when socket gets new data
