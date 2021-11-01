@@ -3,7 +3,7 @@ import { Nav, Button, ButtonGroup } from "react-bootstrap";
 import { authContext } from "../../providers/AuthProvider";
 import { stateContext } from "../../providers/StateProvider";
 import { FaUserFriends } from "react-icons/fa";
-import ViewFavs from "./UserDataControls/ViewFavs";
+import ViewFavs from "./ViewFavs";
 
 
 export default function LoginInfo() {

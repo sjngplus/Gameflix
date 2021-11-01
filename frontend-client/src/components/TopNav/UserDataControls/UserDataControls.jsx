@@ -2,7 +2,7 @@ import { Nav, NavDropdown } from "react-bootstrap";
 import LoadFilters from "./LoadFilters";
 import SaveFilters from "./SaveFilters";
 import "./UserDataControls.scss";
-import ViewFavs from "./ViewFavs";
+import ViewFavs from "../ViewFavs";
 
 export default function UserDataControls() {
   return (
