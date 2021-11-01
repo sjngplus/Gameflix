@@ -26,7 +26,7 @@ export default function ItemChart() {
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
     const newSocket = io();    
-    setSocket(newSocket);
+    setSocket(newSocket);    
     console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
     // const url = `/api/search/deals`;
     const url = `/api/search/database`;
@@ -40,7 +40,7 @@ export default function ItemChart() {
 
 
   //Logic + Render when filters change
-  useEffect(() => {
+  useEffect(() => {    
     [chartMinX, chartMaxX] = state.filters.rating;    
     [chartMinY, chartMaxY] = state.filters.centPrices;
     const filteredArray = filterGamesListArray(state);
