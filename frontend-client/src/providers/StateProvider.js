@@ -35,7 +35,6 @@ const SET_GAMESLIST = "SET_GAMESLIST";
 const SET_NAME = "SET_NAME";
 const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
-const SET_HIGHLIGHT = "SET_HIGHLIGHT";
 
 export const stateContext = createContext();
 
@@ -69,7 +68,6 @@ export default function StateProvider(props) {
   const setNameFilter = name => dispatch({type: SET_NAME, value:name});
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
   const setSocket = io => dispatch({type: SET_SOCKET, value:io});
-  const setHighlight = () => dispatch({type: SET_HIGHLIGHT});
 
   function reducer(state, action) {
     switch (action.type) {
