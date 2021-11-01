@@ -6,21 +6,26 @@ import OSFilters from "./OSFilters";
 import TitleSearch from "./TitleSearch";
 import { useContext } from "react";
 import { stateContext } from "../../providers/StateProvider";
+import { BsListNested, BsXLg } from "react-icons/bs";
+import { FaSync, FaSave, FaUndoAlt } from "react-icons/fa";
 
 export default function SideControls() {
   const { state } = useContext(stateContext);
 
   return (
     <Nav className="flex-column bg-light side-controls">
-      <h5>Filters</h5>
+      <h5 className="py-3 px-3"><BsListNested/> Set Filters</h5>
       <NumericFilters />
       <GenreFilters />
       <OSFilters />
       <TitleSearch />
-      <ButtonGroup>
-        <Button className="btn btn-danger">Reset</Button>
-        <Button variant="secondary">Save</Button>
-        <Button variant="secondary">Sync</Button>
+      <ButtonGroup className="py-3 px-3">
+        <Button className="btn btn-danger"><BsXLg/> Reset</Button>
+        <Button variant="primary"><FaSync/> Sync</Button>
+      </ButtonGroup>
+      <ButtonGroup className="px-3">
+        <Button variant="success"><FaSave/> Save</Button>
+        <Button variant="warning" style={{color: "white", backgroundColor: "goldenrod", borderColor: "goldenrod"}}><FaUndoAlt/> Load</Button>
       </ButtonGroup>
     </Nav>
   );

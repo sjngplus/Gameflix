@@ -1,7 +1,7 @@
 import {Accordion, Form, Button, InputGroup } from 'react-bootstrap';
 import { useContext } from 'react';
 import { stateContext } from '../../providers/StateProvider';
-import { BsSearch } from "react-icons/bs";
+import { FaSearch } from "react-icons/fa";
 
 function TitleSearch() {
 
@@ -19,7 +19,7 @@ function TitleSearch() {
           value={state.filters.name}
           onChange={e => setNameFilter(e.target.value)}
           />          
-          <Button variant="secondary" id="button-addon2" onClick={e => setSearchToggle()}><BsSearch /></Button>         
+          <Button variant="secondary" id="button-addon2" onClick={e => setSearchToggle()}><FaSearch /></Button>         
         </InputGroup>
         </Accordion.Body>
       </Accordion.Item>
