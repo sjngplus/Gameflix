@@ -3,7 +3,7 @@ import { Navbar } from "react-bootstrap";
 import { authContext } from "../../providers/AuthProvider";
 import LoginForm from "./LoginForm";
 import LoginInfo from "./LoginInfo";
-import UserDataControls from "./UserDataControls";
+import UserDataControls from "./UserDataControls/UserDataControls";
 import "./TopNav.scss"
 
 export default function TopNav() {

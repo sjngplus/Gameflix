@@ -4,6 +4,34 @@ const db = require('../db');
 
 // Nested endpoints -> /users/:userid
 router
+  .get('/:user_id/favorites', function(req, res) {
+    const [userId] = req.params.user_id;
+    const favQuery = `
+      SELECT steam_app_id FROM favorites
+      WHERE user_id = $1
+    `
+    const gameQuery = `
+      SELECT game FROM STEAM
+    `
+
+    db.query(favQuery, [userId])
+      .then( result => result.rows.map(row => row.steam_app_id))
+      .then(favGameIds => {
+        db.query(gameQuery)
+          .then(result => {
+            const favGameObj = result.rows.filter(row => favGameIds.includes(row.game.steam_appid));
+            const favGameInfo = favGameObj.map(obj => {
+              return {"name": obj.game.name, "id": obj.game.steam_appid}
+            });
+            console.log(favGameInfo);
+            res.send(favGameInfo);
+          })
+      })
+      .catch(err => {
+        console.log("Favorites List DB Select Error::", err)
+        res.send("Favorites List DB Select Error");
+      })
+  })
   .get('/:user_id/favorites/:steam_id', function(req, res) {
     const [userId, steamAppId] = [req.params.user_id, req.params.steam_id];
     const query = `
@@ -16,8 +44,8 @@ router
         res.send(result.rows.length === 1);
       })
       .catch(err => {
-        console.log("Favorites DB Select Error::", err)
-        res.send("Favorites DB Select Error");
+        console.log("Favorite Item DB Select Error::", err)
+        res.send("Favorite Item DB Select Error");
       })
   })
   .post('/:user_id/favorites', function(req, res) {
