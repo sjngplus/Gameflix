@@ -4,6 +4,7 @@ import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 import { authContext } from "../../providers/AuthProvider";
 import { useState, useContext } from "react";
 import axios from "axios";
+import { FaSteam } from "react-icons/fa";
 
 export default function GameItem(props) {
   const {coords, game, handleHighlight} = props;
@@ -12,6 +13,10 @@ export default function GameItem(props) {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const parsedGenre = game.genres.map(genreObj => ` ${genreObj.description} |`);
+  const lastGenre = parsedGenre[parsedGenre.length - 1];
+  const parsedLastGenre = lastGenre.replace("|", "");
+  parsedGenre.pop();
+  parsedGenre.push(parsedLastGenre);
 
   const favoriteGame = gameId => {
     axios.post(`http://localhost:3001/users/${user.id}/favorites`, {"steamAppId": gameId})
@@ -67,7 +72,7 @@ export default function GameItem(props) {
           />          
         </Figure>
         <Container>
-          <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5> 
+          <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5>
           <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
           <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
           <p></p>
@@ -90,8 +95,9 @@ export default function GameItem(props) {
               >
                 ♡ Favorite
               </Button>
-            }
+            }            
           </ButtonGroup>
+          <FaSteam style={{marginLeft: "30px", fontSize: "25px"}}/>        
         </Container>
       </ReactTooltip>
     </> 
