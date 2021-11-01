@@ -38,6 +38,7 @@ const SET_SOCKET = "SET_SOCKET";
 const SET_FAVORITES = "SET_FAVORITES";
 const SET_HIGHLIGHTFAVORITES = "SET_HIGHLIGHTFAVORITES";
 const SET_ONSALEBTN = "SET_ONSALEBTN";
+const SET_FILTERS = "SET_FILTERS";
 
 export const stateContext = createContext();
 
@@ -74,6 +75,7 @@ export default function StateProvider(props) {
   const setSearchToggle = () => dispatch({type: SET_SEARCH});
   const setSocket = io => dispatch({type: SET_SOCKET, value:io});
   const setFavorites = favList => dispatch({type: SET_FAVORITES, value: favList});
+  const setFilters = filters => dispatch({type: SET_FILTERS, value: filters})
   const setHighlightFavToggle = () => dispatch({type: SET_HIGHLIGHTFAVORITES});
   const setOnSaleBtn = () => dispatch({type: SET_ONSALEBTN});
 
@@ -99,6 +101,8 @@ export default function StateProvider(props) {
         return {...state, socket: action.value}
       case SET_FAVORITES:
         return {...state, favorites: [...action.value]}
+      case SET_FILTERS:
+        return {...state, filters: action.value}
       case SET_HIGHLIGHTFAVORITES:
         return {...state, buttonToggles: {...state.buttonToggles, highlightFavorites: !state.buttonToggles.highlightFavorites}}
       case SET_ONSALEBTN:
@@ -121,7 +125,8 @@ export default function StateProvider(props) {
     setSocket,
     setFavorites,
     setHighlightFavToggle,
-    setOnSaleBtn
+    setOnSaleBtn,
+    setFilters
   };
 
   return (
