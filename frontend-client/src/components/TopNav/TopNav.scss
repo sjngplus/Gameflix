@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
 .top-bar {
   border-bottom: 1px solid black;
 
@@ -12,7 +14,7 @@
     width: 250px;
   }
     
-  span {   
+  span {
 
     .top-bar-user {
       span {
@@ -34,6 +36,12 @@
       }
     }
   }
+}
+
+.app-title {
+  padding-left: 10px;
+  font-weight: bold;
+  font-family: 'Bungee', cursive;
 }
 
 #user-name {
