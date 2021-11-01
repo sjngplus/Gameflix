@@ -10,7 +10,7 @@ export default function SaveFilters() {
   const { user } = useContext(authContext);
   const { state } = useContext(stateContext);
   const filterSettings = state.filters;
-  const [filterName, setFilterName] = useState('');
+  const [filterName, setFilterName] = useState("");
   
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
@@ -21,7 +21,8 @@ export default function SaveFilters() {
     axios.post(`http://localhost:3001/users/${user.id}/filters`, {"filterName": filterName, "filterSettings": filterSettings})
     .then(res => {
         if (res.data === "Success") {
-          return handleClose();
+          setFilterName("");
+          handleClose();
         }
         return (console.log(res.data));
       })
