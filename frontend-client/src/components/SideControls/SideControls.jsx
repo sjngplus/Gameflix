@@ -8,6 +8,8 @@ import { useContext } from "react";
 import { stateContext } from "../../providers/StateProvider";
 import { BsListNested, BsXLg } from "react-icons/bs";
 import { FaSync, FaSave, FaUndoAlt } from "react-icons/fa";
+import LoadFilters from "./LoadFilters";
+import SaveFilters from "./SaveFilters";
 
 
 export default function SideControls() {
@@ -61,8 +63,8 @@ export default function SideControls() {
         <Button variant="primary" onClick={handleSync}><FaSync/> Sync</Button>
       </ButtonGroup>
       <ButtonGroup className="px-3">
-        <Button variant="success"><FaSave/> Save</Button>
-        <Button variant="warning" style={{color: "white", backgroundColor: "goldenrod", borderColor: "goldenrod"}}><FaUndoAlt/> Load</Button>
+        <SaveFilters />
+        <LoadFilters />
       </ButtonGroup>
     </Nav>
   );
