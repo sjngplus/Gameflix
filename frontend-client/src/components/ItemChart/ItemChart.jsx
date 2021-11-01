@@ -93,9 +93,16 @@ export default function ItemChart() {
 
   //Render when On Sale Only switch is toggled
   useEffect(() => {
+    const defaultFilters = {
+      centPrices: [state.defaultValues.PRICEFLOOR, state.defaultValues.PRICECEILING],
+      rating: [state.defaultValues.RATINGFLOOR, state.defaultValues.RATINGCEILING],      
+    }    
     if (state.buttonToggles.onSaleBtn) {
       setPrices([100, 2000]);
       setRatings([70, 100]);
+    } else {
+      setPrices(defaultFilters.centPrices);
+      setRatings(defaultFilters.rating);
     }
   }, [state.buttonToggles.onSaleBtn])
 

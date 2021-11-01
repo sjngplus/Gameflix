@@ -47,7 +47,7 @@ export default function SideControls() {
     setRatings(defaultFilters.rating);
     setYears(defaultFilters.years);
     setNameFilter("");
-    setOnSaleBtn(false);
+    if (state.buttonToggles.onSaleBtn) setOnSaleBtn();
   };
 
   return (
