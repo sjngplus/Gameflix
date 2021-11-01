@@ -1,7 +1,8 @@
 import { useContext, useState } from "react";
-import { Modal, NavDropdown, Button, Table } from "react-bootstrap";
+import { Modal, Button, Table } from "react-bootstrap";
 import { authContext } from "../../../providers/AuthProvider";
 import axios from "axios";
+import { FaStar } from "react-icons/fa";
 
 export default function ViewFavs() {
   const { user } = useContext(authContext);
@@ -29,11 +30,11 @@ export default function ViewFavs() {
 
   return (
     <>
-      <NavDropdown.Item onClick={handleShow} disabled={!user}>View Favorites</NavDropdown.Item>
+      <Button variant="warning" style={{color: "white", fontWeight: "bold"}} onClick={handleShow} disabled={!user}><FaStar/> My Favorites</Button>
 
       <Modal onEnter={getDbFavs} show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>My Favorites</Modal.Title>
+          <Modal.Title>Favorites List</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Table striped hover>

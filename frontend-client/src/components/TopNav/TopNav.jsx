@@ -13,7 +13,6 @@ export default function TopNav() {
     <Navbar className="top-bar" bg="light" expand="sm">
       <Navbar.Brand>Gameflix</Navbar.Brand>
       <span>
-        <UserDataControls />
         {user ? <LoginInfo /> : <LoginForm />}
       </span>
     </Navbar>

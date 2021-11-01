@@ -13,9 +13,8 @@ export default function UserDataControls() {
         <NavDropdown.Divider />
         <NavDropdown.Item disabled>Sync Filters</NavDropdown.Item>
       </NavDropdown>
+      <ViewFavs />
       <NavDropdown title="Favorites">
-        <ViewFavs />
-        <NavDropdown.Divider />
         <NavDropdown.Item disabled>Highlight Favorites</NavDropdown.Item>
       </NavDropdown>
     </Nav>

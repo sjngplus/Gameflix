@@ -1,6 +1,9 @@
 .top-bar {
   border-bottom: 1px solid black;
 
+  display: flex;
+  justify-content: space-between;
+
   > * {
     padding: 0 1em;
   }
@@ -9,11 +12,7 @@
     width: 250px;
   }
     
-  span {
-    display: flex;
-    flex-direction: row;
-    width: calc(100% - 250px);
-    justify-content: space-between;
+  span {   
 
     .top-bar-user {
       span {
