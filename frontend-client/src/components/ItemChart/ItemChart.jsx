@@ -8,8 +8,11 @@ import Axis from "./Axis";
 import GameItem from "./GameItem";
 import { filterGamesListArray } from "../../helpers/filterHelpers";
 
+import filterBounds from "../../data/filterBounds";
 let [chartMinX, chartMaxX] = [];
 let [chartMinY, chartMaxY] = [];
+const chartColumns = 40;
+const chartRows = 20;
 
 export default function ItemChart() {
 
@@ -19,10 +22,6 @@ export default function ItemChart() {
   const [masterList, setMasterList] = useState([]);
 
   const {user} = useContext(authContext);  
-
-  const chartColumns = 40;
-  const chartRows = 20;
-
 
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
@@ -134,6 +133,15 @@ export default function ItemChart() {
     setFilteredGameList(outputArray);
   };  
 
+  const chartZoom = event => {
+    // console.log(event.deltaY > 0 ? "Down" : "Up")
+    // console.log("")
+    const [chartWidth, chartHeight] = [event.target.clientWidth, event.target.clientHeight];
+    // console.log("Chart width:", chartWidth, "Chart height:", chartHeight)
+    const [mouseX, mouseY] = [event.nativeEvent.layerX, event.nativeEvent.layerY];
+    // console.log(event.nativeEvent)
+    // console.log("X%:", (mouseX / chartWidth) * 100, "Y%:", 100 - (mouseY / chartHeight) * 100)
+  }
 
   const chartCoords = {};
   console.log("FilteredGameList Length:",filteredGamesList.length)
@@ -176,7 +184,7 @@ export default function ItemChart() {
   
         
   return (
-    <div className="item-chart">
+    <div className="item-chart" onWheel={chartZoom}>
       <Axis axisType="x-axis" name="Metacritic Rating" />
       <Axis axisType="y-axis" name="Price" />
       {parsedChartItems}
