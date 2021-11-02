@@ -77,7 +77,7 @@ export default function StateProvider(props) {
   const setFavorites = favList => dispatch({type: SET_FAVORITES, value: favList});
   const setFilters = filters => dispatch({type: SET_FILTERS, value: filters})
   const setHighlightFavToggle = () => dispatch({type: SET_HIGHLIGHTFAVORITES});
-  const setOnSaleBtn = () => dispatch({type: SET_ONSALEBTN});
+  const setOnSaleBtn = (unusedInput) => dispatch({type: SET_ONSALEBTN, value:unusedInput });
 
   function reducer(state, action) {
     switch (action.type) {

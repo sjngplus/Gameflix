@@ -1,6 +1,6 @@
-const filterGamesListArray = (state) => {
-  console.log("::Input Length", state.gamesList.length);
-  const normalizedGamesList = normalizeData(state.gamesList);
+const filterGamesListArray = (state, masterList) => {
+  console.log("::Input Length", masterList.length);
+  const normalizedGamesList = normalizeData(masterList);
   const filteredByPrice = filterByPrice(normalizedGamesList, state.filters.centPrices, state.defaultValues);
   const filteredByRating = filterByRating(filteredByPrice, state.filters.rating, state.defaultValues);
   const filteredByYear = filterByYear(filteredByRating, state.filters.years, state.defaultValues);
@@ -15,7 +15,7 @@ const normalizeData = (inputArray) => {
   const outputArray = [];
   inputArray.forEach(game => {
     if (!game.metacritic) game.metacritic = { score: 5 };
-    if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null};
+    if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null };
     if (!game.price_overview) game.price_overview = { final: 5999, final_formatted: "CDN$ 59.99"};
     outputArray.push(game);
   });

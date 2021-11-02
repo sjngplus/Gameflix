@@ -16,7 +16,7 @@ export default function GameItem(props) {
 
   // Favorite and unfavorite functions using backend
   const favoriteGame = gameId => {
-    axios.post(`http://localhost:3001/users/${user.id}/favorites`, {"steamAppId": gameId})
+    axios.post(`/users/${user.id}/favorites`, {"steamAppId": gameId})
       .then(res => {
         setIsFavorite(res.data === "Success");
       })
@@ -25,7 +25,7 @@ export default function GameItem(props) {
       })
   };
   const unfavoriteGame = gameId => {
-    axios.delete(`http://localhost:3001/users/${user.id}/favorites/${gameId}`)
+    axios.delete(`/users/${user.id}/favorites/${gameId}`)
       .then(res => {
         setIsFavorite(prev => res.data === "Success" ? !prev : prev);
       })
@@ -35,21 +35,21 @@ export default function GameItem(props) {
   }
 
   let highlightColor = "";
-  if (game.highlight.isHighlighted && game.highlight.user == 1 ) highlightColor = "red";
-  if (game.highlight.isHighlighted && game.highlight.user == 2 ) highlightColor = "blue";   
+  if (game.highlight.isHighlighted && game.highlight.user === "1" ) highlightColor = game.highlight.color;
+  if (game.highlight.isHighlighted && game.highlight.user === "2" ) highlightColor = game.highlight.color;   
 
   
   // Check if favorited on first render
   useEffect(() => {
-    if (user) {
-      axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
+    if (user) {      
+      axios.get(`/users/${user.id}/favorites/${game.steam_appid}`)
         .then( res => {
           setIsFavorite(res.data);
         })
         .catch(err => {
           console.log(err);
         })
-    }   
+    }
   }, [])
 
 

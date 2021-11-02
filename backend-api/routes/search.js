@@ -49,6 +49,7 @@ const pingSteamApi = (responseDataArray) => {
 //   return gameObject;
 // };
 
+let RESPONSEDATA;
 
 router.get('/deals', (req, res) => {  
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=100`;
@@ -65,8 +66,8 @@ router.get('/database', (req, res) => {
   const query = `SELECT game FROM steam`
   db.query(query).then(results => {
     const parsedResults = results.rows.map(result => result.game);
-    const filterOutNull = parsedResults.filter(el => el);
-    res.json(filterOutNull);
+    RESPONSEDATA = parsedResults.filter(el => el);
+    res.json(RESPONSEDATA);
   });
 });
 
@@ -81,7 +82,10 @@ router.get('/:params', (req, res) => {
     res.json(filterOutNull);
   })
   .catch(err => console.log(err)); 
+});
 
+router.get('/highlight', (req, res) => {  
+  console.log(RESPONSEDATA) 
 });
 
 

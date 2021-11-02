@@ -16,6 +16,7 @@ export default function ItemChart() {
   const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNumericFilters } = useContext(stateContext);
   const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
+  const [masterList, setMasterList] = useState([]);
 
   const {user} = useContext(authContext);  
 
@@ -34,6 +35,7 @@ export default function ItemChart() {
     .then(res => {
       // console.log("::Backend API Received Data Length:", res.data.length)
       setGamesList(res.data);
+      setMasterList(res.data);
     }).catch(err => console.log(err));
     return () => newSocket.close();
   }, []);
@@ -43,16 +45,16 @@ export default function ItemChart() {
   useEffect(() => {    
     [chartMinX, chartMaxX] = state.filters.rating;    
     [chartMinY, chartMaxY] = state.filters.centPrices;
-    const filteredArray = filterGamesListArray(state);
-    setFilteredGameList(filteredArray);  
-  }, [state.filters, state.gamesList])
+    const filteredArray = filterGamesListArray(state, masterList);
+    setFilteredGameList(filteredArray);
+  }, [state.filters, state.gamesList, masterList])
 
 
   //Logic + Render when title search button is clicked
   useEffect(() => {    
     const nameSearch = state.filters.name;
     const searchLimit = 999;
-    const url = `http://localhost:3001/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    const url = `/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     if (nameSearch) {
       console.log("#####PINGING BACKEND NAME ENDPOINT####");
       axios.get(url)
@@ -65,6 +67,13 @@ export default function ItemChart() {
   }, [state.buttonToggles.search])
 
 
+  //Render when highlight favorites button is clicked
+  useEffect(() => {
+    state.favorites.map(game => {
+      toggleHighlight(game.name)
+    })
+  }, [state.buttonToggles.highlightFavorites])
+
   // Render when socket gets new data
   useEffect(() => {  
     if(state.socket) {      
@@ -76,19 +85,11 @@ export default function ItemChart() {
         setYears(filterData.years);
       })
 
-      state.socket.on('highlight-game', (incomingGame) => {       
+      state.socket.on('highlight-game', (incomingGame) => {
         ReceivedToggleHighlight(incomingGame);
       });       
     }  
-  }, [state.socket, state.gamesList])
-
-
-  //Render when highlight favorites button is clicked
-  useEffect(() => {
-    state.favorites.map(game => {
-      toggleHighlight(game.name)
-    })
-  }, [state.buttonToggles.highlightFavorites])
+  }, [state.socket])
 
 
   //Render when On Sale Only switch is toggled
@@ -105,20 +106,19 @@ export default function ItemChart() {
       setRatings(defaultFilters.rating);
     }
   }, [state.buttonToggles.onSaleBtn])
-
-
-  const ReceivedToggleHighlight = (highlightedGame) => {
-    const outputArray = [];
-    state.gamesList.map(game => {
-      if (game.name === highlightedGame.name) {
-        game.highlight.isHighlighted = !game.highlight.isHighlighted;
-        game.highlight.user = highlightedGame.highlight.user;
-        game.highlight.color = highlightedGame.highlight.color;
-      }
-      outputArray.push(game);      
-    })   
-    setFilteredGameList(outputArray);
+ 
+ 
+  const ReceivedToggleHighlight = (incomingGameObj) => {
+    const outputArray = [];      
+    setMasterList(prev => {
+      prev.forEach(game => {
+        if (game.name === incomingGameObj.name) game = incomingGameObj
+        outputArray.push(game)
+      });
+      return outputArray;
+    });
   };
+  
   
   const toggleHighlight = (gameName) => {    
     const outputArray = [];
@@ -126,9 +126,9 @@ export default function ItemChart() {
       if (game.name === gameName) {
         game.highlight.isHighlighted = !game.highlight.isHighlighted;
         game.highlight.user = user.id;
-        game.highlight.color = user.id == 1  ? 'yellow' : 'red';
+        game.highlight.color = user.id === "1"  ? 'red' : 'blue';
         state.socket.emit('highlight-game', game);
-      }
+      } 
       outputArray.push(game);
     })
     setFilteredGameList(outputArray);
