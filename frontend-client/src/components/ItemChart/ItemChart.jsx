@@ -60,6 +60,7 @@ export default function ItemChart() {
       .then(res => {
         console.log("::Name Search Route Data Length:", res.data.length)
         setGamesList(res.data);
+        setMasterList(res.data);
       })
       .catch(err => console.log(err))        
     }
@@ -99,7 +100,7 @@ export default function ItemChart() {
     }    
     if (state.buttonToggles.onSaleBtn) {
       setPrices([100, 2000]);
-      setRatings([70, 100]);
+      setRatings([70, 90]);
     } else {
       setPrices(defaultFilters.centPrices);
       setRatings(defaultFilters.rating);
