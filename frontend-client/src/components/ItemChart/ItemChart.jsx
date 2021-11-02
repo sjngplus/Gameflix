@@ -8,8 +8,11 @@ import Axis from "./Axis";
 import GameItem from "./GameItem";
 import { filterGamesListArray } from "../../helpers/filterHelpers";
 
+import filterBounds from "../../data/filterBounds";
 let [chartMinX, chartMaxX] = [];
 let [chartMinY, chartMaxY] = [];
+const chartColumns = 40;
+const chartRows = 20;
 
 export default function ItemChart() {
 
@@ -19,10 +22,6 @@ export default function ItemChart() {
   const [masterList, setMasterList] = useState([]);
 
   const {user} = useContext(authContext);  
-
-  const chartColumns = 40;
-  const chartRows = 20;
-
 
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
@@ -134,6 +133,30 @@ export default function ItemChart() {
     setFilteredGameList(outputArray);
   };  
 
+  const chartZoom = event => {
+    // Find the position of the mouse scroll relative to the chart size
+    const [chartWidth, chartHeight] = [event.target.clientWidth, event.target.clientHeight];
+    const [mouseX, mouseY] = [event.nativeEvent.layerX, event.nativeEvent.layerY];
+    const [mouseXPercent, mouseYPercent] = [mouseX / chartWidth, 1 - (mouseY / chartHeight)]
+    // Every scroll of the mouse will adjust the filters by at most 10% of the min/max values
+    const stepRatio = 0.1;
+    const ratingStep = stepRatio * (filterBounds.rating.max - filterBounds.rating.min);
+    const priceStep = stepRatio * (filterBounds.centPrices.max - filterBounds.centPrices.min);
+    // Zoom in/out of the mouse location on the chart
+    const zoomDirMult = event.deltaY > 0 ? -1 : 1;  // Zoom out -> -1, zoom in -> 1
+    let xZoom = [ratingStep * zoomDirMult * mouseXPercent, ratingStep * (-1 * zoomDirMult) * (1 - mouseXPercent)];
+    let yZoom = [priceStep * zoomDirMult * mouseYPercent, priceStep * (-1 * zoomDirMult) * (1 - mouseYPercent)];
+    // Round multiplied values to human-convenient numbers
+    xZoom = xZoom.map(value => Math.round(value));
+    yZoom = yZoom.map(value => Math.round(value));
+    // Prevent zooming out from original min/max values
+    const newRatingMin = Math.max(state.filters.rating[0] + xZoom[0], filterBounds.rating.min);
+    const newRatingMax = Math.min(state.filters.rating[1] + xZoom[1], filterBounds.rating.max);
+    const newPriceMin = Math.max(state.filters.centPrices[0] + yZoom[0], filterBounds.centPrices.min);
+    const newPriceMax = Math.min(state.filters.centPrices[1] + yZoom[1], filterBounds.centPrices.max);
+    setRatings([newRatingMin, newRatingMax]);
+    setPrices([newPriceMin, newPriceMax]);
+  }
 
   const chartCoords = {};
   console.log("FilteredGameList Length:",filteredGamesList.length)
@@ -176,7 +199,7 @@ export default function ItemChart() {
   
         
   return (
-    <div className="item-chart">
+    <div className="item-chart" onWheel={chartZoom}>
       <Axis axisType="x-axis" name="Metacritic Rating" />
       <Axis axisType="y-axis" name="Price" />
       {parsedChartItems}

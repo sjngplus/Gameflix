@@ -44,7 +44,9 @@
 .cluster-item {
   height: var(--item-diameter);
   z-index: 0;
-  background-color: #fff9;
+  background-color: #0009;
+  color: white;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;

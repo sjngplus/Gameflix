@@ -63,54 +63,57 @@ export default function GameItem(props) {
         style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
       </a>
-      <ReactTooltip 
-      id={game.name} 
-      place="top" 
-      type="dark" 
-      effect="solid" 
-      delayHide={50} 
-      className="hover-info"
-      >
-        <Figure>
-          <Figure.Image
-            width="auto"
-            height={180}
-            src={game.header_image}
-            style={{maxWidth: 300}}
-          />          
-        </Figure>
-        <Container>
-          <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5>
-          <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4) || "N/A"}</p>
-          <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
-          <p></p>
-        </Container>
-        <Container>
-          <ButtonGroup className="my-2">
-            <Button variant="info" onClick={() => handleHighlight(game.name)}>Highlight</Button>
-            {isFavorite ?
-              <Button
-                variant="warning"
-                onClick={ event => {
-                  unfavoriteGame(game.steam_appid)
-                }}
-              >
-                ♥ Favorited
-              </Button>
-              :
-              <Button
-                variant="warning"
-                onClick={ event => {
-                  favoriteGame(game.steam_appid)
-                }}
-              >
-                ♡ Favorite
-              </Button>
-            }            
-          </ButtonGroup>
-          <FaSteam style={{marginLeft: "30px", fontSize: "25px"}}/>        
-        </Container>
-      </ReactTooltip>
+          
+      <div onWheel={event => event.stopPropagation()}>
+        <ReactTooltip 
+          id={game.name} 
+          place="top" 
+          type="dark" 
+          effect="solid" 
+          delayHide={50} 
+          className="hover-info"
+        >
+          <Figure>
+            <Figure.Image
+              width="auto"
+              height={180}
+              src={game.header_image}
+              style={{maxWidth: 300}}
+            />          
+          </Figure>
+          <Container>
+            <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5>
+            <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4) || "N/A"}</p>
+            <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
+            <p></p>
+          </Container>
+          <Container>
+            <ButtonGroup className="my-2">
+              <Button variant="info" onClick={() => handleHighlight(game.name)}>Highlight</Button>
+              {isFavorite ?
+                <Button
+                  variant="warning"
+                  onClick={ event => {
+                    unfavoriteGame(game.steam_appid)
+                  }}
+                >
+                  ♥ Favorited
+                </Button>
+                :
+                <Button
+                  variant="warning"
+                  onClick={ event => {
+                    favoriteGame(game.steam_appid)
+                  }}
+                >
+                  ♡ Favorite
+                </Button>
+              }            
+            </ButtonGroup>
+            <FaSteam style={{marginLeft: "30px", fontSize: "25px"}}/>        
+          </Container>
+        </ReactTooltip>
+      </div>
     </> 
   )
 }

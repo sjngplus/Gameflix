@@ -7,6 +7,7 @@ import "./NumericFilters.scss";
 
 import { stateContext } from "../../providers/StateProvider";
 import { priceFormat } from '../../helpers/helpers';
+import filterBounds from "../../data/filterBounds";
 
 export default function NumericFilters() {
   const { state, setNumericFilters, setOnSaleBtn } = useContext(stateContext);
@@ -34,8 +35,8 @@ export default function NumericFilters() {
               <Form.Text>{priceFormat(centPrices[1])}</Form.Text>
             </div>
             <Range
-              min={0}
-              max={10000}
+              min={filterBounds.centPrices.min}
+              max={filterBounds.centPrices.max}
               value={state.filters.centPrices}
               onChange = {setPrices}
             />
@@ -47,8 +48,8 @@ export default function NumericFilters() {
               <Form.Text>{rating[1]}</Form.Text>
             </div>
             <Range
-              min={0}
-              max={100}
+              min={filterBounds.rating.min}
+              max={filterBounds.rating.max}
               value={state.filters.rating}
               onChange = {setRatings}
             />
@@ -60,8 +61,8 @@ export default function NumericFilters() {
               <Form.Text>{years[1]}</Form.Text>
             </div>
             <Range
-              min={1980}
-              max={2021}
+              min={filterBounds.years.min}
+              max={filterBounds.years.max}
               value={state.filters.years}
               step={1}
               onChange = {setYears}

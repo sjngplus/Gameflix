@@ -1,0 +1,14 @@
+{
+  "centPrices": {
+    "min": 0,
+    "max": 10000
+  },
+  "rating": {
+    "min": 0,
+    "max": 100
+  },
+  "years": {
+    "min": 1980,
+    "max": 2021
+  }
+}
