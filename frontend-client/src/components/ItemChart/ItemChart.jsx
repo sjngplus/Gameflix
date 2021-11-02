@@ -115,8 +115,8 @@ export default function ItemChart() {
         game.highlight.user = highlightedGame.highlight.user;
         game.highlight.color = highlightedGame.highlight.color;
       }
-      outputArray.push(game);
-    })
+      outputArray.push(game);      
+    })   
     setFilteredGameList(outputArray);
   };
   
@@ -136,6 +136,7 @@ export default function ItemChart() {
 
 
   const chartCoords = {};
+  console.log("FilteredGameList Length:",filteredGamesList.length)
   filteredGamesList.map( game => {
     const xCoordPercent = (Math.floor((game.metacritic?.score - chartMinX) / (chartMaxX - chartMinX) * chartColumns) / chartColumns) * 100;
     const yCoordPercent = (Math.floor((game.price_overview.final  - chartMinY) / (chartMaxY - chartMinY) * chartRows) / chartRows) * 100;

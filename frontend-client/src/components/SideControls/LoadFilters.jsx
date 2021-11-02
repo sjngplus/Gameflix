@@ -75,7 +75,7 @@ export default function LoadFilters() {
           <Modal.Title>My Saved Filters</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Table striped hover>
+          <Table hover>
             <col className="filter-name" />
             <col className="filter-delete" />
             <thead>
