@@ -136,10 +136,8 @@ export default function ItemChart() {
   const chartZoom = event => {
     // Find the position of the mouse scroll relative to the chart size
     const [chartWidth, chartHeight] = [event.target.clientWidth, event.target.clientHeight];
-    // console.log("Chart width:", chartWidth, "Chart height:", chartHeight)
     const [mouseX, mouseY] = [event.nativeEvent.layerX, event.nativeEvent.layerY];
     const [mouseXPercent, mouseYPercent] = [mouseX / chartWidth, 1 - (mouseY / chartHeight)]
-    // console.log(event.nativeEvent)
     // Every scroll of the mouse will adjust the filters by at most 10% of the min/max values
     const stepRatio = 0.1;
     const ratingStep = stepRatio * (filterBounds.rating.max - filterBounds.rating.min);
@@ -149,14 +147,15 @@ export default function ItemChart() {
     let xZoom = [ratingStep * zoomDirMult * mouseXPercent, ratingStep * (-1 * zoomDirMult) * (1 - mouseXPercent)];
     let yZoom = [priceStep * zoomDirMult * mouseYPercent, priceStep * (-1 * zoomDirMult) * (1 - mouseYPercent)];
     // Round multiplied values to human-convenient numbers
-    xZoom = xZoom.map(value => Math.round(value))
-    yZoom = yZoom.map(value => Math.round(value))
-    // console.log("Rating change:", xZoom);
-    // console.log("Price change:", yZoom);
-    // console.log("Rating state:", state.filters.rating);
-    // console.log("Price state:", state.filters.centPrices);
-    setRatings([state.filters.rating[0] + xZoom[0], state.filters.rating[1] + xZoom[1]])
-    setPrices([state.filters.centPrices[0] + yZoom[0], state.filters.centPrices[1] + yZoom[1]])
+    xZoom = xZoom.map(value => Math.round(value));
+    yZoom = yZoom.map(value => Math.round(value));
+    // Prevent zooming out from original min/max values
+    const newRatingMin = Math.max(state.filters.rating[0] + xZoom[0], filterBounds.rating.min);
+    const newRatingMax = Math.min(state.filters.rating[1] + xZoom[1], filterBounds.rating.max);
+    const newPriceMin = Math.max(state.filters.centPrices[0] + yZoom[0], filterBounds.centPrices.min);
+    const newPriceMax = Math.min(state.filters.centPrices[1] + yZoom[1], filterBounds.centPrices.max);
+    setRatings([newRatingMin, newRatingMax]);
+    setPrices([newPriceMin, newPriceMax]);
   }
 
   const chartCoords = {};
