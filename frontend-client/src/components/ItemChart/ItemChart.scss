@@ -22,4 +22,13 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  transition: all 0.25s ease-in-out;
+}
+
+.cluster-item {
+  z-index: -1;
+  background-color: #fff9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
