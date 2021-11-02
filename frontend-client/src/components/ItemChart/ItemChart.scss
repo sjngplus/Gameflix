@@ -4,6 +4,11 @@
   --item-diameter: 50px;
 }
 
+// Animations
+@keyframes growOnEnter {
+  from { width: calc(var(--item-diameter) / 2); }
+  to { width: var(--item-diameter); }
+}
 
 .item-chart {
   width: calc(100% - 300px - var(--chart-spacing));
@@ -15,11 +20,32 @@
 .item {
   display: block;
   position: absolute;
-  height: var(--item-diameter);
-  width: var(--item-diameter);
+  aspect-ratio: 1;
   border: 1px solid black;
   border-radius: 50%;
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  transition: left 0.25s ease-in-out, bottom 0.25s ease-in-out;
+
+  z-index: 1;
+  
+  &:hover {
+    z-index: 2;
+  }
+  
+}
+
+.game-item {
+  animation: growOnEnter 0.1s;
+  animation-fill-mode: forwards;
+}
+
+.cluster-item {
+  height: var(--item-diameter);
+  z-index: 0;
+  background-color: #fff9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -58,7 +58,7 @@ export default function GameItem(props) {
       <a 
         data-for={game.name}
         data-tip
-        className={game.highlight.isHighlighted ? "item highlighted" : "item"}
+        className={game.highlight.isHighlighted ? "item game-item highlighted" : "item game-item"}
         href={`https://store.steampowered.com/app/${game.steam_appid}`}
         style={{borderColor: `${highlightColor}`,  "backgroundImage": `url(${game.header_image})`, "left": `${xCoord}%`, "bottom": `${yCoord}%`}}
       >  
