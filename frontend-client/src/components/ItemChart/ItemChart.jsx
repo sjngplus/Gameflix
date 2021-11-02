@@ -19,8 +19,8 @@ export default function ItemChart() {
 
   const {user} = useContext(authContext);  
 
-  const chartColumns = 100;
-  const chartRows = 100;
+  const chartColumns = 40;
+  const chartRows = 20;
 
 
   //Grab data from backend + create new socket during initial Render
@@ -116,7 +116,7 @@ export default function ItemChart() {
         game.highlight.color = highlightedGame.highlight.color;
       }
       outputArray.push(game);      
-    })   
+    })
     setFilteredGameList(outputArray);
   };
   
