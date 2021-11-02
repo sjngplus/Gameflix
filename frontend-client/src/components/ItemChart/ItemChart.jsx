@@ -19,8 +19,8 @@ export default function ItemChart() {
 
   const {user} = useContext(authContext);  
 
-  const chartColumns = 100;
-  const chartRows = 100;
+  const chartColumns = 40;
+  const chartRows = 20;
 
 
   //Grab data from backend + create new socket during initial Render
@@ -116,7 +116,7 @@ export default function ItemChart() {
         game.highlight.color = highlightedGame.highlight.color;
       }
       outputArray.push(game);      
-    })   
+    })
     setFilteredGameList(outputArray);
   };
   
@@ -149,10 +149,8 @@ export default function ItemChart() {
   })
   
   const parsedChartItems = Object.entries(chartCoords).map( ([coords, games]) => {
+    // Item for single game
     if (games.length === 1) {
-      //   // <Item {...{coords, games}} />
-      //   return (<ClusterItem>{`+${games.length}`}</>);
-      // } else {
       const game = games[0];
       return (
         <GameItem 
@@ -160,6 +158,18 @@ export default function ItemChart() {
         {...{coords, game}}
         handleHighlight={toggleHighlight}
         />
+      )
+    // Cluster item
+    } else {
+      const [xCoord, yCoord] = coords.split(",");
+      return (
+        <div
+          key={coords}
+          className="item cluster-item"
+          style={{"left": `${xCoord}%`, "bottom": `${yCoord}%`}}
+        >
+          +{games.length}
+        </div>
       )
     }
   })
