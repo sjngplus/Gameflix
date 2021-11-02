@@ -12,6 +12,7 @@ export default function ViewFavs() {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
   const getDbFavs = () => {
     axios.get(`http://localhost:3001/users/${user.id}/favorites`)
       .then( res => {

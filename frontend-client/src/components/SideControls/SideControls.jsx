@@ -13,7 +13,7 @@ import SaveFilters from "./SaveFilters";
 
 
 export default function SideControls() {
-  const { state, setOSFilter, setGenreFilter, setNumericFilters, setNameFilter } = useContext(stateContext);
+  const { state, setOSFilter, setGenreFilter, setNumericFilters, setNameFilter, setOnSaleBtn } = useContext(stateContext);
   const { setPrices, setRatings, setYears } = setNumericFilters;
 
   const defaultFilters = {
@@ -49,6 +49,7 @@ export default function SideControls() {
     setRatings(defaultFilters.rating);
     setYears(defaultFilters.years);
     setNameFilter("");
+    if (state.buttonToggles.onSaleBtn) setOnSaleBtn();
   };
 
   return (

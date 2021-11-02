@@ -51,12 +51,9 @@ export default function SaveFilters() {
               <Form.Control
                 type="text"
                 value={filterName}
-                placeholder=""
+                placeholder=" "
                 onChange={event => setFilterName(event.target.value)}
-              />
-            <Form.Text id="nameHelpBlock" muted>
-              Save your filters to use later!
-            </Form.Text>
+              />            
             </FloatingLabel>
 
           </Form>

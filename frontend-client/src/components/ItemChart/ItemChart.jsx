@@ -91,6 +91,22 @@ export default function ItemChart() {
   }, [state.buttonToggles.highlightFavorites])
 
 
+  //Render when On Sale Only switch is toggled
+  useEffect(() => {
+    const defaultFilters = {
+      centPrices: [state.defaultValues.PRICEFLOOR, state.defaultValues.PRICECEILING],
+      rating: [state.defaultValues.RATINGFLOOR, state.defaultValues.RATINGCEILING],      
+    }    
+    if (state.buttonToggles.onSaleBtn) {
+      setPrices([100, 2000]);
+      setRatings([70, 100]);
+    } else {
+      setPrices(defaultFilters.centPrices);
+      setRatings(defaultFilters.rating);
+    }
+  }, [state.buttonToggles.onSaleBtn])
+
+
   const ReceivedToggleHighlight = (highlightedGame) => {
     const outputArray = [];
     state.gamesList.map(game => {
@@ -99,8 +115,8 @@ export default function ItemChart() {
         game.highlight.user = highlightedGame.highlight.user;
         game.highlight.color = highlightedGame.highlight.color;
       }
-      outputArray.push(game);
-    })
+      outputArray.push(game);      
+    })   
     setFilteredGameList(outputArray);
   };
   
@@ -120,6 +136,7 @@ export default function ItemChart() {
 
 
   const chartCoords = {};
+  console.log("FilteredGameList Length:",filteredGamesList.length)
   filteredGamesList.map( game => {
     const xCoordPercent = (Math.floor((game.metacritic?.score - chartMinX) / (chartMaxX - chartMinX) * chartColumns) / chartColumns) * 100;
     const yCoordPercent = (Math.floor((game.price_overview.final  - chartMinY) / (chartMaxY - chartMinY) * chartRows) / chartRows) * 100;

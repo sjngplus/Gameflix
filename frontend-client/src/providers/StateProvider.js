@@ -37,6 +37,7 @@ const SET_SEARCH = "SET_SEARCH";
 const SET_SOCKET = "SET_SOCKET";
 const SET_FAVORITES = "SET_FAVORITES";
 const SET_HIGHLIGHTFAVORITES = "SET_HIGHLIGHTFAVORITES";
+const SET_ONSALEBTN = "SET_ONSALEBTN";
 const SET_FILTERS = "SET_FILTERS";
 
 export const stateContext = createContext();
@@ -48,7 +49,8 @@ export default function StateProvider(props) {
       filters: {...defaultFilters},
       buttonToggles: {
         search: false,
-        highlightFavorites: false
+        highlightFavorites: false,
+        onSaleBtn: false
       },     
       socket: null,
       defaultValues: {
@@ -75,6 +77,7 @@ export default function StateProvider(props) {
   const setFavorites = favList => dispatch({type: SET_FAVORITES, value: favList});
   const setFilters = filters => dispatch({type: SET_FILTERS, value: filters})
   const setHighlightFavToggle = () => dispatch({type: SET_HIGHLIGHTFAVORITES});
+  const setOnSaleBtn = () => dispatch({type: SET_ONSALEBTN});
 
   function reducer(state, action) {
     switch (action.type) {
@@ -102,6 +105,8 @@ export default function StateProvider(props) {
         return {...state, filters: action.value}
       case SET_HIGHLIGHTFAVORITES:
         return {...state, buttonToggles: {...state.buttonToggles, highlightFavorites: !state.buttonToggles.highlightFavorites}}
+      case SET_ONSALEBTN:
+        return {...state, buttonToggles: {...state.buttonToggles, onSaleBtn: !state.buttonToggles.onSaleBtn}}
       default:
         throw new Error(
           `Tried to reduce with unsupported action type: ${action.type}`
@@ -119,8 +124,9 @@ export default function StateProvider(props) {
     setSearchToggle,
     setSocket,
     setFavorites,
-    setFilters,
-    setHighlightFavToggle
+    setHighlightFavToggle,
+    setOnSaleBtn,
+    setFilters
   };
 
   return (

@@ -2,7 +2,7 @@ import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 import { authContext } from "../../providers/AuthProvider";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { FaSteam } from "react-icons/fa";
 
@@ -40,15 +40,17 @@ export default function GameItem(props) {
 
   
   // Check if favorited on first render
-  if (user) {
-    axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
-      .then( res => {
-        setIsFavorite(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
+  useEffect(() => {
+    if (user) {
+      axios.get(`http://localhost:3001/users/${user.id}/favorites/${game.steam_appid}`)
+        .then( res => {
+          setIsFavorite(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }   
+  }, [])
 
 
   return (
@@ -79,7 +81,7 @@ export default function GameItem(props) {
         </Figure>
         <Container>
           <h5 style={{wordWrap: "break-word", maxWidth: 280}}>{game.name}</h5>
-          <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4)}</p>
+          <p>{game.price_overview.final_formatted} | Released Year : {game.release_date.date.slice(-4) || "N/A"}</p>
           <p style={{wordWrap: "break-word", maxWidth: 280}}>{parsedGenre}</p>
           <p></p>
         </Container>
