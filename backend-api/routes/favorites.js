@@ -19,7 +19,7 @@ router
       .then(favGameIds => {
         db.query(gameQuery)
           .then(result => {
-            const favGameObj = result.rows.filter(row => favGameIds.includes(row.game.steam_appid));
+            const favGameObj = result.rows.filter(row => favGameIds.includes(row.game?.steam_appid));
             const favGameInfo = favGameObj.map(obj => {
               return {"name": obj.game.name, "id": obj.game.steam_appid}
             });

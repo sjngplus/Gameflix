@@ -16,7 +16,7 @@ const chartRows = 20;
 
 export default function ItemChart() {
 
-  const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNumericFilters } = useContext(stateContext);
+  const { state, setGamesList, setSocket, setOSFilter, setGenreFilter, setNameFilter, setNumericFilters } = useContext(stateContext);
   const { setPrices, setRatings, setYears } = setNumericFilters;
   const [ filteredGamesList, setFilteredGameList ] = useState([]);
   const [masterList, setMasterList] = useState([]);
@@ -83,6 +83,7 @@ export default function ItemChart() {
         setPrices(filterData.centPrices);
         setRatings(filterData.rating);
         setYears(filterData.years);
+        setNameFilter(filterData.name);
       })
 
       state.socket.on('highlight-game', (incomingGame) => {

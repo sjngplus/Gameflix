@@ -43,13 +43,16 @@ const pingSteamApi = (responseDataArray) => {
   }))
 };
 
-// const insertRandomMetacriticScore = (gameObject) => {
-//   const randomNumber = Math.floor(Math.random() * 25);
-//   if (!gameObject.metacritic) gameObject.metacritic = { score: 5 };
-//   return gameObject;
+// const insertRandomMetacriticScore = (inputArray) => {
+//   const outputArray = [];
+//   inputArray.forEach(game => {
+//     const randomNumber = Math.floor(Math.random() * 40);
+//     if (!game.metacritic) game.metacritic = { score: randomNumber };
+//     outputArray.push(game);
+//     // console.log(game.metacritic.score);
+//   })
+//   return outputArray;
 // };
-
-let RESPONSEDATA;
 
 router.get('/deals', (req, res) => {  
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=100`;
@@ -66,8 +69,8 @@ router.get('/database', (req, res) => {
   const query = `SELECT game FROM steam`
   db.query(query).then(results => {
     const parsedResults = results.rows.map(result => result.game);
-    RESPONSEDATA = parsedResults.filter(el => el);
-    res.json(RESPONSEDATA);
+    filterOutNull = parsedResults.filter(el => el);
+    res.json(filterOutNull);
   });
 });
 
