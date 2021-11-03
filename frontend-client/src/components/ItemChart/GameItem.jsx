@@ -39,9 +39,10 @@ export default function GameItem(props) {
   if (game.highlight.isHighlighted && game.highlight.user === "2" ) highlightColor = game.highlight.color;   
 
   
-  // Check if favorited on first render
-  useEffect(() => {
-    if (user) {      
+  // Check if favorited on hover
+  const checkFavorite = () => {
+    if (user) {
+      console.log("User checking fav")
       axios.get(`/users/${user.id}/favorites/${game.steam_appid}`)
         .then( res => {
           setIsFavorite(res.data);
@@ -50,7 +51,7 @@ export default function GameItem(props) {
           console.log(err);
         })
     }
-  }, [])
+  }
 
 
   return (
@@ -72,6 +73,7 @@ export default function GameItem(props) {
           effect="solid" 
           delayHide={50} 
           className="hover-info"
+          afterShow={event => checkFavorite()}
         >
           <Figure>
             <Figure.Image
