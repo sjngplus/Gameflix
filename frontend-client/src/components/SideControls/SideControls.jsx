@@ -7,7 +7,7 @@ import TitleSearch from "./TitleSearch";
 import { useContext } from "react";
 import { stateContext } from "../../providers/StateProvider";
 import { BsListNested, BsXLg } from "react-icons/bs";
-import { FaSync, FaSave, FaUndoAlt } from "react-icons/fa";
+import { FaSync } from "react-icons/fa";
 import LoadFilters from "./LoadFilters";
 import SaveFilters from "./SaveFilters";
 

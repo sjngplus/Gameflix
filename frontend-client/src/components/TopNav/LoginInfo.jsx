@@ -12,8 +12,8 @@ export default function LoginInfo() {
   const [userNumber, setUserNumber] = useState(0);  
 
   let fontColor = "";
-  if (user.id == 1 ) fontColor = "red";
-  if (user.id == 2 ) fontColor = "blue";
+  if (user.id === 1 ) fontColor = "red";
+  if (user.id === 2 ) fontColor = "blue";
 
   if (state.socket) {
     state.socket.on('number-of-clients', (number) => {
