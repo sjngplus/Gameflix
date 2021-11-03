@@ -3,8 +3,20 @@ const router = express.Router();
 const axios = require('axios');
 const db = require('../db');
 
-const insertSteamGamesIntoDb = (steamAppId, gameObj) => {
-  const gameStringified = JSON.stringify(gameObj);
+const insertRandomMetacriticScore = (inputGame) => {
+  if (inputGame.metacritic) return inputGame;
+  console.log("vv No Score, Random score inserted vv")
+  const randomNumber = Math.floor(Math.random() * 40);
+  const outputGame = {...inputGame, metacritic: { score:  randomNumber } }
+  return outputGame;
+};
+
+const insertSteamGamesIntoDb = (steamAppId, gameObject) => {
+  if (!gameObject) return;
+  const randomScoreInsertedinsertGame = insertRandomMetacriticScore(gameObject);
+  console.log(randomScoreInsertedinsertGame.metacritic.score);
+
+  const gameStringified = JSON.stringify(randomScoreInsertedinsertGame);
   const query = `
   INSERT INTO steam (id, game) 
   VALUES($1, $2)
@@ -43,16 +55,6 @@ const pingSteamApi = (responseDataArray) => {
   }))
 };
 
-// const insertRandomMetacriticScore = (inputArray) => {
-//   const outputArray = [];
-//   inputArray.forEach(game => {
-//     const randomNumber = Math.floor(Math.random() * 40);
-//     if (!game.metacritic) game.metacritic = { score: randomNumber };
-//     outputArray.push(game);
-//     // console.log(game.metacritic.score);
-//   })
-//   return outputArray;
-// };
 
 router.get('/deals', (req, res) => {  
   const url = `https://www.cheapshark.com/api/1.0/deals?storeID=1&pageSize=100`;
