@@ -157,10 +157,10 @@ export default function ItemChart() {
     const newPriceMin = Math.max(state.filters.centPrices[0] + yZoom[0], filterBounds.centPrices.min);
     const newPriceMax = Math.min(state.filters.centPrices[1] + yZoom[1], filterBounds.centPrices.max);
     // Prevent excessive zoom-in along each axis
-    if (newRatingMax > newRatingMin) {
+    if (newRatingMax > newRatingMin || zoomDirMult < 0) {
       setRatings([newRatingMin, newRatingMax]);
     }
-    if (newPriceMax > newPriceMin) {
+    if (newPriceMax > newPriceMin || zoomDirMult < 0) {
       setPrices([newPriceMin, newPriceMax]);
     }
   }
