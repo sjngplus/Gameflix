@@ -140,10 +140,10 @@ export default function ItemChart() {
     const [chartWidth, chartHeight] = [event.target.clientWidth, event.target.clientHeight];
     const [mouseX, mouseY] = [event.nativeEvent.layerX, event.nativeEvent.layerY];
     const [mouseXPercent, mouseYPercent] = [mouseX / chartWidth, 1 - (mouseY / chartHeight)]
-    // Every scroll of the mouse will adjust the filters by at most 10% of the min/max values
+    // Every scroll of the mouse will adjust the filters by at most 10% of the current min/max values
     const stepRatio = 0.1;
-    const ratingStep = stepRatio * (filterBounds.rating.max - filterBounds.rating.min);
-    const priceStep = stepRatio * (filterBounds.centPrices.max - filterBounds.centPrices.min);
+    const ratingStep = stepRatio * (state.filters.rating[1] - state.filters.rating[0]);
+    const priceStep = stepRatio * (state.filters.centPrices[1] - state.filters.centPrices[0]);
     // Zoom in/out of the mouse location on the chart
     const zoomDirMult = event.deltaY > 0 ? -1 : 1;  // Zoom out -> -1, zoom in -> 1
     let xZoom = [ratingStep * zoomDirMult * mouseXPercent, ratingStep * (-1 * zoomDirMult) * (1 - mouseXPercent)];
@@ -156,8 +156,13 @@ export default function ItemChart() {
     const newRatingMax = Math.min(state.filters.rating[1] + xZoom[1], filterBounds.rating.max);
     const newPriceMin = Math.max(state.filters.centPrices[0] + yZoom[0], filterBounds.centPrices.min);
     const newPriceMax = Math.min(state.filters.centPrices[1] + yZoom[1], filterBounds.centPrices.max);
-    setRatings([newRatingMin, newRatingMax]);
-    setPrices([newPriceMin, newPriceMax]);
+    // Prevent excessive zoom-in along each axis
+    if (newRatingMax > newRatingMin) {
+      setRatings([newRatingMin, newRatingMax]);
+    }
+    if (newPriceMax > newPriceMin) {
+      setPrices([newPriceMin, newPriceMax]);
+    }
   }
 
   const chartCoords = {};
