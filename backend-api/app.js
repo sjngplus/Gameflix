@@ -52,8 +52,6 @@ io.on('connection', (socket) => {
   socket.on('highlight-game', (highlightData) => {
     socket.broadcast.emit('highlight-game', highlightData);
   });
-
-  setInterval(() => io.emit('time', new Date().toTimeString()), 1000);
     
   socket.on('disconnect', () => {
     const connectedClients = io.engine.clientsCount
