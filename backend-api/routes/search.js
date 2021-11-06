@@ -19,7 +19,7 @@ const insertSteamGamesIntoDb = (steamAppId, gameObject) => {
   INSERT INTO steam (id, game) 
   VALUES($1, $2)
   ON CONFLICT (id)
-  DO NOTHING
+  DO UPDATE SET game = $2 WHERE steam.id = $1
   RETURNING *`
   db.query(query, [steamAppId, gameStringified])
     .then(result => {
