@@ -27,8 +27,7 @@ export default function ItemChart() {
   useEffect(() => {
     const newSocket = io();    
     setSocket(newSocket);    
-    console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    // const url = `/api/search/deals`;
+    console.log("#####PINGING BACKEND DB ENDPOINT#####");   
     const url = `/api/search/database`;
     axios.get(url)
     .then(res => {
@@ -52,6 +51,16 @@ export default function ItemChart() {
   //Logic + Render when title search button is clicked
   useEffect(() => {    
     const nameSearch = state.filters.name;
+    if (nameSearch === "deals") {
+      console.log("#####PINGING BACKEND DEALS ENDPOINT#####");
+       const url = `/api/search/deals`;
+       axios.get(url)
+       .then(res => {
+         setGamesList(res.data);
+         setMasterList(res.data);
+       }).catch(err => console.log(err));
+    }
+
     const searchLimit = 999;
     const url = `/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     if (nameSearch) {
