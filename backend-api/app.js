@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(__dirname+"/frontend-client/build"))
 app.use(cors({
-  origins: ['https://gameflix-backend-server.herokuapp.com/']
+  origins: ['http://localhost:3000/', 'https://gameflix-frontend-react.herokuapp.com/']
 }));
 
 app.use('/', indexRouter);
