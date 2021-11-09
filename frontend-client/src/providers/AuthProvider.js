@@ -13,7 +13,7 @@ export default function AuthProvider(props) {
   const [user, setUser] = useState(retrieveSessionStorage() || null);
 
   const login = function(email, password) {
-    axios.post("/login", {...{email, password}})
+    axios.post("https://gameflix-backend-server.herokuapp.com/login", {...{email, password}})
       .then( res => {
         Object.entries(res.data).forEach(userInfo => {
           sessionStorage.setItem(...userInfo);

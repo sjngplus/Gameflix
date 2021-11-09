@@ -2,7 +2,7 @@ import "./GameItem.scss";
 import ReactTooltip from 'react-tooltip';
 import { Button, ButtonGroup, Container, Figure } from 'react-bootstrap';
 import { authContext } from "../../providers/AuthProvider";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
 import { FaSteam } from "react-icons/fa";
 
@@ -16,7 +16,7 @@ export default function GameItem(props) {
 
   // Favorite and unfavorite functions using backend
   const favoriteGame = gameId => {
-    axios.post(`/users/${user.id}/favorites`, {"steamAppId": gameId})
+    axios.post(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/favorites`, {"steamAppId": gameId})
       .then(res => {
         setIsFavorite(res.data === "Success");
       })
@@ -25,7 +25,7 @@ export default function GameItem(props) {
       })
   };
   const unfavoriteGame = gameId => {
-    axios.delete(`/users/${user.id}/favorites/${gameId}`)
+    axios.delete(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/favorites/${gameId}`)
       .then(res => {
         setIsFavorite(prev => res.data === "Success" ? !prev : prev);
       })
@@ -43,7 +43,7 @@ export default function GameItem(props) {
   const checkFavorite = () => {
     if (user) {
       console.log("User checking fav")
-      axios.get(`/users/${user.id}/favorites/${game.steam_appid}`)
+      axios.get(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/favorites/${game.steam_appid}`)
         .then( res => {
           setIsFavorite(res.data);
         })

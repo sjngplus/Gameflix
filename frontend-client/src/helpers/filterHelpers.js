@@ -13,12 +13,20 @@ const filterGamesListArray = (state, masterList) => {
 
 const normalizeData = (inputArray) => {
   const outputArray = [];
-  inputArray.forEach(game => {
+  for (let game of inputArray) {
     if (!game.metacritic) game.metacritic = { score: 5 };
     if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null };
     if (!game.price_overview) game.price_overview = { final: 5999, final_formatted: "CDN$ 59.99"};
     outputArray.push(game);
-  });
+  }
+  
+  // inputArray.forEach(game => {
+  //   if (!game.metacritic) game.metacritic = { score: 5 };
+  //   if (!game.highlight) game.highlight = { user: null, isHighlighted: false, color: null };
+  //   if (!game.price_overview) game.price_overview = { final: 5999, final_formatted: "CDN$ 59.99"};
+  //   outputArray.push(game);
+  // });
+
   return outputArray
 }
 
@@ -92,6 +100,4 @@ const filterByName = (inputArray, nameFilter) => {
   return outputArray;
 };
 
-module.exports = {
-  filterGamesListArray
-}
+export default filterGamesListArray;

@@ -1,5 +1,6 @@
 {
   "name": "frontend-client",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
   "proxy": "https://gameflix-backend-server.herokuapp.com/",
