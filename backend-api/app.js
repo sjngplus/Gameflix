@@ -32,6 +32,8 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/api/search', searchRouter);
 
+app.use(express.static(path.join(__dirname, 'build')));
+
 server.listen(port);
 server.on('listening', onListening);
 
