@@ -40,7 +40,6 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 
 //Socket.io logic
-io.set('origins', '*:*');
 io.on('connection', (socket) => {
   const connectedClients = io.engine.clientsCount
   io.emit("number-of-clients", connectedClients);
