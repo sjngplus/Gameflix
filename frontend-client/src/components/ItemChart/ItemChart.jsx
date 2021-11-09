@@ -25,13 +25,7 @@ export default function ItemChart() {
 
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
-    const newSocket = io("https://gameflix-backend-server.herokuapp.com", {  
-      withCredentials: true,  
-      extraHeaders: {
-        "my-custom-header": "abcd"  
-      }
-    });
-
+    const newSocket = io("https://gameflix-backend-server.herokuapp.com/");
     console.log("Socket:", newSocket);
     setSocket(newSocket);    
     console.log("#####PINGING BACKEND DB ENDPOINT#####");   
