@@ -4,7 +4,7 @@ An app where users can sort, filter, and colloborate in choosing a PC game to pl
 
 
 App preview:
-![gif preview of app](https://github.com/sjngplus/Gameflix/blob/12_app-hosting/deployment/frontend-client/docs/gameflix%20preview.gif?raw=true)
+![gif preview of app](https://github.com/sjngplus/Gameflix/blob/main/frontend-client/docs/gameflix%20preview.gif?raw=true)
 
 
  App is hosted on heroku: https://gameflix-frontend-react.herokuapp.com/ Login using the following emails and passwords to test out the colloborative features the app offers:
