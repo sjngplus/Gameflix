@@ -14,7 +14,7 @@ export default function ViewFavs() {
   const handleShow = () => setShow(true);
   
   const getDbFavs = () => {
-    axios.get(`/users/${user.id}/favorites`)
+    axios.get(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/favorites`)
       .then( res => {
         setFavorites(res.data);
       })

@@ -22,9 +22,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname+"/frontend-client/build"))
 app.use(cors({
-  origins: ['http://localhost:3000/']
+  origins: ['http://localhost:3000/', 'https://gameflix-frontend-react.herokuapp.com/']
 }));
 
 app.use('/', indexRouter);
@@ -36,8 +36,12 @@ server.listen(port);
 server.on('listening', onListening);
 
 //Socket.io config
-const { Server } = require("socket.io");
-const io = new Server(server);
+const io = require("socket.io")(server, {  
+  cors: {    
+    origin: "*",
+    methods: ["GET", "POST"]    
+  }
+});
 
 //Socket.io logic
 io.on('connection', (socket) => {
@@ -47,12 +51,12 @@ io.on('connection', (socket) => {
   console.log('::::user connected:', socket.id);
   socket.on('filter-state', (filterData) => {
     socket.broadcast.emit('filter-state', filterData);
-  });  
+  });
+
   socket.on('highlight-game', (highlightData) => {
     socket.broadcast.emit('highlight-game', highlightData);
   });
-  
-  
+    
   socket.on('disconnect', () => {
     const connectedClients = io.engine.clientsCount
     io.emit("number-of-clients", connectedClients);

@@ -3,25 +3,23 @@ const router = express.Router();
 const axios = require('axios');
 const db = require('../db');
 
-const insertRandomMetacriticScore = (inputGame) => {
-  if (inputGame.metacritic) return inputGame;
-  console.log("vv No Score, Random score inserted vv")
-  const randomNumber = Math.floor(Math.random() * 40);
-  const outputGame = {...inputGame, metacritic: { score:  randomNumber } }
-  return outputGame;
-};
+// const insertRandomMetacriticScore = (inputGame) => {
+//   if (inputGame.metacritic) return inputGame;
+//   console.log("vv No Score, Random score inserted vv")
+//   const randomNumber = Math.floor(Math.random() * 40);
+//   const outputGame = {...inputGame, metacritic: { score:  randomNumber } }
+//   return outputGame;
+// };
 
 const insertSteamGamesIntoDb = (steamAppId, gameObject) => {
   if (!gameObject) return;
-  const randomScoreInsertedinsertGame = insertRandomMetacriticScore(gameObject);
-  console.log(randomScoreInsertedinsertGame.metacritic.score);
 
-  const gameStringified = JSON.stringify(randomScoreInsertedinsertGame);
+  const gameStringified = JSON.stringify(gameObject);
   const query = `
   INSERT INTO steam (id, game) 
   VALUES($1, $2)
   ON CONFLICT (id)
-  DO NOTHING
+  DO UPDATE SET game = $2 WHERE steam.id = $1
   RETURNING *`
   db.query(query, [steamAppId, gameStringified])
     .then(result => {

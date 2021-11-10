@@ -6,7 +6,7 @@ import { authContext } from "../../providers/AuthProvider";
 import "./ItemChart.scss";
 import Axis from "./Axis";
 import GameItem from "./GameItem";
-import { filterGamesListArray } from "../../helpers/filterHelpers";
+import  filterGamesListArray from "../../helpers/filterHelpers";
 
 import filterBounds from "../../data/filterBounds";
 let [chartMinX, chartMaxX] = [];
@@ -25,11 +25,11 @@ export default function ItemChart() {
 
   //Grab data from backend + create new socket during initial Render
   useEffect(() => {
-    const newSocket = io();    
+    const newSocket = io("https://gameflix-backend-server.herokuapp.com/");
+    console.log("Socket:", newSocket);
     setSocket(newSocket);    
-    console.log("#####PINGING BACKEND DEALS/DB ENDPOINT#####");
-    // const url = `/api/search/deals`;
-    const url = `/api/search/database`;
+    console.log("#####PINGING BACKEND DB ENDPOINT#####");   
+    const url = `https://gameflix-backend-server.herokuapp.com/api/search/database`;
     axios.get(url)
     .then(res => {
       // console.log("::Backend API Received Data Length:", res.data.length)
@@ -52,8 +52,18 @@ export default function ItemChart() {
   //Logic + Render when title search button is clicked
   useEffect(() => {    
     const nameSearch = state.filters.name;
+    if (nameSearch === "deals") {
+      console.log("#####PINGING BACKEND DEALS ENDPOINT#####");
+       const url = `https://gameflix-backend-server.herokuapp.com/api/search/deals`;
+       axios.get(url)
+       .then(res => {
+         setGamesList(res.data);
+         setMasterList(res.data);
+       }).catch(err => console.log(err));
+    }
+
     const searchLimit = 999;
-    const url = `/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
+    const url = `https://gameflix-backend-server.herokuapp.com/api/search/games?title=${nameSearch}&limit=${searchLimit}`;
     if (nameSearch) {
       console.log("#####PINGING BACKEND NAME ENDPOINT####");
       axios.get(url)

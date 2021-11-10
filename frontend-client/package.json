@@ -1,8 +1,9 @@
 {
   "name": "frontend-client",
+  "homepage": ".",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://8534-72-137-121-95.ngrok.io",
+  "proxy": "https://gameflix-backend-server.herokuapp.com/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
