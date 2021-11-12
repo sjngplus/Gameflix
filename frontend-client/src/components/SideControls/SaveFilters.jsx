@@ -18,7 +18,7 @@ export default function SaveFilters() {
 
   const saveFilter = event => {
     event.preventDefault();
-    axios.post(`/users/${user.id}/filters`, {"filterName": filterName, "filterSettings": filterSettings})
+    axios.post(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/filters`, {"filterName": filterName, "filterSettings": filterSettings})
     .then(res => {
         if (res.data === "Success") {
           setFilterName("");
