@@ -18,7 +18,7 @@ export default function LoadFilters() {
   const handleShow = () => setShow(true);
 
   const getDbFilters = () => {
-    axios.get(`/users/${user.id}/filters`)
+    axios.get(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/filters`)
       .then( res => {
         setUserFilters(res.data);
       })
@@ -27,7 +27,7 @@ export default function LoadFilters() {
       });
   }
   const loadDbFilter = () => {
-    axios.get(`/users/${user.id}/filters/${activeFilter}`)
+    axios.get(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/filters/${activeFilter}`)
       .then( res => {
         setFilters(res.data);
         handleClose();
@@ -37,7 +37,7 @@ export default function LoadFilters() {
       });
   }
   const deleteFilter = filterId => {
-    axios.delete(`/users/${user.id}/filters/${filterId}`)
+    axios.delete(`https://gameflix-backend-server.herokuapp.com/users/${user.id}/filters/${filterId}`)
       .then( res => {
         handleClose();
       })
@@ -45,7 +45,7 @@ export default function LoadFilters() {
         console.log(err);
       });
   }
-
+  
   const parsedUserFilters = userFilters.map(userFilter => {
     return (
       <tr
