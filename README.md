@@ -7,7 +7,7 @@ App preview:
 ![gif preview of app](https://github.com/sjngplus/Gameflix/blob/main/frontend-client/docs/gameflix%20preview.gif?raw=true)
 
 
- App is hosted on heroku: https://gameflix-frontend-react.herokuapp.com/ Login using the following emails and passwords to test out the colloborative features the app offers:
+ App is hosted on Netlify: https://gameflix-app.netlify.app/ Login using the following emails and passwords to test out the colloborative features the app offers:
  
  * Email: "sj@gameflix<area>.com" | Password: "test"
  * Email: "cx@gameflix<area>.com" | Password: "test"
